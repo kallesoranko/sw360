@@ -1,5 +1,5 @@
 /*
- * Copyright Siemens AG, 2017. Part of the SW360 Portal Project.
+ * Copyright Siemens AG, 2017-2018. Part of the SW360 Portal Project.
  *
  * SPDX-License-Identifier: EPL-1.0
  *
@@ -14,18 +14,22 @@ import org.apache.log4j.Logger;
 import org.apache.thrift.TException;
 import org.eclipse.sw360.datahandler.common.SW360Constants;
 import org.eclipse.sw360.datahandler.common.SW360Utils;
+import org.eclipse.sw360.datahandler.thrift.RestApiToken;
 import org.eclipse.sw360.datahandler.thrift.users.User;
 import org.eclipse.sw360.datahandler.thrift.users.UserService;
+import org.eclipse.sw360.portal.common.ErrorMessages;
 import org.eclipse.sw360.portal.common.PortalConstants;
 import org.eclipse.sw360.portal.common.PortletUtils;
 import org.eclipse.sw360.portal.common.UsedAsLiferayAction;
 import org.eclipse.sw360.portal.portlets.Sw360Portlet;
+import org.eclipse.sw360.portal.rest.RestTokenGenerator;
 import org.eclipse.sw360.portal.users.UserCacheHolder;
 
 import javax.portlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author alex.borodin@evosoft.com
@@ -42,10 +46,22 @@ public class UserPreferencesPortlet extends Sw360Portlet {
 
     private void prepareStandardView(RenderRequest request) {
         final User user = UserCacheHolder.getRefreshedUserFromEmail(UserCacheHolder.getUserFromRequest(request).getEmail());
+
         SW360Utils.initializeMailNotificationsPreferences(user);
         request.setAttribute(PortalConstants.SW360_USER, user);
-
         request.setAttribute("eventsConfig", SW360Constants.NOTIFIABLE_ROLES_BY_OBJECT_TYPE);
+    }
+
+    @UsedAsLiferayAction
+    public void createToken(ActionRequest request, ActionResponse response) {
+        final User user = UserCacheHolder.getRefreshedUserFromEmail(UserCacheHolder.getUserFromRequest(request).getEmail());
+        try {
+            RestApiToken restApiToken = RestTokenGenerator.generateToken(user);
+            request.setAttribute("accessToken", restApiToken);
+        } catch (IOException e) {
+            log.error("Could not generate REST API token for user " + user.getEmail(), e);
+            setSW360SessionError(request, ErrorMessages.REST_API_TOKEN_NOT_GENERATED);
+        }
     }
 
     @UsedAsLiferayAction

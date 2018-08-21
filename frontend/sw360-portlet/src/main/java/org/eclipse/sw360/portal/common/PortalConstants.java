@@ -35,6 +35,7 @@ public class PortalConstants {
     public static final Set<String> SET_CLEARING_TEAMS_STRING;
     public static final String LICENSE_IDENTIFIERS;
     public static final String PREFERRED_COUNTRY_CODES;
+    public static final String AUTHORIZATION_REST_API_TOKEN_URL;
 
     //! Role names
     public static final String ROLENAME_ADMIN = "Administrator";
@@ -405,7 +406,7 @@ public class PortalConstants {
         RELEASE_EXTERNAL_ID_KEYS = CommonUtils.splitToSet(props.getProperty("release.externalkeys", "org.maven.id,com.github.id,com.gitlab.id,purl.id"));
         PROJECTIMPORT_HOSTS = props.getProperty("projectimport.hosts", "");
         PREFERRED_COUNTRY_CODES = props.getProperty("preferred.country.codes", "DE,AT,CH,US");
-
+        AUTHORIZATION_REST_API_TOKEN_URL = props.getProperty("rest.user.token.url", "http://localhost:8080/authorization/generateToken");
         CODESCOOP_URL = props.getProperty("codescoop.url", "");
         CODESCOOP_TOKEN = props.getProperty("codescoop.token", "");
     }
