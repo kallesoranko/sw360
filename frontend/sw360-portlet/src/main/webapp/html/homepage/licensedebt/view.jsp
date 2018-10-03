@@ -13,20 +13,17 @@
 <portlet:defineObjects/>
 <liferay-theme:defineObjects/>
 
-<%-- Note that the necessary includes are in life-ray-portlet.xml --%>
-
-
-<jsp:useBean id="projects" type="java.util.List<org.eclipse.sw360.datahandler.thrift.projects.Project>"
+<jsp:useBean id="clearingStatusData" type="java.util.List<org.eclipse.sw360.datahandler.thrift.components.ReleaseClearingStatusData>"
              scope="request"/>
 
 <div class="homepageheading">
-    My Projects
+    License Debt
 </div>
 <div id="myProjectsDiv" class="homepageListingTable">
     <table id="myProjectsTable" cellpadding="0" cellspacing="0" border="0" class="display">
          <colgroup>
-               <col style="width: 60%;"/>
-               <col style="width: 40%;"/>
+               <col style="width: 50%;"/>
+               <col style="width: 50%;"/>
          </colgroup>
     </table>
 </div>
@@ -36,7 +33,7 @@
     Liferay.on('allPortletsReady', function() {
         var result = [];
 
-        <core_rt:forEach items="${projects}" var="project">
+        <core_rt:forEach items="${clearingStatusData}" var="project">
         result.push({
             "DT_RowId": "${project.id}",
             "0": "<sw360:DisplayProjectLink project="${project}"/>",
