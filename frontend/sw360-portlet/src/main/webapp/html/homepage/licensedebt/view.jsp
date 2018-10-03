@@ -13,7 +13,7 @@
 <portlet:defineObjects/>
 <liferay-theme:defineObjects/>
 
-<jsp:useBean id="clearingStatusData" type="java.util.List<org.eclipse.sw360.datahandler.thrift.components.ReleaseClearingStatusData>"
+<jsp:useBean id="projects" type="java.util.List<org.eclipse.sw360.datahandler.thrift.projects.Project>"
              scope="request"/>
 
 <div class="homepageheading">
@@ -33,7 +33,7 @@
     Liferay.on('allPortletsReady', function() {
         var result = [];
 
-        <core_rt:forEach items="${clearingStatusData}" var="project">
+        <core_rt:forEach items="${projects}" var="project">
         result.push({
             "DT_RowId": "${project.id}",
             "0": "<sw360:DisplayProjectLink project="${project}"/>",
@@ -45,7 +45,7 @@
             pagingType: "simple_numbers",
             dom: "rtip",
             data: result,
-            pageLength: 10,
+            pageLength: 3,
             columns: [
                 {"title": "Project Name"},
                 {"title": "Clearing State"},

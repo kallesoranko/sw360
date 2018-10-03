@@ -38,6 +38,7 @@ public class LicenseDebtPortlet extends Sw360Portlet {
 
     @Override
     public void doView(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+        /*
         List<ReleaseClearingStatusData> clearingStatusData = null;
         try {
             String email = LifeRayUserSession.getEmailFromRequest(request);
@@ -51,6 +52,20 @@ public class LicenseDebtPortlet extends Sw360Portlet {
         }
 
         request.setAttribute("clearingStatusData",  CommonUtils.nullToEmptyList(clearingStatusData));
+
+        super.doView(request, response);
+        */
+
+        List<Project> projects=null;
+
+        try {
+            String email = LifeRayUserSession.getEmailFromRequest(request);
+            projects = thriftClients.makeProjectClient().getMyProjects(email);
+        } catch (TException e) {
+            LOGGER.error("Could not fetch your projects from backend", e);
+        }
+
+        request.setAttribute("projects",  CommonUtils.nullToEmptyList(projects));
 
         super.doView(request, response);
     }
