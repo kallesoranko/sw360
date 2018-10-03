@@ -19,8 +19,8 @@
 <div class="homepageheading">
     License Debt
 </div>
-<div id="myProjectsDiv" class="homepageListingTable">
-    <table id="myProjectsTable" cellpadding="0" cellspacing="0" border="0" class="display">
+<div id="myLicenseDebtDiv" class="homepageListingTable">
+    <table id="myLicenseDebtTable" cellpadding="0" cellspacing="0" border="0" class="display">
          <colgroup>
                <col style="width: 50%;"/>
                <col style="width: 50%;"/>
@@ -41,7 +41,7 @@
         });
         </core_rt:forEach>
 
-        $('#myProjectsTable').dataTable({
+        $('#myLicenseDebtTable').dataTable({
             pagingType: "simple_numbers",
             dom: "rtip",
             data: result,
