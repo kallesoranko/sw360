@@ -10,21 +10,27 @@
  */
 package org.eclipse.sw360.portal.portlets.homepage;
 
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.thrift.TException;
 import org.eclipse.sw360.datahandler.common.CommonUtils;
-import org.eclipse.sw360.datahandler.thrift.ThriftClients;
-import org.eclipse.sw360.datahandler.thrift.components.ReleaseClearingStatusData;
+import org.eclipse.sw360.datahandler.thrift.components.*;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectService;
 import org.eclipse.sw360.datahandler.thrift.users.User;
 import org.eclipse.sw360.portal.portlets.Sw360Portlet;
 import org.eclipse.sw360.portal.users.LifeRayUserSession;
+import org.eclipse.sw360.portal.users.UserCacheHolder;
 
 import javax.portlet.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
-import java.util.Optional;
+
+import static org.eclipse.sw360.portal.common.PortalConstants.PROJECT_ID;
+import static org.eclipse.sw360.portal.common.PortalConstants.RESPONSE__PROJECT_CLEARIGN_STATUS_DATA;
 
 
 /**
@@ -33,45 +39,56 @@ import java.util.Optional;
 public class LicenseDebtPortlet extends Sw360Portlet {
 
     private static final Logger LOGGER = Logger.getLogger(LicenseDebtPortlet.class);
-    private static ProjectService.Iface projectClient = new ThriftClients().makeProjectClient();
-    private static Optional<Project> first = Optional.empty();
 
     @Override
     public void doView(RenderRequest request, RenderResponse response) throws IOException, PortletException {
-        /*
-        List<ReleaseClearingStatusData> clearingStatusData = null;
-        try {
-            String email = LifeRayUserSession.getEmailFromRequest(request);
-            User user = thriftClients.makeUserClient().getByEmail(email);
-            List<Project> projects = projectClient.getMyProjects(email);
-
-            first = projects.stream().findFirst();
-            clearingStatusData = projectClient.getReleaseClearingStatuses(getFirstOwnProject().id, user);
-        } catch (TException e) {
-            LOGGER.error("Could not fetch your projects from backend", e);
-        }
-
-        request.setAttribute("clearingStatusData",  CommonUtils.nullToEmptyList(clearingStatusData));
-
-        super.doView(request, response);
-        */
-
         List<Project> projects=null;
-
         try {
             String email = LifeRayUserSession.getEmailFromRequest(request);
             projects = thriftClients.makeProjectClient().getMyProjects(email);
         } catch (TException e) {
             LOGGER.error("Could not fetch your projects from backend", e);
         }
-
         request.setAttribute("projects",  CommonUtils.nullToEmptyList(projects));
-
         super.doView(request, response);
     }
 
-    private Project getFirstOwnProject() {
-        return first.orElse(null);
+    @Override
+    public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException, PortletException {
+        JSONObject responseData = null;
+        responseData = handlePieChartUpdate(request);
+        PrintWriter writer = null;
+        writer = response.getWriter();
+        writer.write(responseData.toString());
+    }
+
+    private JSONObject handlePieChartUpdate(ResourceRequest request) throws IOException, PortletException {
+        PortletSession session = request.getPortletSession();
+        User user = UserCacheHolder.getUserFromRequest(request);
+        String projectId = request.getParameter(PROJECT_ID);
+        List<ClearingState> clearingInformations = getClearingStatusDataForProject(projectId, user);
+        JSONObject responseData = JSONFactoryUtil.createJSONObject();
+        JSONArray jsonClearingStatusData = JSONFactoryUtil.createJSONArray();
+        clearingInformations.forEach( e -> jsonClearingStatusData.put(e.toString()));
+        responseData.put(RESPONSE__PROJECT_CLEARIGN_STATUS_DATA, jsonClearingStatusData);
+        return responseData;
+    }
+
+    private List<ClearingState> getClearingStatusDataForProject(String projectId, User user) {
+        ProjectService.Iface projectClient = thriftClients.makeProjectClient();
+        List<ReleaseClearingStatusData> data = null;
+        try {
+            data = projectClient.getReleaseClearingStatuses(projectId, user);
+        } catch (TException e) {
+            e.printStackTrace();
+        }
+        List<ClearingState> clearingStates = null;
+        for (ReleaseClearingStatusData e : data) {
+            Release rel = e.getRelease();
+            ClearingState clearingState = rel.getClearingState();
+            clearingStates.add(clearingState);
+        }
+        return clearingStates;
     }
 
 }

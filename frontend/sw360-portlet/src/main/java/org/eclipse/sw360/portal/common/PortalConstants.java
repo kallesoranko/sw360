@@ -357,6 +357,7 @@ public class PortalConstants {
     public static final String EXPORT_ID = "export_id";
 
     public static final String RESPONSE__IMPORT_GENERAL_FAILURE = "response_import_general_failure";
+    public static final String RESPONSE__PROJECT_CLEARIGN_STATUS_DATA = "response_project_clearing_status_data";
 
     //custom map keywords
     public static final String CUSTOM_MAP_KEY = "customMapKey";

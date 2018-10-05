@@ -176,14 +176,7 @@ label.inlinelabel {
     height: 160px;
 }
 
-.homepageListingTable {
-    font-size: 10px;
-    font-weight: normal;
-    border: 1px solid #cccccc;
-    width: auto;
-    height: 450px;
-    padding: 0 0;
-}
+
 
 .homepageListingContent {
     padding: 5px;
@@ -672,4 +665,33 @@ input[readonly].clickable {
     padding: 0;
     margin: 0;
     text-color: black;
+}
+
+#licensedebtchart {
+    margin: 10px 10px 10px 150px;
+    width: 125px;
+    height: 125px;
+}
+
+.test_content1 {
+    padding: 0px;
+    float: left;
+    overflow: auto;
+    display: inline-block;
+}
+
+.test_content2 {
+    padding: 0px;
+    align: right;
+    display: inline-block;
+    overflow: auto;
+}
+
+.homepageListingTable {
+    font-size: 10px;
+    font-weight: normal;
+    border: 1px solid #cccccc;
+    width: auto;
+    height: 450px;
+    padding: 0 0;
 }
