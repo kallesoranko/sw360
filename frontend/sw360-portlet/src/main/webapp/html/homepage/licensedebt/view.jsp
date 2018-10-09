@@ -30,53 +30,20 @@
 <div id="myLicenseDebtPortletDiv" class="homepageListingTable">
     <table id="myLicenseDebtTable" cellpadding="0" cellspacing="0" border="0" class="display">
          <colgroup>
-               <col style="width: 50%;"/>
-               <col style="width: 50%;"/>
+               <col style="width: 60%;"/>
+               <col style="width: 40%;"/>
          </colgroup>
     </table>
 
     <div id="myLicenseDebtDiv">
         <div class="clearing_detail_controls">
             <aui:select label="Select Project:" id="options" name="selectField1" required="true" showEmptyOption="false" inlineLabel="left">
-                <core_rt:forEach items="${projects}" var="project">
-                    <aui:option value="${project.id}">"${project.name}"</aui:option>
-                </core_rt:forEach>
+            <core_rt:forEach items="${projects}" var="project">
+            <aui:option value="${project.id}">${project.name}</aui:option>
+            </core_rt:forEach>
             </aui:select>
-            <span class="stackedlabel">
-                <%-- do we use aui:button or input? --%>
-                <%--<input type="button" id="edit" value="Select" class="addButton">--%>
-
-                <aui:button value="Get Clearing Details" id="btnSubmit" cssClass="btn btn-primary"/>
-            </span>
+            <aui:button value="Get Clearing Details" id="btnSubmit" cssClass="btn btn-primary"/>
         </div>
-
-<%--
-    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-        <button type="button" class="btn btn-secondary">1</button>
-        <button type="button" class="btn btn-secondary">2</button>
-
-        <div class="btn-group" role="group">
-            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <a class="dropdown-item" href="#">Dropdown link</a>
-                <a class="dropdown-item" href="#">Dropdown link</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="aui-buttons">
-        <button class="aui-button">Button1</button>
-        <button class="aui-button">Button2</button>
-        <button class="aui-button">Button3</button>
-    </div>
-
-
-    <aui:script use="node, event">
-
-    </aui:script>
---%>
         <div id="licensedebtchart"></div>
     </div>
 
@@ -107,11 +74,11 @@
     });
 
     <aui:script use="node, event">
-    var btn = A.one('#btnSubmit');
-    var option = A.one('#<portlet:namespace/>options')
+    var btn = A.one( '#btnSubmit' )
+    var option = A.one( '#<portlet:namespace/>options' )
     btn.on('click', function(event){
         updatePieChartWithProjectId(option.val());
-    });
+    })
     </aui:script>
 
     function updatePieChartWithProjectId(projectId) {
@@ -146,6 +113,9 @@
     }
 
     function drawPieChart(points) {
+        var styleDef = {
+                colors: ["#6084d0", "#eeb647", "#6c6b5f", "#d6484f", "#ce9ed1","#B00000","#D8D8D8","#339966","#FF3399","#666633","#336600","#9966FF"]
+        };
         YUI().use('charts', function(Y){
             var pieGraph = new Y.Chart({
                 render: "#licensedebtchart",
@@ -156,7 +126,8 @@
                 seriesCollection: [{
                     categoryKey: "status",
                     valueKey: "releases"
-                }]
+                }],
+                styles: styleDef
             });
         });
     }

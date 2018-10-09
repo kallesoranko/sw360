@@ -55,20 +55,20 @@ public class LicenseDebtPortlet extends Sw360Portlet {
 
     @Override
     public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException, PortletException {
-        JSONObject responseData = null;
-        responseData = handlePieChartUpdate(request);
-        PrintWriter writer = null;
-        writer = response.getWriter();
+        JSONObject responseData = handlePieChartUpdate(request);
+        PrintWriter writer = response.getWriter();
         writer.write(responseData.toString());
     }
 
     private JSONObject handlePieChartUpdate(ResourceRequest request) throws IOException, PortletException {
         String[] projectId = request.getParameterValues(PortalConstants.PROJECT_ID);
         User user = UserCacheHolder.getUserFromRequest(request);
-        List<ClearingState> clearingInformationList = getClearingStatusDataForProject(projectId[0], user);
         JSONObject responseData = JSONFactoryUtil.createJSONObject();
         JSONArray jsonClearingStatusData = JSONFactoryUtil.createJSONArray();
-        clearingInformationList.forEach( e -> jsonClearingStatusData.put(e.toString()));
+        if(projectId != null && projectId.length == 1) {
+            List<ClearingState> clearingInformationList = getClearingStatusDataForProject(projectId[0], user);
+            clearingInformationList.forEach( e -> jsonClearingStatusData.put(e.toString()));
+        }
         responseData.put(RESPONSE__PROJECT_CLEARING_STATUS_DATA, jsonClearingStatusData);
         return responseData;
     }

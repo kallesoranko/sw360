@@ -675,23 +675,16 @@ input[readonly].clickable {
 }
 
 #licensedebtchart {
-    margin: 10px 10px 10px 189px;
-    width: 125px;
-    height: 125px;
-
-    /*display: block;*/
-    /*overflow: auto;*/
+    width: 140px;
+    height: 140px;
+    margin-left: 50%;
+    overflow: auto;
 }
 
-.clearing_detail_controls {
-    /*padding: 0px;*/
-    /*float: left;*/
-    /*display: inline-block;*/
-    /*overflow: auto;*/
-}
 
 #myLicenseDebtDiv {
     float: left;
     display: inline-block;
     overflow: auto;
+    margin: 10px 0px 20px 10px;
 }
