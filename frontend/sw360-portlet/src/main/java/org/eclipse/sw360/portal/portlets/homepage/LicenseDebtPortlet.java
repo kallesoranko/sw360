@@ -20,6 +20,7 @@ import org.eclipse.sw360.datahandler.thrift.components.*;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectService;
 import org.eclipse.sw360.datahandler.thrift.users.User;
+import org.eclipse.sw360.portal.common.PortalConstants;
 import org.eclipse.sw360.portal.portlets.Sw360Portlet;
 import org.eclipse.sw360.portal.users.LifeRayUserSession;
 import org.eclipse.sw360.portal.users.UserCacheHolder;
@@ -27,11 +28,10 @@ import org.eclipse.sw360.portal.users.UserCacheHolder;
 import javax.portlet.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.eclipse.sw360.portal.common.PortalConstants.PROJECT_ID;
-import static org.eclipse.sw360.portal.common.PortalConstants.RESPONSE__PROJECT_CLEARIGN_STATUS_DATA;
-
+import static org.eclipse.sw360.portal.common.PortalConstants.RESPONSE__PROJECT_CLEARING_STATUS_DATA;
 
 /**
  * @author ksoranko@verifa.io
@@ -63,14 +63,13 @@ public class LicenseDebtPortlet extends Sw360Portlet {
     }
 
     private JSONObject handlePieChartUpdate(ResourceRequest request) throws IOException, PortletException {
-        PortletSession session = request.getPortletSession();
+        String[] projectId = request.getParameterValues(PortalConstants.PROJECT_ID);
         User user = UserCacheHolder.getUserFromRequest(request);
-        String projectId = request.getParameter(PROJECT_ID);
-        List<ClearingState> clearingInformations = getClearingStatusDataForProject(projectId, user);
+        List<ClearingState> clearingInformationList = getClearingStatusDataForProject(projectId[0], user);
         JSONObject responseData = JSONFactoryUtil.createJSONObject();
         JSONArray jsonClearingStatusData = JSONFactoryUtil.createJSONArray();
-        clearingInformations.forEach( e -> jsonClearingStatusData.put(e.toString()));
-        responseData.put(RESPONSE__PROJECT_CLEARIGN_STATUS_DATA, jsonClearingStatusData);
+        clearingInformationList.forEach( e -> jsonClearingStatusData.put(e.toString()));
+        responseData.put(RESPONSE__PROJECT_CLEARING_STATUS_DATA, jsonClearingStatusData);
         return responseData;
     }
 
@@ -82,13 +81,14 @@ public class LicenseDebtPortlet extends Sw360Portlet {
         } catch (TException e) {
             e.printStackTrace();
         }
-        List<ClearingState> clearingStates = null;
-        for (ReleaseClearingStatusData e : data) {
-            Release rel = e.getRelease();
-            ClearingState clearingState = rel.getClearingState();
-            clearingStates.add(clearingState);
+        List<ClearingState> clearingStates = new ArrayList<>();
+        if (data != null) {
+            for (ReleaseClearingStatusData e : data) {
+                Release rel = e.getRelease();
+                ClearingState clearingState = rel.getClearingState();
+                clearingStates.add(clearingState);
+            }
         }
         return clearingStates;
     }
-
 }
