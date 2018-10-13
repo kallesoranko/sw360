@@ -37,12 +37,32 @@
 
     <div id="myLicenseDebtDiv">
         <div class="clearing_detail_controls">
-            <aui:select label="Select Project:" id="options" name="selectField1" required="true" showEmptyOption="false" inlineLabel="left">
+            <aui:select label="Select Project:"
+                        id="options"
+                        name="selectProjectField"
+                        required="true"
+                        showEmptyOption="false"
+                        inlineLabel="left"
+                        onChange="<portlet:namespace />updateView();">
             <core_rt:forEach items="${projects}" var="project">
             <aui:option value="${project.id}">${project.name}</aui:option>
             </core_rt:forEach>
             </aui:select>
+
             <aui:button value="Get Clearing Details" id="btnSubmit" cssClass="btn btn-primary"/>
+
+<%--
+            <aui:script use="node, event">
+                function <portlet:namespace />updatePieChart() {
+                    var sel = document.getElementById("<portlet:namespace/>options");
+                    document.getElementById("<portlet:namespace/>key").value = sel.options[sel.selectedIndex].value;
+                    console.log('sel', sel );
+                    console.log('sel.value', sel.value);
+                    updatePieChartWithProjectId(sel.value);
+                }
+            </aui:script>
+--%>
+
         </div>
         <div id="licensedebtchart"></div>
     </div>
@@ -50,13 +70,71 @@
 </div>
 
 <script>
+
+    function <portlet:namespace />updateView() {
+        $.alert({
+            title: "Jee",
+            content: '...'
+        });
+    }
+
+    <%--<aui:script use="node, event">--%>
+
+    <%-- let option = A.one( '#<portlet:namespace/>options' ); --%>
+
+<%--
+    $('#options').on( 'change', function () {
+        console.log('$("#options").on( "change....');
+        let projectId = $(this).val();
+        console.log(projectId);
+        updatePieChartWithProjectId(projectId);
+    });
+--%>
+
+<%--
+    var dropDown = A.one('#selectField1');
+    dropDown.on('change', function(){
+        let projectId = document.getElementById("<portlet:namespace/>options").value;
+        console.log('dropDown.on("change"....');
+        console.log(projectId);
+        updatePieChartWithProjectId(projectId);
+    });
+--%>
+
+<%--
+    document.getElementById("<portlet:namespace/>options").value.on('change', function(){
+            let projectId = document.getElementById("<portlet:namespace/>options").value;
+            console.log('dropDown.on("change"....');
+            console.log(projectId);
+            updatePieChartWithProjectId(projectId);
+        });
+--%>
+
+<%--
+    $("body").on('change', '#options', function(){
+        let projectId = document.getElementById("<portlet:namespace/>options").value;
+        console.log('dropDown.on("change"....');
+        console.log(projectId);
+        updatePieChartWithProjectId(projectId);
+    });
+--%>
+
+    <%--</aui:script>--%>
+
+    <aui:script use="node, event">
+    var btn = A.one( '#btnSubmit' )
+    btn.on('click', function(event){
+        updatePieChartWithProjectId(document.getElementById( "<portlet:namespace/>options" ).value);
+    })
+    </aui:script>
+
     Liferay.on('allPortletsReady', function() {
-        var result = [];
+        let result = [];
         <core_rt:forEach items="${projects}" var="project">
         result.push({
             "DT_RowId": "${project.id}",
             "0": "<sw360:DisplayProjectLink project="${project}"/>",
-            "1": '<sw360:out value="${project.clearingState}"/>'
+            "1": '<sw360:out value="${project.releaseClearingStateSummary.approved} / ${project.releaseClearingStateSummary.newRelease + project.releaseClearingStateSummary.underClearing + project.releaseClearingStateSummary.underClearingByProjectTeam + project.releaseClearingStateSummary.reportAvailable + project.releaseClearingStateSummary.approved}" default="--"/>'
         });
         </core_rt:forEach>
 
@@ -67,19 +145,15 @@
             pageLength: 5,
             columns: [
                 {"title": "Project Name"},
-                {"title": "Clearing State"},
+                {"title": "Accepted Releases"},
             ],
             autoWidth: false
         });
-    });
 
-    <aui:script use="node, event">
-    var btn = A.one( '#btnSubmit' )
-    var option = A.one( '#<portlet:namespace/>options' )
-    btn.on('click', function(event){
-        updatePieChartWithProjectId(option.val());
-    })
-    </aui:script>
+        let projectId = document.getElementById( "<portlet:namespace/>options" ).value;
+        console.log(projectId);
+        updatePieChartWithProjectId(projectId);
+    });
 
     function updatePieChartWithProjectId(projectId) {
         $.ajax({
@@ -90,7 +164,7 @@
             data: {
                 "<portlet:namespace/><%=PortalConstants.PROJECT_ID%>" :  projectId
             }
-        }).done(function(response) {
+        }).done(function( response ) {
             let data = {};
             response.response_project_clearing_status_data.forEach(function(e) {
                 if (data.hasOwnProperty(e)){
@@ -106,16 +180,13 @@
                     releases: value
                 });
             });
-            drawPieChart(datapoints);
-        }).fail(function(response) {
-            console.log('ERROR', response);
+            drawPieChart( datapoints );
+        }).fail(function( response ) {
+            console.log( 'ERROR', response );
         });
     }
 
     function drawPieChart(points) {
-        var styleDef = {
-                colors: ["#6084d0", "#eeb647", "#6c6b5f", "#d6484f", "#ce9ed1","#B00000","#D8D8D8","#339966","#FF3399","#666633","#336600","#9966FF"]
-        };
         YUI().use('charts', function(Y){
             var pieGraph = new Y.Chart({
                 render: "#licensedebtchart",
@@ -126,8 +197,7 @@
                 seriesCollection: [{
                     categoryKey: "status",
                     valueKey: "releases"
-                }],
-                styles: styleDef
+                }]
             });
         });
     }

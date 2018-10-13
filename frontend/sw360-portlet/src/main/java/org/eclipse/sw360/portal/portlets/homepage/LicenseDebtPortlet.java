@@ -22,17 +22,14 @@ import org.eclipse.sw360.datahandler.thrift.projects.ProjectService;
 import org.eclipse.sw360.datahandler.thrift.users.User;
 import org.eclipse.sw360.portal.common.PortalConstants;
 import org.eclipse.sw360.portal.portlets.Sw360Portlet;
-import org.eclipse.sw360.portal.users.LifeRayUserSession;
 import org.eclipse.sw360.portal.users.UserCacheHolder;
 
 import javax.portlet.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.eclipse.sw360.portal.common.PortalConstants.RESPONSE__PROJECT_CLEARING_STATUS_DATA;
-
 /**
  * @author ksoranko@verifa.io
  */
@@ -42,13 +39,25 @@ public class LicenseDebtPortlet extends Sw360Portlet {
 
     @Override
     public void doView(RenderRequest request, RenderResponse response) throws IOException, PortletException {
-        List<Project> projects=null;
+        List<Project> myProjects = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
+        User user = UserCacheHolder.getUserFromRequest(request);
+        List<Project> projects;
         try {
-            String email = LifeRayUserSession.getEmailFromRequest(request);
-            projects = thriftClients.makeProjectClient().getMyProjects(email);
+            myProjects = thriftClients.makeProjectClient().getMyProjects(user.getEmail());
         } catch (TException e) {
-            LOGGER.error("Could not fetch your projects from backend", e);
+            LOGGER.error("Could not fetch myProjects from backend for user, " + user.getEmail(), e);
         }
+        if(!myProjects.isEmpty()) {
+            myProjects.forEach(p -> ids.add(p.getId()));
+        }
+        try {
+            projects = thriftClients.makeProjectClient().getProjectsById(ids, user);
+        } catch (TException e) {
+            LOGGER.error("Could not fetch projects from backend", e);
+            projects = Collections.emptyList();
+        }
+        projects = getWithFilledClearingStateSummary(projects, user);
         request.setAttribute("projects",  CommonUtils.nullToEmptyList(projects));
         super.doView(request, response);
     }
@@ -79,7 +88,7 @@ public class LicenseDebtPortlet extends Sw360Portlet {
         try {
             data = projectClient.getReleaseClearingStatuses(projectId, user);
         } catch (TException e) {
-            e.printStackTrace();
+            LOGGER.error("Could not fetch project releases' clearing status data from backend", e);
         }
         List<ClearingState> clearingStates = new ArrayList<>();
         if (data != null) {
@@ -90,5 +99,15 @@ public class LicenseDebtPortlet extends Sw360Portlet {
             }
         }
         return clearingStates;
+    }
+
+    private List<Project> getWithFilledClearingStateSummary(List<Project> projects, User user) {
+        ProjectService.Iface projectClient = thriftClients.makeProjectClient();
+        try {
+            return projectClient.fillClearingStateSummary(projects, user);
+        } catch (TException e) {
+            LOGGER.error("Could not get summary of release clearing states for projects and their subprojects!", e);
+            return projects;
+        }
     }
 }
