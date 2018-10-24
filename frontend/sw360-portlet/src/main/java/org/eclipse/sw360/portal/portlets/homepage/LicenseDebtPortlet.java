@@ -62,6 +62,16 @@ public class LicenseDebtPortlet extends Sw360Portlet {
         super.doView(request, response);
     }
 
+    private List<Project> getWithFilledClearingStateSummary(List<Project> projects, User user) {
+        ProjectService.Iface projectClient = thriftClients.makeProjectClient();
+        try {
+            return projectClient.fillClearingStateSummary(projects, user);
+        } catch (TException e) {
+            LOGGER.error("Could not get summary of release clearing states for projects and their subprojects!", e);
+            return projects;
+        }
+    }
+
     @Override
     public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException, PortletException {
         JSONObject responseData = handlePieChartUpdate(request);
@@ -101,13 +111,5 @@ public class LicenseDebtPortlet extends Sw360Portlet {
         return clearingStates;
     }
 
-    private List<Project> getWithFilledClearingStateSummary(List<Project> projects, User user) {
-        ProjectService.Iface projectClient = thriftClients.makeProjectClient();
-        try {
-            return projectClient.fillClearingStateSummary(projects, user);
-        } catch (TException e) {
-            LOGGER.error("Could not get summary of release clearing states for projects and their subprojects!", e);
-            return projects;
-        }
-    }
+
 }

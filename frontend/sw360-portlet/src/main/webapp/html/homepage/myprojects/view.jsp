@@ -25,8 +25,9 @@
 <div id="myProjectsDiv" class="homepageListingTable">
     <table id="myProjectsTable" cellpadding="0" cellspacing="0" border="0" class="display">
          <colgroup>
-               <col style="width: 60%;"/>
-               <col style="width: 40%;"/>
+               <col style="width: 45%;"/>
+               <col style="width: 35%;"/>
+               <col style="width: 20%;"/>
          </colgroup>
     </table>
 </div>
@@ -40,7 +41,8 @@
         result.push({
             "DT_RowId": "${project.id}",
             "0": "<sw360:DisplayProjectLink project="${project}"/>",
-            "1": '<sw360:out value="${project.description}"/>'
+            "1": '<sw360:out value="${project.description}"/>',
+            "2": '<sw360:out value="${project.releaseClearingStateSummary.approved} / ${project.releaseClearingStateSummary.newRelease + project.releaseClearingStateSummary.underClearing + project.releaseClearingStateSummary.underClearingByProjectTeam + project.releaseClearingStateSummary.reportAvailable + project.releaseClearingStateSummary.approved}" default="--"/>'
         });
         </core_rt:forEach>
 
@@ -52,6 +54,7 @@
             columns: [
                 {"title": "Project Name"},
                 {"title": "Description"},
+                {"title": "Approved Releases"},
             ],
             autoWidth: false
         });

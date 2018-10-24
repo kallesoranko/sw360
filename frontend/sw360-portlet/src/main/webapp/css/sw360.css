@@ -615,44 +615,45 @@ input[readonly].clickable {
 .show {display:block;}
 
 .sw360CircleOK {
-   width: 12px;
-   height: 12px;
-   border-radius: 8px;
-   background-color: #9de997;
-   float: right;
- }
+    width: 12px;
+    height: 12px;
+    border-radius: 8px;
+    background-color: #9de997;
+    float: right;
+}
 
- .sw360CircleWarning {
+.sw360CircleWarning {
     width: 12px;
     height: 12px;
     border-radius: 8px;
     background-color:  #e9e17e;
     float: right;
-  }
+}
 
-  .sw360CircleAlert {
-     width: 12px;
-     height: 12px;
-     border-radius: 8px;
-     background-color: #e95850;
-     float: right;
-   }
+.sw360CircleAlert {
+    width: 12px;
+    height: 12px;
+    border-radius: 8px;
+    background-color: #e95850;
+    float: right;
+}
 
- .releasePageHeader {
- 	border-bottom: 1px solid #cccccc;
- }
- .arrow-down {
-   width: 0;
-   height: 0;
-   margin: 6px 0px 0px 10px;
-   border-left: 5px solid transparent;
-   border-right: 5px solid transparent;
-   border-top: 8px solid black;
-   position: relative;
-   float:right;
- }
+.releasePageHeader {
+    border-bottom: 1px solid #cccccc;
+}
 
- .wsimport_content {
+.arrow-down {
+    width: 0;
+    height: 0;
+    margin: 6px 0px 0px 10px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid black;
+    position: relative;
+    float:right;
+}
+
+.wsimport_content {
     padding: 0px;
     float: left;
     width: 47%;
@@ -675,14 +676,20 @@ input[readonly].clickable {
 }
 
 #licensedebtchart {
+    /*
     width: 140px;
     height: 140px;
     margin-left: 50%;
     overflow: auto;
+    */
+
+    margin:20px 5px 5px 5px;
+    width:95%;
+    /*max-width: 400px;*/
+    height:200px;
 }
 
-
-#myLicenseDebtDiv {
+#myLicenseDebtChartDiv {
     float: left;
     display: inline-block;
     overflow: auto;
