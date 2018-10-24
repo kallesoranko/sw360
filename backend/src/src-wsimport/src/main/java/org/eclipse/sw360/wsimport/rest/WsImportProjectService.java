@@ -22,9 +22,9 @@ import java.io.IOException;
 /**
  * @author ksoranko@verifa.io
  */
-public class WsImportService {
+public class WsImportProjectService {
 
-    private static final Logger LOGGER = Logger.getLogger(WsImportService.class);
+    private static final Logger LOGGER = Logger.getLogger(WsImportProjectService.class);
     private static final WsRestClient restClient = new WsRestClient();
     private static final Gson gson = new Gson();
 
@@ -68,38 +68,6 @@ public class WsImportService {
             return null;
         }
 
-    }
-
-    public WsProduct[] getWsProducts(TokenCredentials tokenCredentials) throws JsonSyntaxException {
-        String productString = null;
-        try {
-            productString= restClient.getData("getAllProducts", tokenCredentials.getToken(), WsTokenType.ORGANIZATION, tokenCredentials);
-        } catch (IOException ioe) {
-            LOGGER.error(ioe);
-            return null;
-        }
-        WsProducts wsProducts = gson.fromJson(productString, WsProducts.class);
-        if (wsProducts != null) {
-            return wsProducts.getProducts();
-        } else {
-            return null;
-        }
-    }
-
-    public WsProject[] getWsProjects(String productToken, TokenCredentials tokenCredentials) throws JsonSyntaxException {
-        String projectString = null;
-        try {
-            projectString= restClient.getData("getAllProjects", productToken, WsTokenType.PRODUCT, tokenCredentials);
-        } catch (IOException ioe) {
-            LOGGER.error(ioe);
-            return null;
-        }
-        WsProjects wsProjects = gson.fromJson(projectString, WsProjects.class);
-        if (wsProjects != null) {
-            return wsProjects.getProjects();
-        } else {
-            return null;
-        }
     }
 
 }

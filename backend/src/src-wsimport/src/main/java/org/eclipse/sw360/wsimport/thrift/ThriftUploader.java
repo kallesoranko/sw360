@@ -14,18 +14,17 @@ package org.eclipse.sw360.wsimport.thrift;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonSyntaxException;
-import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.sw360.datahandler.thrift.ProjectReleaseRelationship;
+import org.eclipse.sw360.datahandler.thrift.ThriftClients;
 import org.eclipse.sw360.wsimport.domain.WsLibrary;
 import org.eclipse.sw360.wsimport.domain.WsLicense;
-import org.eclipse.sw360.wsimport.domain.WsProduct;
 import org.eclipse.sw360.wsimport.domain.WsProject;
 import org.eclipse.sw360.wsimport.entitytranslation.WsLibraryToSw360ComponentTranslator;
 import org.eclipse.sw360.wsimport.entitytranslation.WsLibraryToSw360ReleaseTranslator;
 import org.eclipse.sw360.wsimport.entitytranslation.WsLicenseToSw360LicenseTranslator;
 import org.eclipse.sw360.wsimport.entitytranslation.WsProjectToSw360ProjectTranslator;
 import org.eclipse.sw360.wsimport.entitytranslation.helper.ReleaseRelation;
-import org.eclipse.sw360.wsimport.rest.WsImportService;
+import org.eclipse.sw360.wsimport.rest.WsImportProjectService;
 import org.eclipse.sw360.wsimport.thrift.helper.ProjectImportError;
 import org.eclipse.sw360.wsimport.thrift.helper.ProjectImportResult;
 import org.apache.log4j.Logger;
@@ -237,49 +236,17 @@ public class ThriftUploader {
     private Set<ReleaseRelation> createReleases(WsProject wsProject, User sw360User, TokenCredentials tokenCredentials) {
         WsLibrary[] libraries = null;
         try {
-            libraries =  new WsImportService().getProjectLicenses(wsProject.getProjectToken(), tokenCredentials);
+            libraries =  new WsImportProjectService().getProjectLicenses(wsProject.getProjectToken(), tokenCredentials);
         } catch (JsonSyntaxException jse) {
             LOGGER.error(jse);
         }
 
-        assert libraries != null;
         List<WsLibrary> libraryList = Arrays.asList(libraries);
-
-        /*
-         *
-         * Check if component(release) name is one of the projects' names
-         *
-         * whihtesource: getAllProjects with correct productToken (orgToken from tokenCredentials)
-         * and certain projectToken is known
-         *
-         * Example: 'sw360' is product and 'datahadler' is project to be imported
-         */
-
-        WsProduct[] products = null;
-        WsProject[] projects = null;
-        try {
-            products =  new WsImportService().getWsProducts(tokenCredentials);
-        } catch (JsonSyntaxException jse) {
-            LOGGER.error(jse);
-        }
-        if (products != null) {
-            for (WsProduct wsProduct : products) {
-                try {
-                    projects =  new WsImportService().getWsProjects(wsProduct.getProductToken(), tokenCredentials);
-                } catch (JsonSyntaxException jse) {
-                    LOGGER.error(jse);
-                }
-                for (WsProject project : projects) {
-                        libraryList.removeIf(x -> x.getName().equals(project.getProjectName()));
-                }
-            }
-        }
-/*
 
         if (libraryList == null) {
             return ImmutableSet.of();
         }
-*/
+
         Set<ReleaseRelation> releases = libraryList.stream()
                 .map(c -> createReleaseRelation(c, sw360User))
                 .filter(Objects::nonNull)
