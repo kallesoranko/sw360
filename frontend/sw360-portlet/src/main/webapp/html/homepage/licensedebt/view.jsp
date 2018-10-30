@@ -116,15 +116,16 @@
 
         console.log('chartData', chartData);
 
-        let chartData2 = data.slice(Math.max(arr.length - 5));
+        let chartData2 = data.slice(Math.max(data.length - 5));
 
         console.log('chartData2', chartData2);
 
         YUI().use('charts', function (Y) {
             var chart = new Y.Chart({
                 render: "#licensedebtchart",
-                dataProvider: chartData,
+                dataProvider: chartData2,
                 categoryKey:"Project Name",
+                stacked: true,
                 type:"bar"
             });
         });
