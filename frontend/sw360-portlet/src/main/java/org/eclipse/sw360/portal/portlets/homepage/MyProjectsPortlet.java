@@ -59,7 +59,7 @@ public class MyProjectsPortlet extends Sw360Portlet {
     }
     */
 
-    private static final Logger LOGGER = Logger.getLogger(LicenseDebtPortlet.class);
+    private static final Logger LOGGER = Logger.getLogger(MyProjectsPortlet.class);
 
     @Override
     public void doView(RenderRequest request, RenderResponse response) throws IOException, PortletException {
