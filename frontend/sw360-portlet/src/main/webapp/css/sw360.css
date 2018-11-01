@@ -673,3 +673,25 @@ input[readonly].clickable {
     margin: 0;
     text-color: black;
 }
+
+
+#licensedebtchart {
+    /*
+    width: 140px;
+    height: 140px;
+    margin-left: 50%;
+    overflow: auto;
+    */
+
+    margin:20px 5px 5px 5px;
+    width:95%;
+    /*max-width: 400px;*/
+    height:200px;
+}
+
+#myLicenseDebtChartDiv {
+    float: left;
+    display: inline-block;
+    overflow: auto;
+    margin: 10px 0px 20px 10px;
+}
