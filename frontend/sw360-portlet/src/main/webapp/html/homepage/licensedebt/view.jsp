@@ -32,14 +32,8 @@
 <script>
 
     Liferay.on( 'allPortletsReady', function() {
-        let result = [];
         let projectClearingSummaryList = [];
         <core_rt:forEach items="${projects}" var="project">
-        result.push({
-            "DT_RowId": "${project.id}",
-            "0": "<sw360:DisplayProjectLink project="${project}"/>",
-            "1": '<sw360:out value="${project.releaseClearingStateSummary.approved} / ${project.releaseClearingStateSummary.newRelease + project.releaseClearingStateSummary.underClearing + project.releaseClearingStateSummary.underClearingByProjectTeam + project.releaseClearingStateSummary.reportAvailable + project.releaseClearingStateSummary.approved}" default="--"/>'
-        });
         projectClearingSummaryList.push({
             "Project Name": "${project.name}",
             "Under Clearing By Project Team": ${project.releaseClearingStateSummary.underClearingByProjectTeam},
@@ -49,74 +43,92 @@
             "Approved": ${project.releaseClearingStateSummary.approved}
         });
         </core_rt:forEach>
-        $( '#myLicenseDebtTable' ).dataTable({
-            pagingType: "simple_numbers",
-            dom: "rtip",
-            data: result,
-            pageLength: 5,
-            columns: [
-                {"title": "Project Name"},
-                {"title": "Accepted Releases"}
-            ],
-            autoWidth: false
-        });
         drawBarChart( projectClearingSummaryList );
     });
 
     function drawBarChart( data ) {
-        let chartData = data.slice( 1 ).slice( -10 );
-
-        console.log('chartData', chartData);
-
+        let chartData = data.slice( 1 ).slice( -15 );
         YUI().use('charts', function (Y) {
-
-             var styleDef = {
-                axes:{
-                    "Approved":{
-                        label:{
-                            rotation:-45,
-                            color:"#000000"
-                        }
-                    }
+            var tooltipDef = {
+                styles: {
+                    backgroundColor: "#333",
+                    color: "#eee",
+                    borderColor: "#fff",
+                    textAlign: "center"
                 },
-                series:{
-                    "Approved":{
-                        fill:{
-                            color:"#ddd"
-                        }
-                    },
-                    "Report Available":{
-                        fill:{
-                            color:"#ddd"
-                        }
-                    },
-                    "New Release":{
-                        fill:{
-                            color:"#ddd"
-                        }
-                    },
-                    "Under Clearing":{
-                        fill:{
-                            color:"#ddd"
-                        }
-                    },
-                    "Under Clearing By Project Team":{
-                        fill:{
-                            color:"#ddd"
-                        }
-                    }
+                markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                    var tooltip = document.createElement("div"),
+                        projectText = document.createElement("span"),
+                        releaseText = document.createElement("div");
+                    releaseText.style.marginTop = "5px";
+                    projectText.style.fontSize = "12px";
+                    releaseText.style.fontSize = "15px";
+                    projectText.appendChild(
+                        document.createTextNode(
+                            categoryItem
+                                .axis
+                                .get("labelFunction")
+                                .apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])
+                        )
+                    );
+                    releaseText.appendChild(
+                        document.createTextNode(valueItem.displayName + ": " +
+                            valueItem
+                                .axis
+                                .get("labelFunction")
+                                .apply(this, [valueItem.value, valueItem.axis.get("labelFormat")])
+                        )
+                    );
+                    tooltip.appendChild(projectText);
+                    tooltip.appendChild(document.createElement("br"));
+                    tooltip.appendChild(releaseText);
+                    return tooltip;
                 }
-
-                };
+            };
 
             var chart = new Y.Chart({
                 render: "#licensedebtchart",
-                dataProvider: chartData2,
+                dataProvider: chartData,
                 categoryKey:"Project Name",
                 stacked: true,
                 type:"bar",
-                styles:styleDef,
-                verticalGridlines:true
+                styles:{
+                    series:{
+                        "Approved":{
+                            fill:{
+                                color:"#caebf2"
+                            }
+                        },
+                        "Report Available":{
+                            fill:{
+                                color:"#a9a9a9"
+                            }
+                        },
+                        "New Release":{
+                            fill:{
+                                color:"#ff3b3f"
+                            }
+                        },
+                        "Under Clearing":{
+                            fill:{
+                                color:"#efefef"
+                            }
+                        },
+                        "Under Clearing By Project Team":{
+                            fill:{
+                                color:"#efefef"
+                            }
+                        }
+                    }
+                },
+                verticalGridlines: {
+                    styles: {
+                        line: {
+                            color: "#c4c3b6"
+                        }
+                    }
+                },
+                tooltip: tooltipDef
             });
         });
     }

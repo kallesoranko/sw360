@@ -676,17 +676,9 @@ input[readonly].clickable {
 
 
 #licensedebtchart {
-    /*
-    width: 140px;
-    height: 140px;
-    margin-left: 50%;
-    overflow: auto;
-    */
-
     margin:20px 5px 5px 5px;
     width:95%;
-    /*max-width: 400px;*/
-    height:200px;
+    height:420px;
 }
 
 #myLicenseDebtChartDiv {
