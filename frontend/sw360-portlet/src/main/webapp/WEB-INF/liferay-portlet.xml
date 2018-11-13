@@ -330,7 +330,7 @@
     </portlet>
 
     <portlet>
-        <portlet-name>licensedebt</portlet-name>
+        <portlet-name>statistics</portlet-name>
         <icon>/icon.png</icon>
         <use-default-template>false</use-default-template>
         <instanceable>false</instanceable>

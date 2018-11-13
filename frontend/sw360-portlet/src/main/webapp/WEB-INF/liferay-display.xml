@@ -38,6 +38,6 @@
 		<portlet id="vulnerabilities"/>
 		<portlet id="ecc"/>
 		<portlet id="WsImport"/>
-		<portlet id="licensedebt"/>
+		<portlet id="statistics"/>
 	</category>
 </display>

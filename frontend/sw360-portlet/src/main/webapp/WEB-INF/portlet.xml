@@ -852,14 +852,14 @@
     </portlet>
 
     <portlet>
-        <portlet-name>licensedebt</portlet-name>
-        <display-name>License Debt</display-name>
+        <portlet-name>statistics</portlet-name>
+        <display-name>Statistics</display-name>
         <portlet-class>
             org.eclipse.sw360.portal.portlets.admin.StatisticsPortlet
         </portlet-class>
         <init-param>
             <name>view-template</name>
-            <value>/html/homepage/licensedebt/view.jsp</value>
+            <value>/html/admin/statistics/view.jsp</value>
         </init-param>
         <expiration-cache>0</expiration-cache>
         <supports>
@@ -867,8 +867,8 @@
             <portlet-mode>view</portlet-mode>
         </supports>
         <portlet-info>
-            <title>License Debt</title>
-            <short-title>License Debt</short-title>
+            <title>Statistics Portlet</title>
+            <short-title>Statistics</short-title>
             <keywords/>
         </portlet-info>
         <portlet-preferences>
