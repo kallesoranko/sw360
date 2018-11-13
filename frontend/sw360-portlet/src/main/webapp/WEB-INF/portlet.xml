@@ -855,7 +855,7 @@
         <portlet-name>licensedebt</portlet-name>
         <display-name>License Debt</display-name>
         <portlet-class>
-            org.eclipse.sw360.portal.portlets.homepage.LicenseDebtPortlet
+            org.eclipse.sw360.portal.portlets.admin.StatisticsPortlet
         </portlet-class>
         <init-param>
             <name>view-template</name>

@@ -1,5 +1,6 @@
 /*
- * Copyright Siemens AG, 2013-2018. Part of the SW360 Portal Project.
+ * Copyright Siemens Healthcare Diagnostics Inc, 2018.
+ * Part of the SW360 Portal Project.
  *
  * SPDX-License-Identifier: EPL-1.0
  *
@@ -8,7 +9,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.sw360.portal.portlets.homepage;
+package org.eclipse.sw360.portal.portlets.admin;
 
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -33,9 +34,9 @@ import static org.eclipse.sw360.portal.common.PortalConstants.RESPONSE__PROJECT_
 /**
  * @author ksoranko@verifa.io
  */
-public class LicenseDebtPortlet extends Sw360Portlet {
+public class StatisticsPortlet extends Sw360Portlet {
 
-    private static final Logger LOGGER = Logger.getLogger(LicenseDebtPortlet.class);
+    private static final Logger LOGGER = Logger.getLogger(StatisticsPortlet.class);
 
     @Override
     public void doView(RenderRequest request, RenderResponse response) throws IOException, PortletException {
