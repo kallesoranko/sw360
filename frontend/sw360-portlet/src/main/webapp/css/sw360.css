@@ -676,9 +676,10 @@ input[readonly].clickable {
 
 
 #licensedebtchart {
-    margin:20px 5px 5px 5px;
+    /* margin:0px 0px 0px 0px; */
+    margin: 0px;
     width:95%;
-    height:420px;
+    height:480px;
 }
 
 #myLicenseDebtChartDiv {
@@ -686,4 +687,36 @@ input[readonly].clickable {
     display: inline-block;
     overflow: auto;
     margin: 10px 0px 20px 10px;
+}
+
+#statistics-chart-div {
+    /* padding: 0px; */
+    float: left;
+    /* left: 3%; */
+    /* top: 90px; */
+    width: 59%;
+    /* margin-right: 2%; */
+    /* overflow-x: auto; */
+    /* overflow-y: hidden; */
+}
+
+#statistics-details-div {
+    padding: 0px;
+    float: right;
+    /* left: 3%; */
+    /* top: 90px; */
+    width: 39%;
+    /* padding-left: 1%; */
+    /* overflow-x: auto; */
+    /* overflow-y: hidden; */
+    overflow: auto;
+}
+
+#component-type-chart-div {
+    float: left;
+    margin-top: 25px;
+
+    /* left: 3%; */
+    /* top: 90px; */
+    width: 100%;
 }

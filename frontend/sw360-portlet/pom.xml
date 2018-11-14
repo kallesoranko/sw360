@@ -194,6 +194,21 @@
             <artifactId>resumable.js</artifactId>
             <version>${resumable.js.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars/chartist -->
+        <!--
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>chartist</artifactId>
+            <version>0.11.0</version>
+        </dependency>
+        -->
+        <!-- https://mvnrepository.com/artifact/org.webjars/highcharts -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>highcharts</artifactId>
+            <version>6.1.4</version>
+        </dependency>
+
 
 
         <dependency>
