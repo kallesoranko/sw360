@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-import static org.eclipse.sw360.portal.common.PortalConstants.RESPONSE__PROJECT_CLEARING_STATUS_DATA;
+import static org.eclipse.sw360.portal.common.PortalConstants.RESPONSE__PROJECT_DETAILS_DATA;
 /**
  * @author ksoranko@verifa.io
  */
@@ -75,21 +75,30 @@ public class StatisticsPortlet extends Sw360Portlet {
 
     @Override
     public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException, PortletException {
-        JSONObject responseData = handlePieChartUpdate(request);
+        //JSONObject responseData = handlePieChartUpdate(request);
+        JSONObject responseData = handleProjectDetailsUpdate(request);
         PrintWriter writer = response.getWriter();
         writer.write(responseData.toString());
     }
 
-    private JSONObject handlePieChartUpdate(ResourceRequest request) throws IOException, PortletException {
+    private JSONObject handleProjectDetailsUpdate(ResourceRequest request) {
         String[] projectId = request.getParameterValues(PortalConstants.PROJECT_ID);
+        String[] releaseIdToUsage = request.getParameterValues(PortalConstants.RELEASE_ID_TO_USAGE);
+
+        LOGGER.info(releaseIdToUsage.getClass());
+        for (String s : releaseIdToUsage) {
+            LOGGER.info(s);
+        }
+
+
         User user = UserCacheHolder.getUserFromRequest(request);
         JSONObject responseData = JSONFactoryUtil.createJSONObject();
-        JSONArray jsonClearingStatusData = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonProjectDetailsData = JSONFactoryUtil.createJSONArray();
         if(projectId != null && projectId.length == 1) {
             List<ClearingState> clearingInformationList = getClearingStatusDataForProject(projectId[0], user);
-            clearingInformationList.forEach( e -> jsonClearingStatusData.put(e.toString()));
+            clearingInformationList.forEach( e -> jsonProjectDetailsData.put(e.toString()));
         }
-        responseData.put(RESPONSE__PROJECT_CLEARING_STATUS_DATA, jsonClearingStatusData);
+        responseData.put(RESPONSE__PROJECT_DETAILS_DATA, jsonProjectDetailsData);
         return responseData;
     }
 

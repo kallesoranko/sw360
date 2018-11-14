@@ -28,13 +28,19 @@
     <span class="pull-right"></span>
 </p>
 
-<div id="license-debt-div">
+<div id="statistics-div">
     <div id="statistics-chart-div">
         <div id="licensedebtchart"></div>
     </div>
 
     <div id="statistics-details-div">
-        <h2>details-div</h2>
+        <table id="details-table" cellpadding="0" cellspacing="0" border="0" class="display">
+             <colgroup>
+                   <col style="width: 40%;"/>
+                   <col style="width: 30%;"/>
+                   <col style="width: 30%;"/>
+             </colgroup>
+        </table>
     </div>
 </div>
 
@@ -48,22 +54,16 @@
 <script src="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.js" type="text/javascript"></script>
 
-
-
-<%--
-<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
-<link href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" type="text/css" />
-
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/modules/statistics.js"></script>
---%>
-
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<link href="<%=request.getContextPath()%>/js/libs/c3.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/libs/d3.min.js" charset="utf-8"></script>
+<script src="<%=request.getContextPath()%>/js/libs/c3.min.js"></script>
 
 <script>
 
     Liferay.on( 'allPortletsReady', function() {
-        let projectClearingSummaryList = [];
         var projectInfo = [];
         var series = [{
             name: 'Approved',
@@ -83,30 +83,10 @@
         }];
 
         <core_rt:forEach items="${projects}" var="project">
-
-        <%--
-        projectClearingSummaryList.push({
-            "Project Name": "${project.name}",
-            "Under Clearing By Project Team": ${project.releaseClearingStateSummary.underClearingByProjectTeam},
-            "Under Clearing": ${project.releaseClearingStateSummary.underClearing},
-            "New Release": ${project.releaseClearingStateSummary.newRelease},
-            "Report Available": ${project.releaseClearingStateSummary.reportAvailable},
-            "Approved": ${project.releaseClearingStateSummary.approved}
-        });
-
-        list.push({
-            projectName: "${project.name}",
-            underClearingByProjectTeam: ${project.releaseClearingStateSummary.underClearingByProjectTeam},
-            underClearing: ${project.releaseClearingStateSummary.underClearing},
-            newRelease: ${project.releaseClearingStateSummary.newRelease},
-            reportAvailable: ${project.releaseClearingStateSummary.reportAvailable},
-            approved: ${project.releaseClearingStateSummary.approved}
-        });
-        --%>
-
         projectInfo.push({
             name: "${project.name}",
-            id: "${project.id}"
+            id: "${project.id}",
+            releaseIdToUsage: "${project.releaseIdToUsage}"
         });
         series[0].data.push(${project.releaseClearingStateSummary.approved});
         series[1].data.push(${project.releaseClearingStateSummary.reportAvailable});
@@ -114,148 +94,11 @@
         series[3].data.push(${project.releaseClearingStateSummary.underClearing});
         series[4].data.push(${project.releaseClearingStateSummary.underClearingByProjectTeam});
         </core_rt:forEach>
-        <%--
-        drawTestChart( projectClearingSummaryList );
-        drawBarChart( projectClearingSummaryList );
-        --%>
+
         drawChart(projectInfo, series);
     });
 
-<%--
-    function drawBarChart( data ) {
-        let chartData = data.slice( 1 ).slice( -15 );
-        YUI().use('charts', function (Y) {
-            var tooltipDef = {
-                styles: {
-                    backgroundColor: "#333",
-                    color: "#eee",
-                    borderColor: "#fff",
-                    textAlign: "center"
-                },
-                markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
-
-                    var tooltip = document.createElement("div"),
-                        projectText = document.createElement("span"),
-                        releaseText = document.createElement("div");
-                    releaseText.style.marginTop = "10px";
-                    releaseText.style.fontSize = "12px";
-                    projectText.style.fontSize = "16px";
-                    projectText.style.textDecoration = "underline";
-                    projectText.appendChild(
-                        document.createTextNode(
-                            categoryItem
-                                .axis
-                                .get("labelFunction")
-                                .apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])
-                        )
-                    );
-                    releaseText.appendChild(
-                        document.createTextNode(valueItem.displayName + ": " +
-                            valueItem
-                                .axis
-                                .get("labelFunction")
-                                .apply(this, [valueItem.value, valueItem.axis.get("labelFormat")])
-                        )
-                    );
-                    tooltip.appendChild(projectText);
-                    tooltip.appendChild(document.createElement("br"));
-                    tooltip.appendChild(releaseText);
-                    return tooltip;
-                }
-            };
-            var chart = new Y.Chart({
-                render: "#licensedebtchart",
-                dataProvider: chartData,
-                categoryKey:"Project Name",
-                stacked: true,
-                type:"bar",
-                styles:{
-                    axes:{
-                        values:{
-                            label:{
-                                fontSize:"11px",
-                                color:"#000"
-                            }
-                        },
-                        "Project Name":{
-                            label:{
-                                rotation:-25,
-                                fontSize:"11px",
-                                color: "#000"
-                            }
-                        }
-                    },
-                    series:{
-                        "Approved":{
-                            fill:{
-                                color:"#caebf2"
-                            }
-                        },
-                        "Report Available":{
-                            fill:{
-                                color:"#a9a9a9"
-                            }
-                        },
-                        "New Release":{
-                            fill:{
-                                color:"#ff3b3f"
-                            }
-                        },
-                        "Under Clearing":{
-                            fill:{
-                                color:"#efefef"
-                            }
-                        },
-                        "Under Clearing By Project Team":{
-                            fill:{
-                                color:"#efefef"
-                            }
-                        }
-                    }
-                },
-                verticalGridlines: {
-                    styles: {
-                        line: {
-                            color: "#c4c3b6"
-                        }
-                    }
-                },
-                interactionType:"planar",
-                tooltip: tooltipDef
-            });
-
-            Y.on("click", function(e) {
-                var projectName = Y.one("#licensedebtchart") ;
-                console.log('projectName', projectName);
-            }, "#licensedebtchart");
-
-        });
-    }
---%>
-
     function drawChart(projectInfo, series) {
-
-        <%--
-        var labelss = [];
-        var ser1 = [];
-        var ser2 = [];
-        var ser3 = [];
-        var ser4 = [];
-        var ser5 = [];
-
-        input.forEach( function(e) {
-            labelss.push(e.projectName);
-            ser1.push(e.underClearingByProjectTeam);
-            ser2.push(e.underClearing);
-            ser3.push(e.newRelease);
-            ser4.push(e.reportAvailable);
-            ser5.push(e.approved);
-        });
-
-        --%>
-
-        console.log(projectInfo);
-        console.log(series);
 
         Highcharts.chart('licensedebtchart', {
             chart: {
@@ -279,21 +122,19 @@
             plotOptions: {
                 series: {
                     stacking: 'normal',
-                    pointWidth: 30,
+                    pointWidth: 22,
                     events: {
                         click: function (event) {
-                            console.log(event.point.category);
                             console.log('this', this);
                             console.log('event', event);
-                            console.log('projectInfo', projectInfo);
 
                             projectInfo.forEach( e => {
                                 if (e.name ===  event.point.category) {
                                     console.log('e.name', e.name);
                                     console.log('e.id', e.id);
-                                    <%--
-                                    loadDetails(e.id);
-                                    --%>
+
+                                    loadProjectDetails(e.id, e.releaseIdToUsage);
+
                                 }
                             });
                         }
@@ -304,97 +145,19 @@
         });
     }
 
-<%--
-    function drawTestChart(input) {
-
-        console.log(input);
-
-        var labelss = [];
-        var ser1 = [];
-        var ser2 = [];
-        var ser3 = [];
-        var ser4 = [];
-        var ser5 = [];
-
-        input.forEach( function(e) {
-            labelss.push(e.projectName);
-            ser1.push(e.underClearingByProjectTeam);
-            ser2.push(e.underClearing);
-            ser3.push(e.newRelease);
-            ser4.push(e.reportAvailable);
-            ser5.push(e.approved);
-        });
-
-        console.log('labelss', labelss);
-        console.log('ser1', ser1);
-        console.log('ser2', ser2);
-        console.log('ser3', ser3);
-        console.log('ser4', ser4);
-        console.log('ser5', ser5);
-
-
-        new Chartist.Bar('#licensedebtchart', {
-            labels: labelss,
-            series: [
-                ser1, ser2, ser3, ser4, ser5
-            ]
-        }, {
-            stackBars: true,
-            horizontalBars: true,
-        }).on('draw', function(data) {
-            if(data.type === 'bar') {
-                data.element.attr({
-                style: 'stroke-width: 30px'
-                });
+    function loadProjectDetails(projectId, releaseIdToUsage){
+        $.ajax({
+            url: '<%=ajaxURL%>',
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
+            data: {
+                "<portlet:namespace/><%=PortalConstants.PROJECT_ID%>" :  projectId,
+                "<portlet:namespace/><%=PortalConstants.RELEASE_ID_TO_USAGE%>" :  releaseIdToUsage
             }
+        }).done(function(response){
+            console.log(response);
         });
-
     }
---%>
-
-<%--
-    function drawTestChart(input) {
-
-        console.log(input);
-
-        var labels, ser1, ser2, ser3, ser4, ser5 = [];
-    /*
-        "Under Clearing By Project Team": ${project.releaseClearingStateSummary.underClearingByProjectTeam},
-        "Under Clearing": ${project.releaseClearingStateSummary.underClearing},
-        "New Release": ${project.releaseClearingStateSummary.newRelease},
-        "Report Available": ${project.releaseClearingStateSummary.reportAvailable},
-        "Approved": ${project.releaseClearingStateSummary.approved}
-    */
-        input.forEach(e => {
-            labels.push(e."Project Name");
-            ser1.push(e."Under Clearing By Project Team");
-            ser1.push(e."Under Clearing");
-            ser1.push(e."New Release");
-            ser1.push(e."Report Available");
-            ser1.push(e."Approved");
-        });
-
-        new Chartist.Bar('#licensedebtchart', {
-            labels: labels,
-            series: [
-                ser1, ser2, ser3, ser4, ser5
-            ]
-        }, {
-            stackBars: true,
-            horizontalBars: true,
-        }).on('draw', function(data) {
-            if(data.type === 'bar') {
-                data.element.attr({
-                style: 'stroke-width: 30px'
-                });
-            }
-        });
-
-
-        function getLabelKey() {
-            return "Project Name";
-        }
-    }
---%>
 
 </script>

@@ -14,6 +14,7 @@ package org.eclipse.sw360.portal.common;
 import org.eclipse.sw360.datahandler.common.CommonUtils;
 import org.eclipse.sw360.datahandler.thrift.users.UserGroup;
 
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -118,6 +119,7 @@ public class PortalConstants {
     public static final String RELEASE_ROLES;
     public static final String RELEASE_EXTERNAL_IDS;
     public static final Set<String> RELEASE_EXTERNAL_ID_KEYS;
+    public static final String RELEASE_ID_TO_USAGE = "releaseIdToUsage";
 
     //! Specialized keys for vendors
     public static final String VENDOR = "vendor";
@@ -358,7 +360,7 @@ public class PortalConstants {
     public static final String EXPORT_ID = "export_id";
 
     public static final String RESPONSE__IMPORT_GENERAL_FAILURE = "response_import_general_failure";
-    public static final String RESPONSE__PROJECT_CLEARING_STATUS_DATA = "response_project_clearing_status_data";
+    public static final String RESPONSE__PROJECT_DETAILS_DATA = "response_project_details_data";
 
     //custom map keywords
     public static final String CUSTOM_MAP_KEY = "customMapKey";
