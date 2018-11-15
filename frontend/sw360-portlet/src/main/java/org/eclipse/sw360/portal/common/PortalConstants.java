@@ -119,7 +119,6 @@ public class PortalConstants {
     public static final String RELEASE_ROLES;
     public static final String RELEASE_EXTERNAL_IDS;
     public static final Set<String> RELEASE_EXTERNAL_ID_KEYS;
-    public static final String RELEASE_ID_TO_USAGE = "releaseIdToUsage";
 
     //! Specialized keys for vendors
     public static final String VENDOR = "vendor";

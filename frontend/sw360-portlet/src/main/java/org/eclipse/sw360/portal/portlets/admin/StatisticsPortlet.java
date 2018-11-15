@@ -11,6 +11,7 @@
  */
 package org.eclipse.sw360.portal.portlets.admin;
 
+import com.google.common.collect.Sets;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -21,7 +22,6 @@ import org.eclipse.sw360.datahandler.thrift.components.*;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectService;
 import org.eclipse.sw360.datahandler.thrift.users.User;
-import org.eclipse.sw360.portal.common.PortalConstants;
 import org.eclipse.sw360.portal.portlets.Sw360Portlet;
 import org.eclipse.sw360.portal.users.UserCacheHolder;
 
@@ -29,8 +29,11 @@ import javax.portlet.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static org.eclipse.sw360.portal.common.PortalConstants.RELEASE_IDS;
 import static org.eclipse.sw360.portal.common.PortalConstants.RESPONSE__PROJECT_DETAILS_DATA;
+import static org.eclipse.sw360.portal.common.PortalConstants.PROJECT_ID;
 /**
  * @author ksoranko@verifa.io
  */
@@ -75,51 +78,36 @@ public class StatisticsPortlet extends Sw360Portlet {
 
     @Override
     public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException, PortletException {
-        //JSONObject responseData = handlePieChartUpdate(request);
         JSONObject responseData = handleProjectDetailsUpdate(request);
         PrintWriter writer = response.getWriter();
         writer.write(responseData.toString());
     }
 
     private JSONObject handleProjectDetailsUpdate(ResourceRequest request) {
-        String[] projectId = request.getParameterValues(PortalConstants.PROJECT_ID);
-        String[] releaseIdToUsage = request.getParameterValues(PortalConstants.RELEASE_ID_TO_USAGE);
-
-        LOGGER.info(releaseIdToUsage.getClass());
-        for (String s : releaseIdToUsage) {
+        String[] projectId = request.getParameterValues(PROJECT_ID);
+        String[] ids = request.getParameterValues("ids[]");
+        Set<String> idSet = Sets.newHashSet(ids);
+        LOGGER.info(idSet.getClass());
+        for (String s : idSet) {
+            LOGGER.info(s.getClass());
             LOGGER.info(s);
         }
-
-
         User user = UserCacheHolder.getUserFromRequest(request);
         JSONObject responseData = JSONFactoryUtil.createJSONObject();
         JSONArray jsonProjectDetailsData = JSONFactoryUtil.createJSONArray();
-        if(projectId != null && projectId.length == 1) {
-            List<ClearingState> clearingInformationList = getClearingStatusDataForProject(projectId[0], user);
-            clearingInformationList.forEach( e -> jsonProjectDetailsData.put(e.toString()));
+        List<Release> releaseList = null;
+        ComponentService.Iface componentClient = thriftClients.makeComponentClient();
+        try {
+            releaseList = componentClient.getReleasesById(idSet, user);
+        } catch (TException e) {
+            LOGGER.error("Could not get releases from backend!", e);
+        }
+        if(releaseList != null) {
+            releaseList.forEach( e -> jsonProjectDetailsData.put(e.toString()));
         }
         responseData.put(RESPONSE__PROJECT_DETAILS_DATA, jsonProjectDetailsData);
         return responseData;
     }
 
-    private List<ClearingState> getClearingStatusDataForProject(String projectId, User user) {
-        ProjectService.Iface projectClient = thriftClients.makeProjectClient();
-        List<ReleaseClearingStatusData> data = null;
-        try {
-            data = projectClient.getReleaseClearingStatuses(projectId, user);
-        } catch (TException e) {
-            LOGGER.error("Could not fetch project releases' clearing status data from backend", e);
-        }
-        List<ClearingState> clearingStates = new ArrayList<>();
-        if (data != null) {
-            for (ReleaseClearingStatusData e : data) {
-                Release rel = e.getRelease();
-                ClearingState clearingState = rel.getClearingState();
-                clearingStates.add(clearingState);
-            }
-        }
-        return clearingStates;
-    }
-
-
 }
+

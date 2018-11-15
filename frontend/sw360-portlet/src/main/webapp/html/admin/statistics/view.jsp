@@ -58,13 +58,15 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
 <link href="<%=request.getContextPath()%>/js/libs/c3.min.css" rel="stylesheet">
-<script src="<%=request.getContextPath()%>/js/libs/d3.min.js" charset="utf-8"></script>
 <script src="<%=request.getContextPath()%>/js/libs/c3.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/libs/d3.min.js" charset="utf-8"></script>
 
 <script>
 
     Liferay.on( 'allPortletsReady', function() {
         var projectInfo = [];
+
+        <%--
         var series = [{
             name: 'Approved',
             data: []
@@ -81,18 +83,34 @@
             name: 'Under Clearing By Project Team',
             data: []
         }];
+        --%>
+        var series = {
+            approved: ['Approved'],
+            reportAvailable: ['Report Available'],
+            newRelease: ['New Release'],
+            underClearing: ['Under Clearing'],
+            underClearingByProjectTeam: ['Under Clearing By Project Team']
+        }
 
         <core_rt:forEach items="${projects}" var="project">
         projectInfo.push({
             name: "${project.name}",
             id: "${project.id}",
-            releaseIdToUsage: "${project.releaseIdToUsage}"
+            releaseIds: "${project.releaseIdToUsage.keySet()}".toString().slice(1, -1).split(',').map(e=>e.trim())
         });
+        series.approved.push(${project.releaseClearingStateSummary.approved});
+        series.reportAvailable.push(${project.releaseClearingStateSummary.reportAvailable});
+        series.newRelease.push(${project.releaseClearingStateSummary.newRelease});
+        series.underClearing.push(${project.releaseClearingStateSummary.underClearing});
+        series.underClearingByProjectTeam.push(${project.releaseClearingStateSummary.underClearingByProjectTeam});
+
+        <%--
         series[0].data.push(${project.releaseClearingStateSummary.approved});
         series[1].data.push(${project.releaseClearingStateSummary.reportAvailable});
         series[2].data.push(${project.releaseClearingStateSummary.newRelease});
         series[3].data.push(${project.releaseClearingStateSummary.underClearing});
         series[4].data.push(${project.releaseClearingStateSummary.underClearingByProjectTeam});
+        --%>
         </core_rt:forEach>
 
         drawChart(projectInfo, series);
@@ -100,64 +118,95 @@
 
     function drawChart(projectInfo, series) {
 
-        Highcharts.chart('licensedebtchart', {
-            chart: {
-                type: 'bar'
+        var chart = c3.generate({
+            bindto: '#licensedebtchart',
+            data: {
+                columns: [
+                    series.approved,
+                    series.reportAvailable,
+                    series.underClearing,
+                    series.underClearingByProjectTeam
+                    series.newRelease,
+                ],
+                type: 'bar',
+                groups: [
+                    ['Approved', 'Report Available', 'New Release', 'Under Clearing','Under Clearing By Project Team']
+                ]
             },
-            title: {
-                text: 'License debt'
-            },
-            xAxis: {
-                categories: projectInfo.map( e => e.name )
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'No. Releases'
+            grid: {
+                y: {
+                    lines: [{value:0}]
                 }
             },
-            legend: {
-                reversed: true
-            },
-            plotOptions: {
-                series: {
-                    stacking: 'normal',
-                    pointWidth: 22,
-                    events: {
-                        click: function (event) {
-                            console.log('this', this);
-                            console.log('event', event);
-
-                            projectInfo.forEach( e => {
-                                if (e.name ===  event.point.category) {
-                                    console.log('e.name', e.name);
-                                    console.log('e.id', e.id);
-
-                                    loadProjectDetails(e.id, e.releaseIdToUsage);
-
-                                }
-                            });
-                        }
-                    }
+            bar: {
+                width: {
+                    ratio: 0.75
                 }
             },
-            series: series
+            axis: {
+                rotated: true
+            }
         });
+
+        <%--
+        projectInfo.forEach( e => {
+            if (e.name ===  event.point.category) {
+                console.log('e.name', e.name);
+                console.log('e.id', e.id);
+                loadProjectDetails(e.id, e.releaseIds);
+            }
+        });
+        --%>
     }
 
-    function loadProjectDetails(projectId, releaseIdToUsage){
+    function loadProjectDetails(projectId, releaseIds){
+        console.log('projectId', projectId);
+        console.log('releaseIds', releaseIds);
+
         $.ajax({
             url: '<%=ajaxURL%>',
             type: 'POST',
             cache: false,
             dataType: 'json',
             data: {
-                "<portlet:namespace/><%=PortalConstants.PROJECT_ID%>" :  projectId,
-                "<portlet:namespace/><%=PortalConstants.RELEASE_ID_TO_USAGE%>" :  releaseIdToUsage
+                "<portlet:namespace/><%=PortalConstants.PROJECT_ID%>": projectId,
+                "<portlet:namespace/>ids": releaseIds
             }
         }).done(function(response){
             console.log(response);
+
+            <%--
+            populateDetailsDiv(response);
+            --%>
         });
     }
 
+    <%--
+    function populateDetailsDiv(input) {
+        var result = [];
+        <core_rt:forEach items="${projects}" var="project">
+        result.push({
+            "DT_RowId": "${project.id}",
+            "0": "<sw360:DisplayProjectLink project="${project}"/>",
+            "1": '<sw360:out value="${project.description}"/>',
+            "2": '<sw360:DisplayAcceptedReleases releaseClearingStateSummary="${project.releaseClearingStateSummary}"/>'
+        });
+        </core_rt:forEach>
+        $('#myProjectsTable').dataTable({
+            pagingType: "simple_numbers",
+            dom: "rtip",
+            data: result,
+            pageLength: 10,
+            columns: [
+                {"title": "Project Name"},
+                {"title": "Description"},
+                {"title": "Approved Releases"},
+            ],
+            autoWidth: false
+        });
+    }
+    --%>
+
+
 </script>
+
