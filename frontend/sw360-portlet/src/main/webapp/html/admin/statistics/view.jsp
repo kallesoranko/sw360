@@ -118,6 +118,12 @@
 
     function drawChart(projectInfo, series) {
 
+        var name = ['Project Name'];
+        console.log(projectInfo);
+
+        console.log(name.push(projectInfo.map(e => e.name)));
+        console.log(projectInfo.map(e => e.name));
+
         var chart = c3.generate({
             bindto: '#licensedebtchart',
             data: {
@@ -125,13 +131,23 @@
                     series.approved,
                     series.reportAvailable,
                     series.underClearing,
-                    series.underClearingByProjectTeam
-                    series.newRelease,
+                    series.underClearingByProjectTeam,
+                    series.newRelease
                 ],
                 type: 'bar',
                 groups: [
-                    ['Approved', 'Report Available', 'New Release', 'Under Clearing','Under Clearing By Project Team']
-                ]
+                    ['Approved', 'Report Available', 'Under Clearing','Under Clearing By Project Team', 'New Release']
+                ],
+                onclick: function (d, i) {
+                    console.log("onclick", d, i);
+                    projectInfo.forEach( e => {
+                        if (e.name ===  d.x) {
+                            console.log('e.name', e.name);
+                            console.log('e.id', e.id);
+                            loadProjectDetails(e.id, e.releaseIds);
+                        }
+                    });
+                }
             },
             grid: {
                 y: {
@@ -140,23 +156,17 @@
             },
             bar: {
                 width: {
-                    ratio: 0.75
+                    ratio: 0.85
                 }
             },
             axis: {
                 rotated: true
-            }
-        });
 
-        <%--
-        projectInfo.forEach( e => {
-            if (e.name ===  event.point.category) {
-                console.log('e.name', e.name);
-                console.log('e.id', e.id);
-                loadProjectDetails(e.id, e.releaseIds);
-            }
+                <%--x: {
+                    type: 'category'
+                }--%>
+            },
         });
-        --%>
     }
 
     function loadProjectDetails(projectId, releaseIds){
@@ -172,41 +182,38 @@
                 "<portlet:namespace/><%=PortalConstants.PROJECT_ID%>": projectId,
                 "<portlet:namespace/>ids": releaseIds
             }
-        }).done(function(response){
-            console.log(response);
+            success: function(response){
+                console.log(response);
 
-            <%--
-            populateDetailsDiv(response);
-            --%>
+                <%--
+                populateDetailsDiv(response);
+                --%>
+            }
         });
     }
 
-    <%--
-    function populateDetailsDiv(input) {
+    function populateDetailsDiv(releases) {
         var result = [];
-        <core_rt:forEach items="${projects}" var="project">
-        result.push({
-            "DT_RowId": "${project.id}",
-            "0": "<sw360:DisplayProjectLink project="${project}"/>",
-            "1": '<sw360:out value="${project.description}"/>',
-            "2": '<sw360:DisplayAcceptedReleases releaseClearingStateSummary="${project.releaseClearingStateSummary}"/>'
-        });
-        </core_rt:forEach>
-        $('#myProjectsTable').dataTable({
+
+        for(release in releases) {
+            result.push({
+                "DT_RowId": "${project.id}",
+                "0": "<sw360:DisplayReleaseLink release="${release}" />"/*,
+                "1": '<sw360:out value="${project.description}"/>',
+                "2": '<sw360:DisplayAcceptedReleases releaseClearingStateSummary="${project.releaseClearingStateSummary}"/>'*/
+            });
+        }
+        $('#details-table').dataTable({
             pagingType: "simple_numbers",
             dom: "rtip",
             data: result,
             pageLength: 10,
             columns: [
-                {"title": "Project Name"},
-                {"title": "Description"},
-                {"title": "Approved Releases"},
+                {"title": "Release Name"},
             ],
             autoWidth: false
         });
     }
-    --%>
-
 
 </script>
 
