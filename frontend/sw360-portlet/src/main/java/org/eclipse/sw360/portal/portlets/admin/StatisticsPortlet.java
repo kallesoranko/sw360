@@ -84,7 +84,7 @@ public class StatisticsPortlet extends Sw360Portlet {
     }
 
     private JSONObject handleProjectDetailsUpdate(ResourceRequest request) {
-        String[] projectId = request.getParameterValues(PROJECT_ID);
+        //String[] projectId = request.getParameterValues(PROJECT_ID);
         String[] ids = request.getParameterValues("ids[]");
         Set<String> idSet = Sets.newHashSet(ids);
         LOGGER.info(idSet.getClass());
@@ -106,6 +106,9 @@ public class StatisticsPortlet extends Sw360Portlet {
             releaseList.forEach( e -> jsonProjectDetailsData.put(e.toString()));
         }
         responseData.put(RESPONSE__PROJECT_DETAILS_DATA, jsonProjectDetailsData);
+
+        //request.setAttribute(RESPONSE__PROJECT_DETAILS_DATA, releaseList);
+
         return responseData;
     }
 

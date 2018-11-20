@@ -182,27 +182,38 @@
                 "<portlet:namespace/><%=PortalConstants.PROJECT_ID%>": projectId,
                 "<portlet:namespace/>ids": releaseIds
             }
-            success: function(response){
-                console.log(response);
+        }).done( function(response) {
+            console.log(response);
 
-                <%--
-                populateDetailsDiv(response);
-                --%>
-            }
+            <%--
+            populateDetailsDiv(response);
+            --%>
         });
     }
 
     function populateDetailsDiv(releases) {
         var result = [];
+        console.log(releases);
 
-        for(release in releases) {
+        <%--
+        for(var release in releases) {
             result.push({
-                "DT_RowId": "${project.id}",
-                "0": "<sw360:DisplayReleaseLink release="${release}" />"/*,
-                "1": '<sw360:out value="${project.description}"/>',
-                "2": '<sw360:DisplayAcceptedReleases releaseClearingStateSummary="${project.releaseClearingStateSummary}"/>'*/
+                "DT_RowId": "${release.id}",
+                "0": '<sw360:out value="${release.name}"/>'
             });
         }
+        --%>
+        <%--
+        <core_rt:forEach items="${\"<portlet:namespace/><%=PortalConstants.RESPONSE__PROJECT_DETAILS_DATA%>\"}" var="release">
+        result.push({
+            "DT_RowId": "${release.id}",
+            "0": "<sw360:DisplayReleaseLink release="${release}" />"
+        });
+        </core_rt:forEach>
+        --%>
+
+
+        <%--
         $('#details-table').dataTable({
             pagingType: "simple_numbers",
             dom: "rtip",
@@ -213,6 +224,7 @@
             ],
             autoWidth: false
         });
+        --%>
     }
 
 </script>
