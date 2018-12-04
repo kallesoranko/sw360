@@ -679,7 +679,7 @@ input[readonly].clickable {
     /* margin:0px 0px 0px 0px; */
     margin: 0px;
     width:95%;
-    height:560px;
+    height:590px;
 }
 
 #myLicenseDebtChartDiv {
@@ -694,7 +694,7 @@ input[readonly].clickable {
     float: left;
     /* left: 3%; */
     /* top: 90px; */
-    width: 59%;
+    width: 60%;
     /* margin-right: 2%; */
     /* overflow-x: auto; */
     /* overflow-y: hidden; */
@@ -705,11 +705,12 @@ input[readonly].clickable {
     float: right;
     /* left: 3%; */
     /* top: 90px; */
-    width: 39%;
+    width: 40%;
     /* padding-left: 1%; */
     /* overflow-x: auto; */
     /* overflow-y: hidden; */
     overflow: auto;
+    min-height: 560px;
 }
 
 #component-type-chart-div {

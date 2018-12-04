@@ -17,8 +17,11 @@
 <portlet:defineObjects/>
 <liferay-theme:defineObjects/>
 
-<jsp:useBean id="projects" type="java.util.List<org.eclipse.sw360.datahandler.thrift.projects.Project>"
-             scope="request"/>
+<jsp:useBean id="projects" type="java.util.List<org.eclipse.sw360.datahandler.thrift.projects.Project>" scope="request"/>
+
+<%--
+<jsp:useBean id="releases" type="java.util.List<org.eclipse.sw360.datahandler.thrift.components.Release>" scope="request"/>
+--%>
 
 <portlet:resourceURL var="ajaxURL"></portlet:resourceURL>
 
@@ -34,6 +37,7 @@
     </div>
 
     <div id="statistics-details-div">
+        <p><span class="pageHeaderBigSpan" id="table-header"></span></p>
         <table id="details-table" cellpadding="0" cellspacing="0" border="0" class="display">
              <colgroup>
                    <col style="width: 40%;"/>
@@ -48,52 +52,55 @@
     <h2>component-type-chart-div</h2>
 </div>
 
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTable_Siemens.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.css">
 <script src="<%=request.getContextPath()%>/webjars/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/datatables/1.10.15/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/datatables.net-select/1.2.2/js/dataTables.select.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.js" type="text/javascript"></script>
-
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
 <link href="<%=request.getContextPath()%>/js/libs/c3.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/js/libs/c3.min.js"></script>
+
 <script src="<%=request.getContextPath()%>/js/libs/d3.min.js" charset="utf-8"></script>
 
 <script>
+    let detailsTable;
+
+    function str2DOMElement(html) {
+        var frame = document.createElement('iframe');
+        frame.style.display = 'none';
+        document.body.appendChild(frame);
+        frame.contentDocument.open();
+        frame.contentDocument.write(html);
+        frame.contentDocument.close();
+        var el = frame.contentDocument.body.firstChild;
+        document.body.removeChild(frame);
+        return el;
+    }
+
+    function html2dom( html ) {
+        var container = document.createElement('div');
+        container.innerHTML = html;
+        return container.firstChild;
+    }
 
     Liferay.on( 'allPortletsReady', function() {
-        var projectInfo = [];
-
-        <%--
-        var series = [{
-            name: 'Approved',
-            data: []
-        }, {
-            name: 'Report Available',
-            data: []
-        }, {
-            name: 'New Release',
-            data: []
-        }, {
-            name: 'Under Clearing',
-            data: []
-        }, {
-            name: 'Under Clearing By Project Team',
-            data: []
-        }];
-        --%>
+        var projectInfoList = [];
         var series = {
             approved: ['Approved'],
             reportAvailable: ['Report Available'],
             newRelease: ['New Release'],
             underClearing: ['Under Clearing'],
-            underClearingByProjectTeam: ['Under Clearing By Project Team']
+            underClearingByProjectTeam: ['Under Clearing By Project Team'],
+            projectName: ['x']
         }
 
         <core_rt:forEach items="${projects}" var="project">
-        projectInfo.push({
+        projectInfoList.push({
             name: "${project.name}",
             id: "${project.id}",
             releaseIds: "${project.releaseIdToUsage.keySet()}".toString().slice(1, -1).split(',').map(e=>e.trim())
@@ -103,21 +110,29 @@
         series.newRelease.push(${project.releaseClearingStateSummary.newRelease});
         series.underClearing.push(${project.releaseClearingStateSummary.underClearing});
         series.underClearingByProjectTeam.push(${project.releaseClearingStateSummary.underClearingByProjectTeam});
-
-        <%--
-        series[0].data.push(${project.releaseClearingStateSummary.approved});
-        series[1].data.push(${project.releaseClearingStateSummary.reportAvailable});
-        series[2].data.push(${project.releaseClearingStateSummary.newRelease});
-        series[3].data.push(${project.releaseClearingStateSummary.underClearing});
-        series[4].data.push(${project.releaseClearingStateSummary.underClearingByProjectTeam});
-        --%>
+        series.projectName.push("${project.name}");
         </core_rt:forEach>
 
-        drawChart(projectInfo, series);
+        drawChart(projectInfoList, series);
+        loadProjectDetails(projectInfoList[0]);
     });
 
-    function drawChart(projectInfo, series) {
+    <%--
+    c3.chart.internal.fn.selectPath = function (target, d) {
+        var rubid = Number(d.id.substring(d.id.length - 1));
+        if (rubid == d.index) {
+            var brightness = 0;
+        } else {
+            var brightness = 1.75;
+        }
+        var $$ = this;
+        $$.config.data_onselected.call($$, d, target.node());
+        target.transition().duration(100)
+            .style("fill", function () { return $$.d3.rgb($$.color(d)).brighter(brightness); });
+    };
+    --%>
 
+    function drawChart(projectInfoList, series) {
         var chart = c3.generate({
             bindto: '#licensedebtchart',
             data: {
@@ -125,87 +140,123 @@
                     series.approved,
                     series.reportAvailable,
                     series.underClearing,
-                    series.underClearingByProjectTeam
-                    series.newRelease,
+                    series.underClearingByProjectTeam,
+                    series.newRelease
                 ],
                 type: 'bar',
                 groups: [
-                    ['Approved', 'Report Available', 'New Release', 'Under Clearing','Under Clearing By Project Team']
-                ]
+                    ['Approved', 'Report Available', 'Under Clearing', 'Under Clearing By Project Team', 'New Release']
+                ],
+                onclick: function (d, i) {
+                    loadProjectDetails(projectInfoList[d.x]);
+                },
+                selection: {
+                    enabled: true
+                },
+                colors: {
+                    'Approved': '#91C09E',
+                    'Report Available': '#7B786B',
+                    'Under Clearing': '#EAC761',
+                    'Under Clearing By Project Team': '#E8DF9C',
+                    'New Release': '#F75E50'
+                },
             },
             grid: {
                 y: {
+                    show: true,
                     lines: [{value:0}]
                 }
             },
             bar: {
                 width: {
-                    ratio: 0.75
+                    ratio: 0.85
                 }
             },
             axis: {
-                rotated: true
+                rotated: true,
+                x: {
+                    type: 'category',
+                    categories: projectInfoList.map(e => e.name)
+                }
+            },
+            zoom: {
+                enabled: true
             }
         });
-
-        <%--
-        projectInfo.forEach( e => {
-            if (e.name ===  event.point.category) {
-                console.log('e.name', e.name);
-                console.log('e.id', e.id);
-                loadProjectDetails(e.id, e.releaseIds);
-            }
-        });
-        --%>
     }
 
-    function loadProjectDetails(projectId, releaseIds){
-        console.log('projectId', projectId);
-        console.log('releaseIds', releaseIds);
-
+    function loadProjectDetails(projectInfo){
         $.ajax({
             url: '<%=ajaxURL%>',
             type: 'POST',
             cache: false,
             dataType: 'json',
             data: {
-                "<portlet:namespace/><%=PortalConstants.PROJECT_ID%>": projectId,
-                "<portlet:namespace/>ids": releaseIds
+                "<portlet:namespace/><%=PortalConstants.PROJECT_ID%>": projectInfo.id,
+                "<portlet:namespace/>ids": projectInfo.releaseIds
             }
-        }).done(function(response){
+        }).done( function(response) {
             console.log(response);
-
-            <%--
-            populateDetailsDiv(response);
-            --%>
+            populateDetailsDiv(projectInfo, response.response_project_details_data);
         });
     }
 
-    <%--
-    function populateDetailsDiv(input) {
-        var result = [];
-        <core_rt:forEach items="${projects}" var="project">
-        result.push({
-            "DT_RowId": "${project.id}",
-            "0": "<sw360:DisplayProjectLink project="${project}"/>",
-            "1": '<sw360:out value="${project.description}"/>',
-            "2": '<sw360:DisplayAcceptedReleases releaseClearingStateSummary="${project.releaseClearingStateSummary}"/>'
+    function populateDetailsDiv(projectInfo, releases) {
+        document.getElementById("table-header").innerHTML = projectInfo.name.toString();
+
+
+        var data = [];
+        releases.forEach( e => {
+            data.push({
+                <%--
+                var markup = "<sw360:DisplayReleaseLink releaseId="${e.id}" showName="true"/>";
+                var parser = new DOMParser();
+
+                let doc = new DOMParser().parseFromString('<div>first div content</div><div>second div content</div>', 'text/html');
+                let firstDiv = doc.body.firstChild;
+                let secondDiv = firstDiv.nextSibling;
+
+                var doc = new DOMParser().parseFromString(<sw360:DisplayReleaseLink releaseId="${e.id}" showName="true"/>, 'text/html');
+                var el = doc.body.firstChild;
+                --%>
+
+                "DT_RowId": e.id,
+                "0": e.name,
+                "1": e.clearingState
+            });
         });
-        </core_rt:forEach>
-        $('#myProjectsTable').dataTable({
+
+        detailsTable = $('#details-table').DataTable({
             pagingType: "simple_numbers",
             dom: "rtip",
-            data: result,
-            pageLength: 10,
+            data: data,
+            pageLength: 17,
             columns: [
-                {"title": "Project Name"},
-                {"title": "Description"},
-                {"title": "Approved Releases"},
+                {"title": "Release Name"},
+                {"title": "Clearing State"},
             ],
-            autoWidth: false
+            autoWidth: false,
+            "destroy": true,
+            "createdRow": function( row, data, dataIndex ) {
+                if ( data["1"] == "APPROVED" ) {
+                    $( row ).css( "background-color", "#91C09E" );
+                }
+                if ( data["1"] == "REPORT_AVAILABLE" ) {
+                    $( row ).css( "background-color", "#7B786B" );
+                }
+                if ( data["1"] == "UNDER_CLEARING" ) {
+                    $( row ).css( "background-color", "#EAC761" );
+                }
+                if ( data["1"] == "UNDER_CLEARING_BY_PROJECT_TEAM" ) {
+                    $( row ).css( "background-color", "#E8DF9C" );
+                }
+                if ( data["1"] == "NEW_CLEARING" ) {
+                    $( row ).css( "background-color", "#F75E50" );
+                }
+            }
         });
     }
-    --%>
+
 
 
 </script>
