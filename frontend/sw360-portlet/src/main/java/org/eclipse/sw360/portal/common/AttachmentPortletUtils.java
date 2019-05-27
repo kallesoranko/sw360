@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.portlet.PortletResponseUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.util.PortalUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.thrift.TException;
 import org.eclipse.sw360.commonIO.AttachmentFrontendUtils;
@@ -62,7 +63,6 @@ public class AttachmentPortletUtils extends AttachmentFrontendUtils {
     }
 
     public AttachmentPortletUtils(ThriftClients thriftClients) {
-        super(thriftClients);
         projectClient = thriftClients.makeProjectClient();
         componentClient = thriftClients.makeComponentClient();
     }
@@ -109,7 +109,7 @@ public class AttachmentPortletUtils extends AttachmentFrontendUtils {
         List<AttachmentContent> attachments = new ArrayList<>();
         try {
             for(String id : ids){
-                attachments.add(client.getAttachmentContent(id));
+                attachments.add(attchmntClient.get().getAttachmentContent(id));
             }
 
             serveAttachmentBundle(attachments, request, response, downloadFileName);
@@ -126,7 +126,10 @@ public class AttachmentPortletUtils extends AttachmentFrontendUtils {
     private void serveAttachmentBundle(List<AttachmentContent> attachments, ResourceRequest request, ResourceResponse response, Optional<String> downloadFileName){
         String filename;
         String contentType;
-        if(attachments.size() == 1){
+        String isAllAttachment = request.getParameter(PortalConstants.ALL_ATTACHMENTS);
+        boolean downloadAllAttachmentSelected = StringUtils.isNotEmpty(isAllAttachment)
+                && isAllAttachment.equalsIgnoreCase("true");
+        if (attachments.size() == 1 && !downloadAllAttachmentSelected) {
             filename = attachments.get(0).getFilename();
             contentType = attachments.get(0).getContentType();
             if (contentType.equalsIgnoreCase("application/gzip")) {
@@ -137,8 +140,7 @@ public class AttachmentPortletUtils extends AttachmentFrontendUtils {
                 response.setProperty(HttpHeaders.CONTENT_ENCODING, "identity");
             }
         } else {
-            filename = downloadFileName
-                    .orElse(DEFAULT_ATTACHMENT_BUNDLE_NAME);
+            filename = downloadFileName.orElse(DEFAULT_ATTACHMENT_BUNDLE_NAME);
             contentType = "application/zip";
         }
 
@@ -147,7 +149,9 @@ public class AttachmentPortletUtils extends AttachmentFrontendUtils {
             Optional<Object> context = getContextFromRequest(request, user);
 
             if(context.isPresent()){
-                try (InputStream attachmentStream = getStreamToServeAFile(attachments, user, context.get())) {
+                try (InputStream attachmentStream = (downloadAllAttachmentSelected
+                        ? getStreamToServeBundle(attachments, user, context.get())
+                        : getStreamToServeAFile(attachments, user, context.get()))) {
                     PortletResponseUtil.sendFile(request, response, filename, attachmentStream, contentType);
                 } catch (IOException e) {
                     log.error("cannot finish writing response", e);
@@ -233,7 +237,7 @@ public class AttachmentPortletUtils extends AttachmentFrontendUtils {
         AttachmentContent attachment = null;
         if (resumableUpload.hasAttachmentId()) {
             try {
-                attachment = client.getAttachmentContent(resumableUpload.getAttachmentId());
+                attachment = attchmntClient.get().getAttachmentContent(resumableUpload.getAttachmentId());
             } catch (TException e) {
                 log.error("Error retrieving attachment", e);
             }
@@ -248,7 +252,7 @@ public class AttachmentPortletUtils extends AttachmentFrontendUtils {
                 .setFilename(filename);
 
         try {
-            attachmentContent = client.makeAttachmentContent(attachmentContent);
+            attachmentContent = attchmntClient.get().makeAttachmentContent(attachmentContent);
         } catch (TException e) {
             log.error("Error creating attachment", e);
             attachmentContent = null;
@@ -269,7 +273,7 @@ public class AttachmentPortletUtils extends AttachmentFrontendUtils {
     public RequestStatus cancelUpload(ResourceRequest request) {
         String attachmentId = request.getParameter(PortalConstants.ATTACHMENT_ID);
         try {
-            return client.deleteAttachmentContent(attachmentId);
+            return attchmntClient.get().deleteAttachmentContent(attachmentId);
         } catch (TException e) {
             log.error("Error deleting attachment from backend", e);
             return RequestStatus.FAILURE;

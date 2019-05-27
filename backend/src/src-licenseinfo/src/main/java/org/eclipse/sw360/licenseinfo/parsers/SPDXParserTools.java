@@ -1,5 +1,6 @@
 /*
  * Copyright Bosch Software Innovations GmbH, 2017.
+ * Copyright Siemens AG, 2018-2019
  * Part of the SW360 Portal Project.
  *
  * SPDX-License-Identifier: EPL-1.0
@@ -11,21 +12,18 @@
  */
 package org.eclipse.sw360.licenseinfo.parsers;
 
-import org.apache.log4j.Logger;
+import com.google.common.collect.Sets;
+
+import org.eclipse.sw360.datahandler.common.CommonUtils;
 import org.eclipse.sw360.datahandler.thrift.attachments.AttachmentContent;
-import org.eclipse.sw360.datahandler.thrift.licenseinfo.LicenseInfo;
-import org.eclipse.sw360.datahandler.thrift.licenseinfo.LicenseInfoParsingResult;
-import org.eclipse.sw360.datahandler.thrift.licenseinfo.LicenseInfoRequestStatus;
-import org.eclipse.sw360.datahandler.thrift.licenseinfo.LicenseNameWithText;
+import org.eclipse.sw360.datahandler.thrift.licenseinfo.*;
+
+import org.apache.log4j.Logger;
 import org.spdx.rdfparser.InvalidSPDXAnalysisException;
 import org.spdx.rdfparser.license.*;
-import org.spdx.rdfparser.model.SpdxDocument;
-import org.spdx.rdfparser.model.SpdxFile;
-import org.spdx.rdfparser.model.SpdxItem;
-import org.spdx.rdfparser.model.SpdxPackage;
+import org.spdx.rdfparser.model.*;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,6 +34,16 @@ public class SPDXParserTools {
     private static final Logger log = Logger.getLogger(SPDXParserTools.class);
 
     private static final String LICENSE_REF_PREFIX = "LicenseRef-";
+
+    private static final String PROPERTIES_FILE_PATH = "/sw360.properties";
+    private static final String PROPERTY_KEY_USE_LICENSE_INFO_FROM_FILES = "licenseinfo.spdxparser.use-license-info-from-files";
+    private static final boolean USE_LICENSE_INFO_FROM_FILES;
+
+    static {
+        Properties properties = CommonUtils.loadProperties(SPDXParserTools.class, PROPERTIES_FILE_PATH);
+        USE_LICENSE_INFO_FROM_FILES = Boolean
+                .valueOf(properties.getOrDefault(PROPERTY_KEY_USE_LICENSE_INFO_FROM_FILES, "true").toString());
+    }
 
     private static String extractLicenseName(AnyLicenseInfo licenseConcluded) {
         return licenseConcluded.getResource().getLocalName();
@@ -120,6 +128,34 @@ public class SPDXParserTools {
         return licenseTexts;
     }
 
+    private static Set<String> getAllConcludedLicenseIds(AnyLicenseInfo spdxLicenseInfo) {
+        Set<String> result = Sets.newHashSet();
+
+        if (spdxLicenseInfo instanceof LicenseSet) {
+            LicenseSet licenseSet = (LicenseSet) spdxLicenseInfo;
+            result.addAll(Arrays.stream(licenseSet.getMembers())
+                    .flatMap(setMember -> SPDXParserTools.getAllConcludedLicenseIds(setMember).stream())
+                    .collect(Collectors.toSet()));
+
+        } else if (spdxLicenseInfo instanceof SimpleLicensingInfo) {
+            SimpleLicensingInfo simpleLicensingInfo = (SimpleLicensingInfo) spdxLicenseInfo;
+            String licenseId = simpleLicensingInfo.getLicenseId();
+            result.add(licenseId.replace("LicenseRef-", ""));
+
+        } else if (spdxLicenseInfo instanceof OrLaterOperator) {
+            OrLaterOperator orLaterOperator = (OrLaterOperator) spdxLicenseInfo;
+            result.addAll(SPDXParserTools.getAllConcludedLicenseIds(orLaterOperator.getLicense()));
+
+        } else if (spdxLicenseInfo instanceof WithExceptionOperator) {
+            WithExceptionOperator withExceptionOperator = (WithExceptionOperator) spdxLicenseInfo;
+            result.addAll(SPDXParserTools.getAllConcludedLicenseIds(withExceptionOperator.getLicense()));
+
+        }
+        // else SpdxNoAssertionLicense || SpdxNoneLicense -> skipped
+
+        return result;
+    }
+
     private static Stream<String> getAllCopyrights(SpdxItem spdxItem) {
         Stream<String> copyrights = Stream.of(spdxItem.getCopyrightText().trim());
         if (spdxItem instanceof SpdxPackage) {
@@ -143,14 +179,19 @@ public class SPDXParserTools {
         licenseInfo.setCopyrights(new HashSet<>());
 
         try {
+            Set<String> concludedLicenseIds = Sets.newHashSet();
             for (SpdxItem spdxItem : doc.getDocumentDescribes()) {
                 licenseInfo.getLicenseNamesWithTexts()
-                        .addAll(getAllLicenseTexts(spdxItem, true)
+                        .addAll(getAllLicenseTexts(spdxItem, USE_LICENSE_INFO_FROM_FILES)
                                 .collect(Collectors.toSet()));
                 licenseInfo.getCopyrights()
                         .addAll(getAllCopyrights(spdxItem)
                                 .collect(Collectors.toSet()));
+                if (spdxItem instanceof SpdxPackage) {
+                    concludedLicenseIds.addAll(getAllConcludedLicenseIds(spdxItem.getLicenseConcluded()));
+                }
             }
+            licenseInfo.setConcludedLicenseIds(concludedLicenseIds);
         } catch (UncheckedInvalidSPDXAnalysisException e) {
             return new LicenseInfoParsingResult()
                     .setStatus(LicenseInfoRequestStatus.FAILURE)

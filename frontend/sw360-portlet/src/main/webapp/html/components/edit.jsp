@@ -40,6 +40,13 @@
 <portlet:actionURL var="deleteAttachmentsOnCancelURL" name='<%=PortalConstants.ATTACHMENT_DELETE_ON_CANCEL%>'>
 </portlet:actionURL>
 
+<portlet:resourceURL var="sw360ComponentUrl">
+    <portlet:param name="<%=PortalConstants.ACTION%>" value='<%=PortalConstants.CODESCOOP_ACTION_COMPONENT%>'/>
+</portlet:resourceURL>
+<portlet:resourceURL var="sw360AutocompleteUrl">
+    <portlet:param name="<%=PortalConstants.ACTION%>" value='<%=PortalConstants.CODESCOOP_ACTION_AUTOCOMPLETE%>'/>
+</portlet:resourceURL>
+
 <portlet:defineObjects/>
 <liferay-theme:defineObjects/>
 
@@ -66,18 +73,18 @@
     <core_rt:set var="componentCategoriesAutocomplete" value='<%=PortalConstants.COMPONENT_CATEGORIES%>'/>
 
     <core_rt:set var="componentDivAddMode" value="${empty component.id}"/>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-confirm2/dist/jquery-confirm.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTable_Siemens.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
 
     <script src="<%=request.getContextPath()%>/js/releaseTools.js"></script>
     <!--include jQuery -->
-    <script src="<%=request.getContextPath()%>/webjars/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath()%>/webjars/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <!--  needed for some dialogs mostly regarding attachments -->
-    <script src="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="<%=request.getContextPath()%>/webjars/jquery-ui/jquery-ui.min.js"></script>
     <!-- needed in mapEdit.jspf -->
-    <script src="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.js" type="text/javascript"></script>
+    <script src="<%=request.getContextPath()%>/webjars/jquery-confirm2/dist/jquery-confirm.min.js" type="text/javascript"></script>
     <div id="where" class="content1">
         <p class="pageHeader"><span class="pageHeaderBigSpan"><sw360:out value="${component.name}"/></span>
             <core_rt:if test="${not componentDivAddMode}">
@@ -129,15 +136,14 @@
 
     <jsp:include page="/html/utils/includes/searchAndSelectUsers.jsp" />
     <jsp:include page="/html/utils/includes/searchUsers.jsp" />
+    <%@include file="/html/components/includes/vendors/searchVendor.jspf" %>
 
-    <c:set var="CODESCOOP_URL" value="<%=PortalConstants.CODESCOOP_URL%>"/>
-    <c:set var="CODESCOOP_TOKEN" value="<%=PortalConstants.CODESCOOP_TOKEN%>"/>
-    <c:if test="${not empty CODESCOOP_URL && not empty CODESCOOP_TOKEN}">
+    <c:if test="${codescoopActive}">
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 require(['modules/codeScoop' ], function(codeScoop) {
-                    var api = new codeScoop('<%=PortalConstants.CODESCOOP_URL%>', '<%=PortalConstants.CODESCOOP_TOKEN%>');
-                    api.activateAutoFill();
+                    var api = new codeScoop();
+                    api.activateAutoFill("<%=sw360ComponentUrl%>", "<%=sw360AutocompleteUrl%>");
                 });
             });
         </script>
@@ -145,6 +151,7 @@
 </core_rt:if>
 
 <script>
+    document.title = "${component.name} - " + document.title;
     /* variables used in releaseTools.js ... */
     var releaseIdInURL = '<%=PortalConstants.RELEASE_ID%>',
         compIdInURL = '<%=PortalConstants.COMPONENT_ID%>',
@@ -154,7 +161,7 @@
         /* baseUrl also used in method in require block */
         baseUrl = '<%= PortletURLFactoryUtil.create(request, portletDisplay.getId(), themeDisplay.getPlid(), PortletRequest.RENDER_PHASE) %>';
 
-require(['jquery', 'modules/sw360Validate', 'modules/autocomplete', 'modules/confirm' ], function($, sw360Validate, autocomplete, confirm) {
+require(['jquery', 'modules/sw360Validate', 'modules/autocomplete', 'modules/confirm', 'components/includes/vendors/searchVendor'  ], function($, sw360Validate, autocomplete, confirm, vendorsearch) {
 
     Liferay.on('allPortletsReady', function() {
         var contextpath = '<%=request.getContextPath()%>',
@@ -242,5 +249,19 @@ require(['jquery', 'modules/sw360Validate', 'modules/autocomplete', 'modules/con
         $('#componentEditForm').submit();
     }
 
+    // vendor handling
+
+    $('#ComponentGeneralInfo input.edit-vendor').on('click', function() {
+        vendorsearch.openSearchDialog('<portlet:namespace/>what', '<portlet:namespace/>where',
+                  '<portlet:namespace/>FULLNAME', '<portlet:namespace/>SHORTNAME', '<portlet:namespace/>URL', fillVendorInfo);
+    });
+
+    function fillVendorInfo(vendorInfo) {
+        var beforeComma = vendorInfo.substr(0, vendorInfo.indexOf(","));
+        var afterComma = vendorInfo.substr(vendorInfo.indexOf(",") + 1);
+
+        $('#<%=Component._Fields.DEFAULT_VENDOR_ID.toString()%>').val(beforeComma.trim());
+        $('#<%=Component._Fields.DEFAULT_VENDOR_ID.toString()%>Display').val(afterComma.trim());
+    }
 });
 </script>

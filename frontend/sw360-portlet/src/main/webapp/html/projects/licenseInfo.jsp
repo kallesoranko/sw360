@@ -8,6 +8,7 @@
   ~ which accompanies this distribution, and is available at
   ~ http://www.eclipse.org/legal/epl-v10.html
   --%>
+<%@ page import="java.util.Map"%>
 <%@ page import="org.eclipse.sw360.portal.common.PortalConstants" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -33,13 +34,14 @@
     <jsp:useBean id="sw360User" class="org.eclipse.sw360.datahandler.thrift.users.User" scope="request"/>
     <jsp:useBean id="projectList" type="java.util.List<org.eclipse.sw360.datahandler.thrift.projects.ProjectLink>"
                  scope="request"/>
+    <jsp:useBean id="projectPaths" type="java.util.Map<java.lang.String, java.lang.String>" scope="request"/>
     <jsp:useBean id="licenseInfoOutputFormats"
                  type="java.util.List<org.eclipse.sw360.datahandler.thrift.licenseinfo.OutputFormatInfo>"
                  scope="request"/>
 </c:catch>
 <core_rt:if test="${empty attributeNotFoundException}">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-treetable/3.2.0/css/jquery.treetable.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-treetable/css/jquery.treetable.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.treetable.theme.sw360.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
 

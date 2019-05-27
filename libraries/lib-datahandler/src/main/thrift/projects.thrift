@@ -14,6 +14,7 @@ include "attachments.thrift"
 include "vendors.thrift"
 include "components.thrift"
 include "sw360.thrift"
+include "licenses.thrift"
 
 namespace java org.eclipse.sw360.datahandler.thrift.projects
 namespace php sw360.thrift.projects
@@ -32,6 +33,7 @@ typedef attachments.Attachment Attachment
 typedef components.ReleaseLink ReleaseLink
 typedef components.ReleaseClearingStatusData ReleaseClearingStatusData
 typedef sw360.AddDocumentRequestSummary AddDocumentRequestSummary
+typedef licenses.Todo Todo
 
 const string CLEARING_TEAM_UNKNOWN = "Unknown"
 
@@ -113,6 +115,14 @@ struct Project {
     46: optional bool enableSvm, // flag for enabling Security Vulnerability Monitoring
     47: optional string licenseInfoHeaderText;
     48: optional bool enableVulnerabilitiesDisplay, // flag for enabling displaying vulnerabilities in project view
+    134: optional string obligationsText,
+    135: optional string clearingSummary,
+    136: optional string specialRisksOSS,
+    137: optional string generalRisks3rdParty,
+    138: optional string specialRisks3rdParty,
+    139: optional string deliveryChannels,
+    140: optional string remarksAdditionalRequirements,
+    141: optional set<ProjectTodo> todos,
 
     // Urls for the project
     50: optional string homepage,
@@ -147,6 +157,13 @@ struct ProjectLink {
 struct ProjectWithReleaseRelationTuple {
     1: required Project project,
     2: required ProjectReleaseRelationship relation,
+}
+
+struct ProjectTodo {
+    1: required string todoId;
+    2: required string userId;
+    3: required string updated;
+    4: required bool fulfilled;
 }
 
 service ProjectService {

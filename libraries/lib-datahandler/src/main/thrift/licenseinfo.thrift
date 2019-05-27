@@ -47,6 +47,7 @@ struct LicenseNameWithText {
     /* 3: optional i32 id, removed since only used as counter in XhtmlGenerator */
     4: optional string acknowledgements,
     5: optional string licenseSpdxId,
+    6: optional string type,
 }
 
 struct LicenseInfo {
@@ -55,6 +56,9 @@ struct LicenseInfo {
 
     20: optional set<string> copyrights,
     21: optional set<LicenseNameWithText> licenseNamesWithTexts,
+    22: optional string sha1Hash,
+    23: optional string componentName,
+    24: optional set<string> concludedLicenseIds,
 }
 
 struct LicenseInfoParsingResult {
@@ -66,6 +70,27 @@ struct LicenseInfoParsingResult {
     30: optional string vendor,
     31: optional string name,
     32: optional string version,
+    33: optional string componentType,
+    34: optional Release release,
+}
+
+enum ObligationInfoRequestStatus {
+    SUCCESS = 0,
+    NO_APPLICABLE_SOURCE = 1,
+    FAILURE = 2,
+}
+
+struct ObligationParsingResult {
+    1: required ObligationInfoRequestStatus status,
+    2: optional string message,
+    3: optional list<Obligation> obligations,
+    4: optional Release release,
+}
+
+struct Obligation {
+    1: required string topic,
+    2: required string text,
+    3: required list<string> licenseIDs,
 }
 
 struct LicenseInfoFile {
@@ -100,5 +125,10 @@ service LicenseInfoService {
      * returns the default license info header text
      */
     string getDefaultLicenseInfoHeaderText();
+
+    /**
+     * returns the default obligations text
+     */
+    string getDefaultObligationsText();
 
 }

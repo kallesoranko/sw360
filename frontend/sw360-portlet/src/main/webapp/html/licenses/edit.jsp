@@ -22,13 +22,13 @@
 <liferay-theme:defineObjects />
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.css">
-<script src="<%=request.getContextPath()%>/webjars/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-validation/1.15.1/jquery.validate.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-validation/1.15.1/additional-methods.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/themes/base/jquery-ui.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-confirm2/dist/jquery-confirm.min.css">
+<script src="<%=request.getContextPath()%>/webjars/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-validation/dist/additional-methods.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-confirm2/dist/jquery-confirm.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-ui/jquery-ui.min.js"></script>
 
 <portlet:actionURL var="updateURL" name="update">
     <portlet:param name="<%=PortalConstants.LICENSE_ID%>" value="${licenseDetail.id}" />
@@ -73,20 +73,6 @@
     </div>
 
     <script>
-        var Y = YUI().use(
-                'aui-tabview',
-                function(Y) {
-                    new Y.TabView(
-                            {
-                                srcNode: '#myTab',
-                                stacked: true,
-                                type: 'tab'
-                            }
-                    ).render();
-                }
-
-        );
-
         var contextpath;
 
         Liferay.on('allPortletsReady', function() {
@@ -107,10 +93,6 @@
             });
         });
 
-        function editLicense() {
-            window.location ='<portlet:renderURL ><portlet:param name="<%=PortalConstants.LICENSE_ID%>" value="${licenseDetail.id}"/><portlet:param name="<%=PortalConstants.PAGENAME%>" value="<%=PortalConstants.PAGENAME_EDIT%>"/></portlet:renderURL>'
-        }
-
         function deleteLicense() {
             window.location.href = '<%=deleteURL%>';
         }
@@ -128,7 +110,6 @@
                     .setParameter('<%=PortalConstants.LICENSE_ID%>','${licenseDetail.id}');
             window.location = portletURL.toString();
         }
-
     </script>
 </core_rt:if>
 

@@ -1,5 +1,5 @@
 <%--
-  ~ Copyright Siemens AG, 2013-2018. Part of the SW360 Portal Project.
+  ~ Copyright Siemens AG, 2013-2019. Part of the SW360 Portal Project.
   ~
   ~ SPDX-License-Identifier: EPL-1.0
   ~
@@ -31,9 +31,9 @@
 <jsp:useBean id="isUserAtLeastClearingAdmin" class="java.lang.String" scope="request" />
 
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/datatables.net-buttons-dt/1.1.2/css/buttons.dataTables.min.css"/>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/themes/base/jquery-ui.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-confirm2/dist/jquery-confirm.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/datatables.net-buttons-bs/css/buttons.bootstrap.min.css"/>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTable_Siemens.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
 
@@ -44,7 +44,7 @@
 
 <div id="content">
     <div class="container-fluid">
-        <div id="myTab" class="row-fluid">
+        <div id="myTab" class="row-fluid" <core_rt:if test="${not empty selectedTab}"> data-initial-tab="${selectedTab}" </core_rt:if>>
             <ul class="nav nav-tabs span2">
                 <div id="searchInput">
                     <%@ include file="/html/utils/includes/quickfilter.jspf" %>
@@ -80,17 +80,11 @@
 <%--for javascript library loading --%>
 <%@ include file="/html/utils/includes/requirejs.jspf" %>
 <script>
-    YUI().use('aui-tabview', function (Y) {
-           new Y.TabView({
-            srcNode: '#myTab',
-            stacked: true,
-            type: 'tab'
-        }).render();
-    });
-
-    require(['jquery', 'utils/includes/quickfilter', 'modules/confirm', /* jquery-plugins: */ 'datatables', 'datatables_buttons', 'buttons.print', 'jquery-confirm'], function($, quickfilter, confirm) {
+    require(['jquery', 'utils/includes/quickfilter', 'modules/confirm', 'modules/tabview', /* jquery-plugins: */ 'datatables.net', 'datatables.net-buttons', 'datatables.net-buttons.print'], function($, quickfilter, confirm, tabview) {
         var moderationsDataTable,
             closedModerationsDataTable;
+
+        tabview.create('myTab');
 
         Liferay.on('allPortletsReady', function() {
             moderationsDataTable = createModerationsTable("#moderationsTable", prepareModerationsData());

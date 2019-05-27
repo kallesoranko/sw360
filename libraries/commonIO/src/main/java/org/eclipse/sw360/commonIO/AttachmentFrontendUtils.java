@@ -34,27 +34,35 @@ import java.util.concurrent.TimeUnit;
 public class AttachmentFrontendUtils {
 
     private static final Logger log = Logger.getLogger(AttachmentFrontendUtils.class);
-    protected final AttachmentService.Iface client;
 
     private AttachmentStreamConnector connector;
     // TODO add Config class and DI
     private final Duration downloadTimeout = Duration.durationOf(30, TimeUnit.SECONDS);
 
-    public AttachmentFrontendUtils() {
-        this(new ThriftClients());
-    }
+    protected final ThreadLocal<AttachmentService.Iface> attchmntClient = ThreadLocal.<AttachmentService.Iface>withInitial(
+            () -> {
+                return new ThriftClients().makeAttachmentClient();
+            });
 
-    public AttachmentFrontendUtils(ThriftClients thriftClients) {
-        client = thriftClients.makeAttachmentClient();
+    public AttachmentFrontendUtils() {
     }
 
     public InputStream getStreamToServeAFile(Collection<AttachmentContent> attachments, User user, Object context)
             throws TException, IOException {
-        if(attachments == null || attachments.size() == 0){
+        if (attachments == null || attachments.size() == 0) {
             throw new SW360Exception("Tried to download empty set of Attachments");
-        }else if(attachments.size() == 1){
+        } else if(attachments.size() == 1) {
             // Temporary solutions, permission check needs to be implemented (getAttachmentStream)
             return getConnector().unsafeGetAttachmentStream(attachments.iterator().next());
+        } else {
+            return getConnector().getAttachmentBundleStream(new HashSet<>(attachments), user, context);
+        }
+    }
+
+    public InputStream getStreamToServeBundle(Collection<AttachmentContent> attachments, User user, Object context)
+            throws TException, IOException {
+        if (attachments == null || attachments.size() == 0) {
+            throw new SW360Exception("Tried to download empty set of Attachments");
         } else {
             return getConnector().getAttachmentBundleStream(new HashSet<>(attachments), user, context);
         }
@@ -77,11 +85,11 @@ public class AttachmentFrontendUtils {
     }
 
     public AttachmentContent getAttachmentContent(String id) throws TException {
-        return client.getAttachmentContent(id);
+        return attchmntClient.get().getAttachmentContent(id);
     }
 
     public AttachmentContent makeAttachmentContent(AttachmentContent attachmentContent) throws TException {
-        return client.makeAttachmentContent(attachmentContent);
+        return attchmntClient.get().makeAttachmentContent(attachmentContent);
     }
 
     public Attachment getAttachmentForDisplay(User user, String attachmentContentId) {
@@ -97,7 +105,7 @@ public class AttachmentFrontendUtils {
     public void deleteAttachments(Set<String> attachmentContentIds){
         try {
             for(String id: attachmentContentIds) {
-                client.deleteAttachmentContent(id);
+                attchmntClient.get().deleteAttachmentContent(id);
             }
         } catch (TException e){
             log.error("Could not delete attachments from database.",e);
@@ -121,7 +129,7 @@ public class AttachmentFrontendUtils {
 
     protected AttachmentContent updateAttachmentContent(AttachmentContent attachment) throws TException {
         try {
-            client.updateAttachmentContent(attachment);
+            attchmntClient.get().updateAttachmentContent(attachment);
         } catch (SW360Exception e) {
             log.error("Error updating attachment", e);
             return null;

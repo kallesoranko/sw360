@@ -25,7 +25,7 @@
     <portlet:param name="<%=PortalConstants.ACTION%>" value="<%=PortalConstants.RELEASE%>"/>
 </portlet:resourceURL>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/themes/base/jquery-ui.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTable_Siemens.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
 
@@ -61,7 +61,7 @@
                     <span style="display:none" id='plaincpeid${release.id}'>${release.cpeid}</span>
                 </td>
                 <td width="20%">
-                    <sw360:DisplayVendorEdit id='vendorId${release.id}' displayLabel="false"
+                    <sw360:DisplayVendorEdit id='vendorId${release.id}' label=""
                                              vendor="${release.vendor}" releaseId="${release.id}"/>
                     <span style="display:none" id='plainvendor${release.id}'>${release.vendor.fullname}</span>
                 </td>
@@ -98,7 +98,7 @@
     AUI().use('liferay-portlet-url', function () {
         var PortletURL = Liferay.PortletURL;
 
-        require(['jquery', 'utils/includes/quickfilter', 'modules/autocomplete', 'components/includes/vendors/searchVendor', /* jquery-plugins: */ 'datatables', 'jquery-confirm'], function($, quickfilter, autocomplete, vendorsearch) {
+        require(['jquery', 'utils/includes/quickfilter', 'modules/autocomplete', 'components/includes/vendors/searchVendor', /* jquery-plugins: */ 'datatables.net', 'jquery-confirm'], function($, quickfilter, autocomplete, vendorsearch) {
             var componentsInfoTable;
 
             // initializing
