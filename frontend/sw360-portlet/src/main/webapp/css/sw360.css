@@ -717,3 +717,50 @@ textarea.broader {
     vertical-align: middle;
     line-height: 50px;
 }
+
+#licensedebtchart {
+    /* margin:0px 0px 0px 0px; */
+    margin: 0px;
+    width:95%;
+    height:590px;
+}
+
+#myLicenseDebtChartDiv {
+    float: left;
+    display: inline-block;
+    overflow: auto;
+    margin: 10px 0px 20px 10px;
+}
+
+#statistics-chart-div {
+    /* padding: 0px; */
+    float: left;
+    /* left: 3%; */
+    /* top: 90px; */
+    width: 60%;
+    /* margin-right: 2%; */
+    /* overflow-x: auto; */
+    /* overflow-y: hidden; */
+}
+
+#statistics-details-div {
+    padding: 0px;
+    float: right;
+    /* left: 3%; */
+    /* top: 90px; */
+    width: 40%;
+    /* padding-left: 1%; */
+    /* overflow-x: auto; */
+    /* overflow-y: hidden; */
+    overflow: auto;
+    min-height: 560px;
+}
+
+#component-type-chart-div {
+    float: left;
+    margin-top: 25px;
+
+    /* left: 3%; */
+    /* top: 90px; */
+    width: 100%;
+}
