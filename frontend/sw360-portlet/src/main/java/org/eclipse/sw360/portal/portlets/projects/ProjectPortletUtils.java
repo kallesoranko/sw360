@@ -1,5 +1,5 @@
 /*
- * Copyright Siemens AG, 2013-2017. Part of the SW360 Portal Project.
+ * Copyright Siemens AG, 2013-2017, 2019. Part of the SW360 Portal Project.
  *
  * SPDX-License-Identifier: EPL-1.0
  *
@@ -10,12 +10,8 @@
  */
 package org.eclipse.sw360.portal.portlets.projects;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.Logger;
+import com.google.common.collect.*;
+
 import org.eclipse.sw360.datahandler.common.SW360Utils;
 import org.eclipse.sw360.datahandler.thrift.*;
 import org.eclipse.sw360.datahandler.thrift.attachments.*;
@@ -24,6 +20,7 @@ import org.eclipse.sw360.datahandler.thrift.licenseinfo.LicenseNameWithText;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectLink;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectRelationship;
+import org.eclipse.sw360.datahandler.thrift.projects.ProjectTodo;
 import org.eclipse.sw360.datahandler.thrift.users.User;
 import org.eclipse.sw360.datahandler.thrift.vulnerabilities.ProjectVulnerabilityRating;
 import org.eclipse.sw360.datahandler.thrift.vulnerabilities.VulnerabilityCheckStatus;
@@ -32,10 +29,14 @@ import org.eclipse.sw360.portal.common.CustomFieldHelper;
 import org.eclipse.sw360.portal.common.PortalConstants;
 import org.eclipse.sw360.portal.common.PortletUtils;
 import org.eclipse.sw360.portal.users.UserCacheHolder;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
+
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -91,16 +92,67 @@ public class ProjectPortletUtils {
                     }
                     break;
 
+                case OBLIGATIONS_TEXT:
+                    // if `OBLIGATIONS_TEXT` is not in the request then we want this to be unset in the `project`
+                    String obligationsText = request.getParameter(field.toString());
+                    if(obligationsText == null) {
+                        project.unsetObligationsText();
+                    } else {
+                        project.setObligationsText(StringEscapeUtils.unescapeHtml(obligationsText));
+                    }
+                    break;
+
                 case ROLES:
                     project.setRoles(PortletUtils.getCustomMapFromRequest(request));
                     break;
                 case EXTERNAL_IDS:
                     project.setExternalIds(PortletUtils.getExternalIdMapFromRequest(request));
                     break;
+                case TODOS:
+                    String userId = UserCacheHolder.getUserFromRequest(request).getId();
+                    updateProjectTodosFromRequest(request.getParameterValues(field.toString()), userId, project);
+                    break;
                 default:
                     setFieldValue(request, project, field);
             }
         }
+    }
+
+    private static void updateProjectTodosFromRequest(String[] ids, String userId, Project project) {
+        Set<String> idSet = ids != null ? Arrays.stream(ids).collect(Collectors.toSet()) : Collections.emptySet();
+        Set<ProjectTodo> currentTodos = project.getTodosSize() > 0 ? project.getTodos() : Collections.emptySet();
+        String updated = SW360Utils.getCreatedOnTime();
+
+        // assemble set of project todos
+        Set<ProjectTodo> projectTodos = idSet.stream()
+                .map(id -> currentTodos.stream()
+                        .filter(pt -> pt.getTodoId().equals(id))
+                        .findAny()
+                        .orElseGet(() -> new ProjectTodo(id, userId, updated, true)))
+                .collect(Collectors.toSet());
+
+        // update changed to fulfilled
+        projectTodos.stream()
+                .filter(projectTodo -> !projectTodo.fulfilled)
+                .forEach(projectTodo -> {
+                            projectTodo.fulfilled = true;
+                            projectTodo.setUserId(userId);
+                            projectTodo.setUpdated(updated);
+                        });
+
+        // update changed to not fulfilled
+        Set<ProjectTodo> changedToNotFulfilled = currentTodos.stream()
+                .filter(projectTodo -> idSet.stream().noneMatch(id -> id.equals(projectTodo.todoId)))
+                .map(projectTodo -> {
+                    projectTodo.fulfilled = false;
+                    projectTodo.setUserId(userId);
+                    projectTodo.setUpdated(updated);
+                    return projectTodo;
+                })
+                .collect(Collectors.toSet());
+
+        projectTodos.addAll(changedToNotFulfilled);
+        project.setTodos(projectTodos);
     }
 
     private static void updateLinkedReleasesFromRequest(PortletRequest request, Map<String, ProjectReleaseRelationship> releaseUsage) {
@@ -184,7 +236,7 @@ public class ProjectPortletUtils {
         return CustomFieldHelper.loadField(String.class, request, user, CUSTOM_FIELD_PROJECT_GROUP_FILTER).orElse(null);
     }
 
-    public static Map<String, Set<String>> getSelectedReleaseAndAttachmentIdsFromRequest(ResourceRequest request) {
+    public static Map<String, Set<String>> getSelectedReleaseAndAttachmentIdsFromRequest(ResourceRequest request, boolean withPath) {
         Map<String, Set<String>> releaseIdToAttachmentIds = new HashMap<>();
         String[] checkboxes = request.getParameterValues(PortalConstants.LICENSE_INFO_RELEASE_TO_ATTACHMENT);
         if (checkboxes == null) {
@@ -193,13 +245,19 @@ public class ProjectPortletUtils {
 
         Arrays.stream(checkboxes).forEach(s -> {
             String[] split = s.split(":");
-            if (split.length == 2) {
-                String releaseId = split[0];
-                String attachmentId = split[1];
-                if (!releaseIdToAttachmentIds.containsKey(releaseId)) {
-                    releaseIdToAttachmentIds.put(releaseId, new HashSet<>());
+            if (split.length >= 2) {
+                String attachmentId = split[split.length - 1];
+                String releaseIdMaybeWithPath;
+                if (withPath) {
+                    releaseIdMaybeWithPath = Arrays.stream(Arrays.copyOf(split, split.length - 1))
+                            .collect(Collectors.joining(":"));
+                } else {
+                    releaseIdMaybeWithPath = split[split.length - 2];
                 }
-                releaseIdToAttachmentIds.get(releaseId).add(attachmentId);
+                if (!releaseIdToAttachmentIds.containsKey(releaseIdMaybeWithPath)) {
+                    releaseIdToAttachmentIds.put(releaseIdMaybeWithPath, new HashSet<>());
+                }
+                releaseIdToAttachmentIds.get(releaseIdMaybeWithPath).add(attachmentId);
             }
         });
         return releaseIdToAttachmentIds;
@@ -213,19 +271,19 @@ public class ProjectPortletUtils {
      * "license-store-&lt;attachmentContentId&gt;" map in the session. This map must
      * contain a mapping from a key to a {@link LicenseNameWithText} object.
      *
-     * @param attachmentContentIds list of attachment content id to check for exclusions in the
+     * @param attachmentContentIdsWithPath list of attachment content id to check for exclusions in the
      *                             request
      * @param request              the request containing the excluded licenses as parameters
      * @return a map containing the licenses to exclude
      * @see ProjectPortletUtilsTest for a better understanding
      */
-    public static Map<String, Set<LicenseNameWithText>> getExcludedLicensesPerAttachmentIdFromRequest(Set<String> attachmentContentIds,
+    public static Map<String, Set<LicenseNameWithText>> getExcludedLicensesPerAttachmentIdFromRequest(Set<String> attachmentContentIdsWithPath,
                                                                                                       ResourceRequest request) {
         Map<String, Set<LicenseNameWithText>> excludedLicenses = Maps.newHashMap();
 
-        for (String attachmentContentId : attachmentContentIds) {
-            String[] checkboxes = request.getParameterValues(attachmentContentId);
-            String[] keys = request.getParameterValues(attachmentContentId + "_key");
+        for (String attachmentContentIdWithPath : attachmentContentIdsWithPath) {
+            String[] checkboxes = request.getParameterValues(attachmentContentIdWithPath);
+            String[] keys = request.getParameterValues(attachmentContentIdWithPath + "_key");
 
             if (checkboxes == null) {
                 // no details present
@@ -234,9 +292,10 @@ public class ProjectPortletUtils {
 
             @SuppressWarnings("unchecked")
             Map<String, LicenseNameWithText> licenseStore = (Map<String, LicenseNameWithText>) request.getPortletSession()
-                    .getAttribute(ProjectPortlet.LICENSE_STORE_KEY_PREFIX + attachmentContentId);
+                    .getAttribute(ProjectPortlet.LICENSE_STORE_KEY_PREFIX + attachmentContentIdWithPath);
             if (licenseStore == null) {
-                throw new IllegalStateException("No license store found for attachment content id " + attachmentContentId);
+                throw new IllegalStateException(
+                        "No license store found for attachment content id with path " + attachmentContentIdWithPath);
             }
 
             Set<Integer> includedIds = Arrays.stream(checkboxes).map(s -> Integer.valueOf(s)).collect(Collectors.toSet());
@@ -257,14 +316,34 @@ public class ProjectPortletUtils {
                 licenseNameWithTexts.add(licenseNameWithText);
             }
 
-            excludedLicenses.put(attachmentContentId, licenseNameWithTexts);
+            excludedLicenses.put(attachmentContentIdWithPath, licenseNameWithTexts);
         }
 
         return excludedLicenses;
     }
 
-    public static List<AttachmentUsage> makeAttachmentUsages(Project project, Map<String, Set<String>> selectedReleaseAndAttachmentIds,
-                                                             Function<String, UsageData> usageDataGenerator) {
+    public static List<AttachmentUsage> makeLicenseInfoAttachmentUsages(Project project,
+            Set<String> selectedAttachmentIdsWithPath, Function<String, UsageData> usageDataGenerator) {
+        List<AttachmentUsage> attachmentUsages = Lists.newArrayList();
+
+        for (String attachmentIdWithPath : selectedAttachmentIdsWithPath) {
+            AttachmentUsage usage = new AttachmentUsage();
+            String[] pathParts = attachmentIdWithPath.split(":");
+            usage.setUsedBy(Source.projectId(pathParts[0]));
+            usage.setOwner(Source.releaseId(pathParts[pathParts.length - 2]));
+            usage.setAttachmentContentId(pathParts[pathParts.length - 1]);
+
+            UsageData usageData = usageDataGenerator.apply(attachmentIdWithPath);
+            usage.setUsageData(usageData);
+
+            attachmentUsages.add(usage);
+        }
+
+        return attachmentUsages;
+    }
+
+    public static List<AttachmentUsage> makeAttachmentUsages(Project project,
+            Map<String, Set<String>> selectedReleaseAndAttachmentIds, Function<String, UsageData> usageDataGenerator) {
         List<AttachmentUsage> attachmentUsages = Lists.newArrayList();
 
         for(String releaseId : selectedReleaseAndAttachmentIds.keySet()) {

@@ -13,16 +13,17 @@
 
 package org.eclipse.sw360.rest.resourceserver.core;
 
-import java.util.Map;
-import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import org.eclipse.sw360.datahandler.thrift.ProjectReleaseRelationship;
+import org.eclipse.sw360.datahandler.thrift.Visibility;
 import org.eclipse.sw360.datahandler.thrift.attachments.Attachment;
-import org.eclipse.sw360.datahandler.thrift.components.Component;
-import org.eclipse.sw360.datahandler.thrift.components.ECCStatus;
-import org.eclipse.sw360.datahandler.thrift.components.EccInformation;
-import org.eclipse.sw360.datahandler.thrift.components.Release;
+import org.eclipse.sw360.datahandler.thrift.components.*;
 import org.eclipse.sw360.datahandler.thrift.licenses.License;
 import org.eclipse.sw360.datahandler.thrift.projects.Project;
 import org.eclipse.sw360.datahandler.thrift.projects.ProjectRelationship;
@@ -33,14 +34,12 @@ import org.eclipse.sw360.datahandler.thrift.vulnerabilities.Vulnerability;
 import org.eclipse.sw360.datahandler.thrift.vulnerabilities.VulnerabilityDTO;
 import org.eclipse.sw360.rest.resourceserver.core.serializer.JsonProjectRelationSerializer;
 import org.eclipse.sw360.rest.resourceserver.core.serializer.JsonReleaseRelationSerializer;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.util.Map;
+import java.util.Set;
 
 @Configuration
 class JacksonCustomizations {
@@ -78,7 +77,6 @@ class JacksonCustomizations {
                 "attachments",
                 "createdBy",
                 "state",
-                "projectResponsible",
                 "leadArchitect",
                 "moderators",
                 "contributors",
@@ -125,6 +123,13 @@ class JacksonCustomizations {
                 "setClearingTeam",
                 "setPreevaluationDeadline",
                 "setSystemTestStart",
+                "setClearingSummary",
+                "setObligationsText",
+                "setSpecialRisksOSS",
+                "setGeneralRisks3rdParty",
+                "setSpecialRisks3rdParty",
+                "setDeliveryChannels",
+                "setRemarksAdditionalRequirements",
                 "setSystemTestEnd",
                 "setDeliveryStart",
                 "setPhaseOutSince",
@@ -136,7 +141,8 @@ class JacksonCustomizations {
                 "setReleaseIds",
                 "setPermissions",
                 "setClearingState",
-                "securityResponsibles",
+                "setTodos",
+                "todosSize",
                 "securityResponsiblesSize",
                 "securityResponsiblesIterator",
                 "setSecurityResponsibles",
@@ -167,6 +173,10 @@ class JacksonCustomizations {
             @JsonSerialize(using = JsonReleaseRelationSerializer.class)
             @JsonProperty("linkedReleases")
             abstract public Map<String, ProjectReleaseRelationship> getReleaseIdToUsage();
+
+            @Override
+            @JsonProperty("visibility")
+            abstract public Visibility getVisbility();
 
             @Override
             @JsonProperty("id")
@@ -247,6 +257,8 @@ class JacksonCustomizations {
                 "releasesSize",
                 "setReleases",
                 "setReleaseIds",
+                "setDefaultVendor",
+                "setDefaultVendorId",
                 "setCategories",
                 "languagesSize",
                 "setLanguages",
@@ -354,7 +366,6 @@ class JacksonCustomizations {
                 "clearingTeamToFossologyStatusSize",
                 "setClearingTeamToFossologyStatus",
                 "setEccInformation",
-                "languages",
                 "operatingSystems",
                 "languagesIterator",
                 "operatingSystemsIterator",
@@ -485,6 +496,7 @@ class JacksonCustomizations {
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @JsonIgnoreProperties({
+                "id",
                 "revision",
                 "type",
                 "externalId",
@@ -514,6 +526,8 @@ class JacksonCustomizations {
                 "referencesSize",
                 "setPriorityToolTip",
                 "setCveReferences",
+                "assignedExtComponentIdsIterator",
+                "vendorAdvisoriesIterator",
                 "setIntReleaseId",
                 "cveReferencesSize",
                 "setDescription",
@@ -548,6 +562,7 @@ class JacksonCustomizations {
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @JsonIgnoreProperties({
+                "id",
                 "revision",
                 "type",
                 "publishDate",
@@ -605,6 +620,8 @@ class JacksonCustomizations {
                 "setExtendedDescription",
                 "vulnerableConfigurationSize",
                 "assignedExtComponentIdsSize",
+                "assignedExtComponentIdsIterator",
+                "vendorAdvisoriesIterator",
                 "vendorAdvisoriesSize",
                 "setVendorAdvisories",
                 "cveFurtherMetaDataPerSourceSize",

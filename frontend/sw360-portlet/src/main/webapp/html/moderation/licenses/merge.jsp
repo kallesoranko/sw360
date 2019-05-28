@@ -1,5 +1,5 @@
 <%--
-  ~ Copyright Siemens AG, 2013-2016. Part of the SW360 Portal Project.
+  ~ Copyright Siemens AG, 2013-2016, 2019. Part of the SW360 Portal Project.
   ~ With modifications by Bosch Software Innovations GmbH, 2016.
   ~
   ~ SPDX-License-Identifier: EPL-1.0
@@ -30,11 +30,11 @@
 <core_rt:set var="license" value="${licenseDetail}" scope="request"/>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
-<script src="<%=request.getContextPath()%>/webjars/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-validation/1.15.1/jquery.validate.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-validation/1.15.1/additional-methods.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/themes/base/jquery-ui.min.css">
+<script src="<%=request.getContextPath()%>/webjars/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-validation/dist/additional-methods.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-ui/jquery-ui.min.js"></script>
 
 <portlet:actionURL var="editLicenseTodosURL" name="updateWhiteList">
     <portlet:param name="<%=PortalConstants.LICENSE_ID%>" value="${licenseDetail.id}" />
@@ -74,32 +74,23 @@
 
 <%@include file="/html/licenses/includes/detailOverview.jspf"%>
 
+<%@ include file="/html/utils/includes/requirejs.jspf" %>
 <script>
-    var tabView;
-    var Y = YUI().use(
-            'aui-tabview',
-            function(Y) {
-                tabView = new Y.TabView(
-                        {
-                            srcNode: '#myTab',
-                            stacked: true,
-                            type: 'tab'
-                        }
-                ).render();
+    require(['jquery', 'modules/tabview'], function($, tabview) {
+        tabview.create('myTab');
 
-                Y.all('td.addToWhiteListCheckboxes').hide();
-                Y.all('td.addToWhiteListCheckboxesPlaceholder').show();
-            }
-    );
+        $('td.addToWhiteListCheckboxes').hide();
+        $('td.addToWhiteListCheckboxesPlaceholder').show();
 
-    function showWhiteListOptions() {
-        Y.all('td.addToWhiteListCheckboxes').show();
-        Y.all('td.addToWhiteListCheckboxesPlaceholder').hide();
-        Y.all('tr.dependentOnWhiteList').show();
-        Y.one('#EditWhitelist').hide();
-        Y.one('#cancelEditWhitelistButton').show();
-        Y.one('#SubmitWhitelist').show();
-    }
+        $('#EditWhitelist').on('click', function(event) {
+            $('td.addToWhiteListCheckboxes').show();
+            $('td.addToWhiteListCheckboxesPlaceholder').hide();
+            $('tr.dependentOnWhiteList').show();
+            $('#EditWhitelist').hide();
+            $('#cancelEditWhitelistButton').show();
+            $('#SubmitWhitelist').show();
+        });
+    });
 
     function getBaseURL(){
         var baseUrl = '<%= PortletURLFactoryUtil.create(request, portletDisplay.getId(), themeDisplay.getPlid(), PortletRequest.RENDER_PHASE) %>';

@@ -25,13 +25,14 @@
 </portlet:resourceURL>
 <jsp:useBean id="vulnerabilityList" type="java.util.List<org.eclipse.sw360.datahandler.thrift.vulnerabilities.VulnerabilityDTO>" scope="request"/>
 <jsp:useBean id="vulnerabilityRatings" type="java.util.Map<java.lang.String, org.eclipse.sw360.datahandler.thrift.vulnerabilities.VulnerabilityRatingForProject>" scope="request"/>
-<jsp:useBean id="vulnerabilityRatingsEditable" type="java.lang.Boolean" scope="request"/>
+<jsp:useBean id="writeAccessUser" type="java.lang.Boolean" scope="request"/>
 <jsp:useBean id="vulnerabilityCheckstatusTooltips" type="java.util.Map<java.lang.String, java.lang.String>" scope="request"/>
 <jsp:useBean id="vulnerabilityMatchedByHistogram" type="java.util.Map<java.lang.String, java.lang.Long>" scope="request"/>
+
 <jsp:useBean id="viewSize" type="java.lang.Integer" scope="request"/>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/datatables.net-buttons-dt/1.1.2/css/buttons.dataTables.min.css"/>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/datatables.net-select-bs/1.2.2/css/select.bootstrap.min.css"/>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/datatables.net-buttons-bs/css/buttons.bootstrap.min.css"/>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/datatables.net-select-bs/css/select.bootstrap.min.css"/>
 
 <p>
     <span>Security Vulnerability Monitoring:
@@ -71,7 +72,7 @@
         <%@include file="/html/utils/includes/vulnerabilityModal.jspf" %>
     </form>
 </div>
-<core_rt:if test="${vulnerabilityRatingsEditable}">
+<core_rt:if test="${writeAccessUser}">
     <div>
         Change rating of selected vulnerabilities to
         <select class="toplabelledInput action change-vulnerability"
@@ -106,14 +107,14 @@
         window.location.href=portletURL.toString();
     }
 
-    require(['jquery', 'utils/includes/vulnerabilityModal', /* jquery-plugins */ 'jquery-ui', 'datatables', 'modules/datatables-utils', 'datatables_select', 'datatables_buttons'], function ($, vulnerarbilityModal) {
+    require(['jquery', 'utils/includes/vulnerabilityModal', /* jquery-plugins */ 'jquery-ui', 'datatables.net', 'modules/datatables-utils', 'datatables.net-select', 'datatables.net-buttons'], function ($, vulnerarbilityModal) {
         var vulnerabilityTable;
         var modal;
 
         Liferay.on('allPortletsReady', function() {
             createVulnerabilityTable();
 
-            <core_rt:if test="${vulnerabilityRatingsEditable}">
+            <core_rt:if test="${writeAccessUser}">
                 $('#apply-to-selected').on('click', function () {
                     batchChangeRating();
                 });
@@ -143,7 +144,7 @@
             </core_rt:if>
 
             vulnerabilityTable = $('#vulnerabilityTable').DataTable({
-                <core_rt:if test="${vulnerabilityRatingsEditable}">
+                <core_rt:if test="${writeAccessUser}">
                     dom: 'lfrtBip',
                     buttons: [
                         {
@@ -201,7 +202,7 @@
             });
         }
 
-        <core_rt:if test="${vulnerabilityRatingsEditable}">
+        <core_rt:if test="${writeAccessUser}">
             function batchChangeRating() {
                 var selectedRows = vulnerabilityTable.rows('.selected');
                 var selectedValue = $("#rating-change-for-selected").children("option:selected");

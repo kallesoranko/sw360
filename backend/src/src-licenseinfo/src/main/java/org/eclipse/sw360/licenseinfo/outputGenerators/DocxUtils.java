@@ -28,6 +28,7 @@ public class DocxUtils {
     public static final String ALERT_COLOR = "e95850";
     public static final String FONT_FAMILY = "Calibri";
     public static final String STYLE_HEADING = "Heading2";
+    public static final String STYLE_HEADING_3 = "Heading 3";
     private static final int BUFFER_SIZE = 16;
     private static final int ANCHOR_MAX_SIZE = 40;
     private static final String BOOKMARK_PREFIX = "bookmark_";
@@ -92,9 +93,19 @@ public class DocxUtils {
     }
 
     public static void replaceText(XWPFDocument document, String placeHolder, String replaceText) {
-        for (XWPFHeader header : document.getHeaderList())
+        for (XWPFHeader header : document.getHeaderList()) {
             replaceAllBodyElements(header.getBodyElements(), placeHolder, replaceText);
+        }
+
         replaceAllBodyElements(document.getBodyElements(), placeHolder, replaceText);
+
+        for (XWPFTable table : document.getTables()) {
+            for(XWPFTableRow row : table.getRows()) {
+                for(XWPFTableCell cell : row.getTableCells()) {
+                    replaceAllBodyElements(cell.getBodyElements(), placeHolder, replaceText);
+                }
+            }
+        }
     }
 
     private static void replaceAllBodyElements(List<IBodyElement> bodyElements, String placeHolder, String replaceText) {

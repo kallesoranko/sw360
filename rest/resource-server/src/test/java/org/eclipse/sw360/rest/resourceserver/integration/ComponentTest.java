@@ -77,7 +77,7 @@ public class ComponentTest extends TestIntegrationBase {
         user.setEmail("admin@sw360.org");
         user.setFullname("John Doe");
 
-        given(this.userServiceMock.getUserByEmail("admin@sw360.org")).willReturn(user);
+        given(this.userServiceMock.getUserByEmailOrExternalId("admin@sw360.org")).willReturn(user);
     }
 
     @Test
@@ -91,6 +91,20 @@ public class ComponentTest extends TestIntegrationBase {
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         TestHelper.checkResponse(response.getBody(), "components", 1);
+    }
+
+    @Test
+    public void should_get_all_components_empty_list() throws IOException, TException {
+        given(this.componentServiceMock.getComponentsForUser(anyObject())).willReturn(new ArrayList<>());
+        HttpHeaders headers = getHeaders(port);
+        ResponseEntity<String> response =
+                new TestRestTemplate().exchange("http://localhost:" + port + "/api/components",
+                        HttpMethod.GET,
+                        new HttpEntity<>(null, headers),
+                        String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        TestHelper.checkResponse(response.getBody(), "components", 0);
     }
 
     @Test

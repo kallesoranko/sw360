@@ -51,7 +51,7 @@
     <portlet:param name="<%=PortalConstants.ACTION%>" value='<%=PortalConstants.DELETE_COMPONENT%>'/>
 </portlet:resourceURL>
 
-<portlet:resourceURL var="loadComponentsURL">
+<portlet:resourceURL var="sw360ComponentsURL">
     <portlet:param name="<%=PortalConstants.ACTION%>" value='<%=PortalConstants.LOAD_COMPONENT_LIST%>'/>
 </portlet:resourceURL>
 
@@ -63,9 +63,13 @@
     <portlet:param name="<%=PortalConstants.LICENSE_ID%>" value="<%=PortalConstants.FRIENDLY_URL_PLACEHOLDER_ID%>"/>
 </liferay-portlet:renderURL>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/datatables.net-buttons-dt/1.1.2/css/buttons.dataTables.min.css"/>
+<portlet:resourceURL var="sw360CompositeUrl">
+    <portlet:param name="<%=PortalConstants.ACTION%>" value='<%=PortalConstants.CODESCOOP_ACTION_COMPOSITE%>'/>
+</portlet:resourceURL>
+
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/themes/base/jquery-ui.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-confirm2/dist/jquery-confirm.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/datatables.net-buttons-bs/css/buttons.bootstrap.min.css"/>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTable_Siemens.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
 
@@ -74,6 +78,7 @@
     <span class="pageHeaderBigSpan">Components</span>
     <span class="pageHeaderMediumSpan">
         <span id="componentCounter">(${totalRows})</span>
+    </span>
     <span class="pull-right">
           <input type="button" class="addButton" onclick="window.location.href='<%=addComponentURL%>'"
                  value="Add Component">
@@ -109,10 +114,9 @@
                 <td>
                     <label for="component_type">Component Type</label>
                     <select class="searchbar toplabelledInput filterInput" id="component_type" name="<portlet:namespace/><%=Component._Fields.COMPONENT_TYPE%>">
-                        <option value="<%=PortalConstants.NO_FILTER%>" class="textlabel stackedLabel">Any</option>
+                        <option value="<%=PortalConstants.NO_FILTER%>" class="textlabel stackedLabel"></option>
                         <sw360:DisplayEnumOptions type="<%=ComponentType.class%>" selectedName="${componentType}" useStringValues="true"/>
                     </select>
-                    <sw360:DisplayEnumInfo type="<%=ComponentType.class%>"/>
                 </td>
             </tr>
             <tr>
@@ -188,17 +192,15 @@
     };
 </script>
 
-<core_rt:set var="CODESCOOP_URL" value="<%=PortalConstants.CODESCOOP_URL%>"/>
-<core_rt:set var="CODESCOOP_TOKEN" value="<%=PortalConstants.CODESCOOP_TOKEN%>"/>
-<core_rt:if test="${not empty CODESCOOP_URL && not empty CODESCOOP_TOKEN}">
+<core_rt:if test="${codescoopActive}">
     <script>
         window.codescoopEnabled = true;
         document.addEventListener("DOMContentLoaded", function() {
             require(['modules/codeScoop' ], function(codeScoop) {
-                var api = new codeScoop('<%=PortalConstants.CODESCOOP_URL%>', '<%=PortalConstants.CODESCOOP_TOKEN%>');
-                api.activateIndexes("componentsTable", "<%=loadComponentsURL%>");
-                renderCallback = api.updateIndexes;
-                dataGetter = api.getData;
+                var api = new codeScoop();
+                api.activateIndexes("componentsTable", "<%=sw360ComponentsURL%>", "<%=sw360CompositeUrl%>");
+                renderCallback = api._update_indexes;
+                dataGetter = api._get_composite_data_item;
             });
             document
                 .getElementById("componentsTable")
@@ -212,7 +214,7 @@
     AUI().use('liferay-portlet-url', function () {
         var PortletURL = Liferay.PortletURL;
 
-        require(['jquery', 'modules/autocomplete', 'modules/confirm', /* jquery-plugins: */ 'datatables', 'datatables_buttons', 'buttons.print'], function($, autocomplete, confirm) {
+        require(['jquery', 'modules/autocomplete', 'modules/confirm', /* jquery-plugins: */ 'datatables.net', 'datatables.net-buttons', 'datatables.net-buttons.print'], function($, autocomplete, confirm) {
             var componentsTable;
 
             // initializing
@@ -265,6 +267,7 @@
             }
 
             function createComponentsTable() {
+                var columnDefs =  [];
                 var columns = [
                     {"title": "Vendor", data: "vndrs"},
                     {"title": "Component Name", data: "name", render: {display: renderComponentNameLink}},
@@ -272,8 +275,6 @@
                     {"title": "Component Type", data: "cType"},
                     {"title": "Actions", data: "id", render: {display: renderComponentActions}}
                 ];
-                var order = [[1, 'asc']];
-                var columnDefs =  [];
 
                 if (window.codescoopEnabled) {
                     columns = [
@@ -287,18 +288,17 @@
                                 return dataGetter(row.DT_RowId, 'rate');
                             }},
                         {"title": "Interest", data: function(row, type, val, meta){
-                                return dataGetter(row.DT_RowId, 'compositeIndex', 'interestPercent');
+                                return dataGetter(row.DT_RowId, 'index', 'interest');
                             }},
                         {"title": "Activity", data: function(row, type, val, meta){
-                                return dataGetter(row.DT_RowId, 'compositeIndex', 'activityPercent');
+                                return dataGetter(row.DT_RowId, 'index', 'activity');
                             }},
                         {"title": "Health", data: function(row, type, val, meta){
-                                return dataGetter(row.DT_RowId, 'compositeIndex', 'healthPercent');
+                                return dataGetter(row.DT_RowId, 'index', 'health');
                             }},
                         {"title": "Component Type", data: "cType"},
                         {"title": "Actions", data: "id", render: {display: renderComponentActions}}
                     ];
-                    order = [[2, 'asc']];
                     columnDefs = [{ "orderable": false, "targets": [0, 4, 5, 6 ,7] }];
                 }
 
@@ -312,7 +312,7 @@
                     "iDisplayStart": 0,
                     "bProcessing": true,
                     "bServerSide": true,
-                    "sAjaxSource": '<%=loadComponentsURL%>',
+                    "sAjaxSource": '<%=sw360ComponentsURL%>',
                     "dom": 'lBrtip',
                     "buttons": [
                         {
@@ -328,7 +328,6 @@
                     "pageLength": 25,
                     "searching": false,
                     "columns": columns,
-                    "order": order,
                     "aaSorting": [],
                     "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                     "autoWidth": false,

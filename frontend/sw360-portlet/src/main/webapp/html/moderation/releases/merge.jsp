@@ -1,5 +1,5 @@
 <%--
-  ~ Copyright Siemens AG, 2013-2018. Part of the SW360 Portal Project.
+  ~ Copyright Siemens AG, 2013-2019. Part of the SW360 Portal Project.
   ~
   ~ SPDX-License-Identifier: EPL-1.0
   ~
@@ -45,12 +45,12 @@
 
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/themes/base/jquery-ui.min.css">
 <!--include jQuery -->
-<script src="<%=request.getContextPath()%>/webjars/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-validation/1.15.1/jquery.validate.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-validation/1.15.1/additional-methods.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-validation/dist/additional-methods.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/releaseTools.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/main.js"></script>
 <%@include file="/html/moderation/includes/moderationActions.jspf"%>
@@ -83,19 +83,10 @@
 <%@include file="/html/components/includes/releases/detailOverview.jspf"%>
 
 <script>
-    var tabView;
-    var Y = YUI().use(
-            'aui-tabview',
-            function (Y) {
-                tabView = new Y.TabView(
-                        {
-                            srcNode: '#myTab',
-                            stacked: true,
-                            type: 'tab'
-                        }
-                ).render();
-            }
-    );
+    require(['jquery', 'modules/tabview'], function($, tabview) {
+        tabview.create('myTab');
+    });
+
     function getBaseURL(){
         var baseUrl = '<%= PortletURLFactoryUtil.create(request, portletDisplay.getId(), themeDisplay.getPlid(), PortletRequest.RENDER_PHASE) %>';
         var portletURL = Liferay.PortletURL.createURL(baseUrl)

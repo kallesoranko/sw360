@@ -1,5 +1,5 @@
 <%--
-  ~ Copyright Siemens AG, 2013-2018. Part of the SW360 Portal Project.
+  ~ Copyright Siemens AG, 2013-2019. Part of the SW360 Portal Project.
   ~
   ~ SPDX-License-Identifier: EPL-1.0
   ~
@@ -51,6 +51,7 @@
     <jsp:useBean id="releaseList" type="java.util.List<org.eclipse.sw360.datahandler.thrift.components.ReleaseLink>"  scope="request"/>
     <jsp:useBean id="attachments" type="java.util.Set<org.eclipse.sw360.datahandler.thrift.attachments.Attachment>" scope="request"/>
     <jsp:useBean id="defaultLicenseInfoHeaderText" class="java.lang.String" scope="request" />
+    <jsp:useBean id="defaultObligationsText" class="java.lang.String" scope="request" />
 
     <core_rt:set  var="addMode"  value="${empty project.id}" />
 </c:catch>
@@ -61,8 +62,8 @@
 <c:set var="hasWritePermissions" value="${project.permissions[WRITE]}"/>
 
 <core_rt:if test="${empty attributeNotFoundException}">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/themes/base/jquery-ui.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-confirm2/dist/jquery-confirm.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTable_Siemens.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/sw360.css">
 
@@ -81,7 +82,7 @@
 <div id="content" >
     <div class="container-fluid">
         <form  id="projectEditForm" name="projectEditForm" action="<%=updateURL%>" method="post" >
-            <div id="myTab" class="row-fluid">
+            <div id="myTab" class="row-fluid" <core_rt:if test="${not empty selectedTab}"> data-initial-tab="${selectedTab}" </core_rt:if>>
                 <ul class="nav nav-tabs span2">
                     <li class="active"><a href="#tab-Summary">Summary</a></li>
                     <li><a href="#tab-Administration">Administration</a></li>
@@ -143,22 +144,10 @@
 </core_rt:if>
 
 <script>
-var tabView;
-var Y = YUI().use(
-    'aui-tabview',
-    function(Y) {
-        tabView = new Y.TabView(
-            {
-                srcNode: '#myTab',
-                stacked: true,
-                type: 'tab'
-            }
-        ).render();
-    }
-);
+require(['jquery', 'modules/sw360Validate', 'modules/confirm', 'modules/tabview' ], function($, sw360Validate, confirm, tabview) {
+    document.title = "${project.name} - " + document.title;
 
-
-require(['jquery', 'modules/sw360Validate', 'modules/confirm' ], function($, sw360Validate, confirm) {
+    tabview.create('myTab');
 
     Liferay.on('allPortletsReady', function() {
         var contextpath = '<%=request.getContextPath()%>',
@@ -243,12 +232,19 @@ require(['jquery', 'modules/sw360Validate', 'modules/confirm' ], function($, sw3
 
     function submitForm() {
         disableLicenseInfoHeaderTextIfNecessary();
+        disableObligationsTextIfNecessary();
         $('#projectEditForm').submit();
     }
 
     function disableLicenseInfoHeaderTextIfNecessary() {
         if($('#licenseInfoHeaderText').val() == $('#licenseInfoHeaderText').data("defaulttext")) {
             $('#licenseInfoHeaderText').prop('disabled', true);
+        }
+    }
+
+    function disableObligationsTextIfNecessary() {
+        if($('#obligationsText').val() == $('#obligationsText').data("defaulttext")) {
+            $('#obligationsText').prop('disabled', true);
         }
     }
 });

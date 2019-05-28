@@ -1,5 +1,5 @@
 /*
- * Copyright Siemens AG, 2013-2018. Part of the SW360 Portal Project.
+ * Copyright Siemens AG, 2013-2019. Part of the SW360 Portal Project.
  * With modifications by Bosch Software Innovations GmbH, 2016.
  *
  * SPDX-License-Identifier: EPL-1.0
@@ -11,12 +11,8 @@
  */
 package org.eclipse.sw360.datahandler.db;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
-import org.apache.thrift.TException;
+import com.google.common.collect.*;
+
 import org.eclipse.sw360.components.summary.SummaryType;
 import org.eclipse.sw360.datahandler.common.CommonUtils;
 import org.eclipse.sw360.datahandler.common.SW360Constants;
@@ -40,6 +36,9 @@ import org.eclipse.sw360.datahandler.thrift.users.User;
 import org.eclipse.sw360.datahandler.thrift.vendors.Vendor;
 import org.eclipse.sw360.mail.MailConstants;
 import org.eclipse.sw360.mail.MailUtil;
+
+import org.apache.log4j.Logger;
+import org.apache.thrift.TException;
 import org.ektorp.DocumentOperationResult;
 import org.ektorp.http.HttpClient;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +58,9 @@ import static org.eclipse.sw360.datahandler.common.SW360Assert.assertNotNull;
 import static org.eclipse.sw360.datahandler.common.SW360Assert.fail;
 import static org.eclipse.sw360.datahandler.permissions.PermissionUtils.makePermission;
 import static org.eclipse.sw360.datahandler.thrift.ThriftUtils.copyFields;
-import static org.eclipse.sw360.datahandler.thrift.ThriftValidate.*;
+import static org.eclipse.sw360.datahandler.thrift.ThriftValidate.ensureEccInformationIsSet;
+import static org.eclipse.sw360.datahandler.thrift.ThriftValidate.prepareComponents;
+import static org.eclipse.sw360.datahandler.thrift.ThriftValidate.prepareReleases;
 
 /**
  * Class for accessing Component information from the database
@@ -222,6 +223,8 @@ public class ComponentDatabaseHandler extends AttachmentAwareDatabaseHandler {
         component.unsetReleaseIds();
 
         setMainLicenses(component);
+
+        vendorRepository.fillVendor(component);
 
         // Set permissions
         makePermission(component, user).fillPermissions();
@@ -399,8 +402,11 @@ public class ComponentDatabaseHandler extends AttachmentAwareDatabaseHandler {
         // Get actual document for members that should not change
         Component actual = componentRepository.get(component.getId());
         assertNotNull(actual, "Could not find component to update!");
-
-        if (makePermission(actual, user).isActionAllowed(RequestedAction.WRITE)) {
+        if (changeWouldResultInDuplicate(actual, component)) {
+            return RequestStatus.DUPLICATE;
+        } else if (duplicateAttachmentExist(component)) {
+            return RequestStatus.DUPLICATE_ATTACHMENT;
+        } else if (makePermission(actual, user).isActionAllowed(RequestedAction.WRITE)) {
             // Nested releases and attachments should not be updated by this method
             if (actual.isSetReleaseIds()) {
                 component.setReleaseIds(actual.getReleaseIds());
@@ -416,6 +422,23 @@ public class ComponentDatabaseHandler extends AttachmentAwareDatabaseHandler {
         return RequestStatus.SUCCESS;
 
     }
+
+    private boolean changeWouldResultInDuplicate(Component before, Component after) {
+        if (before.getName().equals(after.getName())) {
+            // sth else was changed, not one of the duplication relevant properties
+            return false;
+        }
+
+        return isDuplicate(after);
+    }
+
+    private boolean duplicateAttachmentExist(Component component) {
+    	if(component.attachments != null && !component.attachments.isEmpty()) {
+            return AttachmentConnector.isDuplicateAttachment(component.attachments);
+        }
+        return false;
+    }
+
 
     private void updateComponentInternal(Component updated, Component current, User user) {
         // Update the database with the component
@@ -501,6 +524,7 @@ public class ComponentDatabaseHandler extends AttachmentAwareDatabaseHandler {
                 .add(Component._Fields.CREATED_BY)
                 .add(Component._Fields.CATEGORIES)
                 .add(Component._Fields.COMPONENT_TYPE)
+                .add(Component._Fields.DEFAULT_VENDOR_ID)
                 .add(Component._Fields.HOMEPAGE)
                 .add(Component._Fields.BLOG)
                 .add(Component._Fields.WIKI)
@@ -609,39 +633,63 @@ public class ComponentDatabaseHandler extends AttachmentAwareDatabaseHandler {
 
         if (actual.equals(release)) {
             return RequestStatus.SUCCESS;
-        }
-        DocumentPermissions<Release> permissions = makePermission(actual, user);
-        boolean hasChangesInEccFields = hasChangesInEccFields(release, actual);
-
-        if ((hasChangesInEccFields && permissions.isActionAllowed(RequestedAction.WRITE_ECC)) ||
-                (!hasChangesInEccFields && permissions.isActionAllowed(RequestedAction.WRITE))) {
-
-            if (!hasChangesInEccFields && hasEmptyEccFields(release)) {
-                autosetEccFieldsForReleaseWithDownloadUrl(release);
-            }
-
-            copyFields(actual, release, immutableFields);
-
-            autosetReleaseClearingState(release, actual);
-            if (hasChangesInEccFields) {
-                autosetEccUpdaterInfo(release, user);
-            }
-            release.setAttachments( getAllAttachmentsToKeep(toSource(actual), actual.getAttachments(), release.getAttachments()) );
-            deleteAttachmentUsagesOfUnlinkedReleases(release, actual);
-            releaseRepository.update(release);
-            updateReleaseDependentFieldsForComponentId(release.getComponentId());
-            //clean up attachments in database
-            attachmentConnector.deleteAttachmentDifference(nullToEmptySet(actual.getAttachments()),nullToEmptySet(release.getAttachments()));
-            sendMailNotificationsForReleaseUpdate(release, user.getEmail());
+        } else if (duplicateAttachmentExist(release)) {
+            return RequestStatus.DUPLICATE_ATTACHMENT;
+        } else if (changeWouldResultInDuplicate(actual, release)) {
+            return RequestStatus.DUPLICATE;
         } else {
-            if (hasChangesInEccFields) {
-                return releaseModerator.updateReleaseEccInfo(release, user);
+            DocumentPermissions<Release> permissions = makePermission(actual, user);
+            boolean hasChangesInEccFields = hasChangesInEccFields(release, actual);
+
+            if ((hasChangesInEccFields && permissions.isActionAllowed(RequestedAction.WRITE_ECC))
+                    || (!hasChangesInEccFields && permissions.isActionAllowed(RequestedAction.WRITE))) {
+
+                if (!hasChangesInEccFields && hasEmptyEccFields(release)) {
+                    autosetEccFieldsForReleaseWithDownloadUrl(release);
+                }
+
+                copyFields(actual, release, immutableFields);
+
+                autosetReleaseClearingState(release, actual);
+                if (hasChangesInEccFields) {
+                    autosetEccUpdaterInfo(release, user);
+                }
+                release.setAttachments(
+                        getAllAttachmentsToKeep(toSource(actual), actual.getAttachments(), release.getAttachments()));
+                deleteAttachmentUsagesOfUnlinkedReleases(release, actual);
+                releaseRepository.update(release);
+                updateReleaseDependentFieldsForComponentId(release.getComponentId());
+                // clean up attachments in database
+                attachmentConnector.deleteAttachmentDifference(nullToEmptySet(actual.getAttachments()),
+                        nullToEmptySet(release.getAttachments()));
+                sendMailNotificationsForReleaseUpdate(release, user.getEmail());
             } else {
-                return releaseModerator.updateRelease(release, user);
+                if (hasChangesInEccFields) {
+                    return releaseModerator.updateReleaseEccInfo(release, user);
+                } else {
+                    return releaseModerator.updateRelease(release, user);
+                }
             }
+
+            return RequestStatus.SUCCESS;
+        }
+    }
+
+    private boolean changeWouldResultInDuplicate(Release before, Release after) {
+        if (before.getName().equals(after.getName()) && ((before.getVersion() == null && after.getVersion() == null)
+                || (before.getVersion() != null && before.getVersion().equals(after.getVersion())))) {
+            // sth else was changed, not one of the duplication relevant properties
+            return false;
         }
 
-        return RequestStatus.SUCCESS;
+        return isDuplicate(after);
+       }
+
+    private boolean duplicateAttachmentExist(Release release) {
+        if (release.attachments != null && !release.attachments.isEmpty()) {
+            return AttachmentConnector.isDuplicateAttachment(release.attachments);
+        }
+        return false;
     }
 
     private void deleteAttachmentUsagesOfUnlinkedReleases(Release updated, Release actual) throws SW360Exception {

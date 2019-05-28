@@ -94,6 +94,7 @@ public class PortalConstants {
     //! Specialized keys for components
     public static final String COMPONENT_ID = "componentid";
     public static final String COMPONENT = "component";
+    public static final String COMPONENT_PURL = "componentpurl";
     public static final String COMPONENT_NAME = "componentname";
     public static final String ACTUAL_COMPONENT = "actual_component";
     public static final String COMPONENT_LIST = "componentList";
@@ -119,6 +120,7 @@ public class PortalConstants {
     public static final String RELEASE_ROLES;
     public static final String RELEASE_EXTERNAL_IDS;
     public static final Set<String> RELEASE_EXTERNAL_ID_KEYS;
+    public static final String RELEASE_LINK_TO_PROJECT = "releaseLinkToProject";
 
     //! Specialized keys for vendors
     public static final String VENDOR = "vendor";
@@ -127,14 +129,17 @@ public class PortalConstants {
 
     //! Specialized keys for attachments
     public static final String ATTACHMENTS = "attachments";
+    public static final String SPDX_ATTACHMENTS = "spdxAttachments";
     public static final String ADDED_ATTACHMENTS = "added_attachments";
     public static final String REMOVED_ATTACHMENTS = "removed_attachments";
     public static final String ATTACHMENT_ID = "attachmentId";
+    public static final String ALL_ATTACHMENTS = "all_attachments";
     public static final String CONTEXT_TYPE = "context_type";
     public static final String CONTEXT_ID = "context_id";
     public static final String ATTACHMENT_USAGE_COUNT_MAP = "attachmenUsageCountMap";
     public static final String ATTACHMENT_USAGES = "attachmentUsages";
     public static final String ATTACHMENT_USAGES_RESTRICTED_COUNTS = "attachmentUsagesRestrictedCounts";
+    public static final String SPDX_LICENSE_INFO = "spdxLicenseInfo";
 
     //! Specialized keys for projects
     public static final String PROJECT_ID = "projectid";
@@ -159,13 +164,18 @@ public class PortalConstants {
     public static final String PAGENAME_SOURCE_CODE_BUNDLE = "generateSourceCodeBundle";
     public static final String PROJECT_ROLES;
     public static final String DEFAULT_LICENSE_INFO_HEADER_TEXT = "defaultLicenseInfoHeaderText";
+    public static final String DEFAULT_OBLIGATIONS_TEXT = "defaultObligationsText";
     public static final String DEFAULT_LICENSE_INFO_HEADER_TEXT_FOR_DISPALY = "--default text--";
+    public static final String DEFAULT_OBLIGATIONS_TEXT_FOR_DISPALY = "--default text--";
+    public static final String PROJECT_OBLIGATIONS = "projectObligations";
     public static final Set<String> PROJECT_EXTERNAL_ID_KEYS;
     public static final String PROJECT_SELECTED_ATTACHMENT_USAGES = "selectedAttachmentUsages";
     public static final String PROJECT_SELECTED_ATTACHMENT_USAGES_SHADOWS = "selectedAttachmentUsagesShadows";
     public static final String LICENSE_INFO_ATTACHMENT_USAGES = "licInfoAttUsages";
     public static final String SOURCE_CODE_ATTACHMENT_USAGES = "sourceAttUsages";
     public static final String MANUAL_ATTACHMENT_USAGES = "manualAttUsages";
+    public static final String PROJECT_PATH = "projectPath";
+    public static final String PROJECT_PATHS = "projectPaths";
 
 
     public static final String FOSSOLOGY_FINGER_PRINTS = "fingerPrints";
@@ -189,7 +199,6 @@ public class PortalConstants {
     public static final String VULNERABILITY = "vulnerability";
     public static final String VULNERABILITY_LIST = "vulnerabilityList";
     public static final String VULNERABILITY_RATINGS = "vulnerabilityRatings";
-    public static final String VULNERABILITY_RATINGS_EDITABLE = "vulnerabilityRatingsEditable";
     public static final String VULNERABILITY_ID = "vulnerabilityId";
     public static final String VULNERABILITY_IDS = "vulnerabilityIds";
     public static final String VULNERABILITY_RATING_VALUE = "vulnerabilityRatingValue";
@@ -281,6 +290,8 @@ public class PortalConstants {
     public static final String DOWNLOAD_SAMPLE_RELEASE_LINK_INFO = "DownloadSampleReleaseLinkInfo";
     public static final String DOWNLOAD_RELEASE_LINK_INFO = "DownloadReleaseLinkInfo";
     public static final String DOWNLOAD_LICENSE_BACKUP = "DownloadLicenseBackup";
+    public static final String LOAD_SPDX_LICENSE_INFO = "LoadSpdxLicenseInfo";
+    public static final String WRITE_SPDX_LICENSE_INFO_INTO_RELEASE = "WriteSpdxLicenseInfoIntoRelease";
 
     // linked projects and releases actions
     public static final String LINKED_OBJECTS_PREFIX = "load_linked_";
@@ -393,8 +404,15 @@ public class PortalConstants {
     public static final String API_TOKEN_ID = "tokenId";
 
     // CodeScoop integration
-    public static final String CODESCOOP_URL;
-    public static final String CODESCOOP_TOKEN;
+    public static final String CODESCOOP_ACTIVE = "codescoopActive";
+    public static final String CODESCOOP_ACTION = "codescoop_action_";
+    public static final String CODESCOOP_ACTION_COMPOSITE = CODESCOOP_ACTION + "composite";
+    public static final String CODESCOOP_ACTION_COMPONENT = CODESCOOP_ACTION + "component";
+    public static final String CODESCOOP_ACTION_RELEASES = CODESCOOP_ACTION + "releases";
+    public static final String CODESCOOP_ACTION_AUTOCOMPLETE = CODESCOOP_ACTION + "autocomplete";
+    public static final String CODESCOOP_ACTION_PURL = CODESCOOP_ACTION + "purl";
+
+    public static final String WRITE_ACCESS_USER = "writeAccessUser";
 
     static {
         Properties props = CommonUtils.loadProperties(PortalConstants.class, PROPERTIES_FILE_PATH);
@@ -423,10 +441,6 @@ public class PortalConstants {
         API_TOKEN_MAX_VALIDITY_WRITE_IN_DAYS = props.getProperty("rest.apitoken.write.validity.days", "30");
         API_TOKEN_HASH_SALT = props.getProperty("rest.apitoken.hash.salt", "$2a$04$Software360RestApiSalt");
         API_WRITE_ACCESS_USERGROUP = UserGroup.valueOf(props.getProperty("rest.write.access.usergroup", UserGroup.ADMIN.name()));
-
-        // CodesScoop Constants
-        CODESCOOP_URL = props.getProperty("codescoop.url", "");
-        CODESCOOP_TOKEN = props.getProperty("codescoop.token", "");
     }
 
     private PortalConstants() {
