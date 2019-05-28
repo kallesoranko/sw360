@@ -245,7 +245,6 @@ public class ThriftUploader {
 
         if (libraryList == null) {
             return ImmutableSet.of();
-        }
 
         Set<ReleaseRelation> releases = libraryList.stream()
                 .map(c -> createReleaseRelation(c, sw360User))
