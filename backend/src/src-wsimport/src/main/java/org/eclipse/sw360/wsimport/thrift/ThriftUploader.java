@@ -213,7 +213,7 @@ public class ThriftUploader {
         if (releaseId == null) {
             return null;
         } else {
-            ReleaseRelationship releaseRelationship = ReleaseRelationship.UNKNOWN;
+            ReleaseRelationship releaseRelationship = ReleaseRelationship.CONTAINED;
             return new ReleaseRelation(releaseId, releaseRelationship);
         }
     }
@@ -225,21 +225,20 @@ public class ThriftUploader {
         } catch (JsonSyntaxException jse) {
             LOGGER.error(jse);
         }
-        List<WsLibrary> libraryList;
+
         if (libraries == null) {
             return ImmutableSet.of();
-	}
+	    }
+        List<WsLibrary> libraryList = Arrays.asList(libraries);
         Set<ReleaseRelation> releases = libraryList.stream()
                 .map(c -> createReleaseRelation(c, sw360User))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
-
         if (releases.size() != libraryList .size()) {
             LOGGER.warn("expected to get " + libraryList.size() + " different ids of releases but got " + releases.size());
         } else {
             LOGGER.info("The expected number of releases was imported or already found in database.");
         }
-
         return releases;
     }
 
