@@ -59,17 +59,14 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.css">
 
-<%--
-<script src="<%=request.getContextPath()%>/webjars/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/jquery-ui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/datatables/1.10.15/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/datatables.net-select/1.2.2/js/dataTables.select.min.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/webjars/github-com-craftpip-jquery-confirm/3.0.1/jquery-confirm.min.js" type="text/javascript"></script>
---%>
+<script src="<%=request.getContextPath()%>/webjars/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/datatables.net-select/js/dataTables.select.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/webjars/jquery-confirm2/dist/jquery-confirm.min.js" type="text/javascript"></script>
 
 <link href="<%=request.getContextPath()%>/js/libs/c3.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/js/libs/c3.min.js"></script>
-
 <script src="<%=request.getContextPath()%>/js/libs/d3.min.js" charset="utf-8"></script>
 
 <script>
