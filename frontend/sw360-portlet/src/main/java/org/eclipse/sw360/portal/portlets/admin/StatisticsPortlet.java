@@ -29,6 +29,7 @@ import javax.portlet.*;
 import java.io.IOException;
 import java.util.*;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.eclipse.sw360.portal.common.PortalConstants.RESPONSE__PROJECT_DETAILS_DATA;
 
 /**
@@ -42,10 +43,12 @@ public class StatisticsPortlet extends Sw360Portlet {
     public void doView(RenderRequest request, RenderResponse response) throws IOException, PortletException {
         List<Project> myProjects = new ArrayList<>();
         User user = UserCacheHolder.getUserFromRequest(request);
+
         try {
-            myProjects = thriftClients.makeProjectClient().getMyProjects(user.getEmail());
+            ProjectService.Iface client = thriftClients.makeProjectClient();
+            myProjects = client.getAccessibleProjectsSummary(user);
         } catch (TException e) {
-            LOGGER.error("Could not fetch myProjects from backend for user, " + user.getEmail(), e);
+            LOGGER.error("Could not fetch getAccessibleProjectsSummary from backend for user: " + user.getEmail() + ", because " , e);
         }
         myProjects = getWithFilledClearingStateSummary(myProjects, user);
         request.setAttribute("projects",  CommonUtils.nullToEmptyList(myProjects));
