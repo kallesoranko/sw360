@@ -764,3 +764,6 @@ textarea.broader {
     /* top: 90px; */
     width: 100%;
 }
+.editdisabled{
+  opacity: 0.4;
+}
