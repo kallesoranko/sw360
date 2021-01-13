@@ -30,6 +30,8 @@ public class ProjectImportConstants {
     public static final String PROJECT_NAME = "projectImport_import_project_name";
     public static final String TOKEN = "projectImport_import_token";
     public static final String USER_KEY = "projectImport_import_user_key";
+    public static final String API_TOKEN = "projectImport_import_api_token";
+    public static final String BEARER_TOKEN = "projectImport_import_bearer_token";
 
     // Project Import: user actions
     public static final String USER_ACTION__IMPORT = "projectImport_import_action";

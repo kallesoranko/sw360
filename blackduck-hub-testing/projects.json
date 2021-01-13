@@ -1,0 +1,328 @@
+{
+    "totalCount": 4,
+    "items": [
+        {
+            "name": "example-project-junit4",
+            "projectLevelAdjustments": true,
+            "cloneCategories": [
+                "VULN_DATA",
+                "COMPONENT_DATA"
+            ],
+            "customSignatureEnabled": false,
+            "customSignatureDepth": 5,
+            "deepLicenseDataEnabled": false,
+            "snippetAdjustmentApplied": false,
+            "createdAt": "2020-10-20T09:13:39.033Z",
+            "createdBy": "a242075",
+            "createdByUser": "https://20.73.223.44/api/users/8cdaf7ae-bbb1-4354-a48b-8dfd3d718433",
+            "updatedAt": "2020-10-20T09:13:39.262Z",
+            "updatedBy": "a242075",
+            "updatedByUser": "https://20.73.223.44/api/users/8cdaf7ae-bbb1-4354-a48b-8dfd3d718433",
+            "source": "CUSTOM",
+            "_meta": {
+                "allow": [
+                    "DELETE",
+                    "GET",
+                    "PUT"
+                ],
+                "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39",
+                "links": [
+                    {
+                        "rel": "versions",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/versions"
+                    },
+                    {
+                        "rel": "canonicalVersion",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/versions/ecc82c52-24d7-432a-b5bf-e4f6e3ac22a4"
+                    },
+                    {
+                        "rel": "assignable-users",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/assignable-users"
+                    },
+                    {
+                        "rel": "assignable-usergroups",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/assignable-usergroups"
+                    },
+                    {
+                        "rel": "users",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/users"
+                    },
+                    {
+                        "rel": "usergroups",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/usergroups"
+                    },
+                    {
+                        "rel": "tags",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/tags"
+                    },
+                    {
+                        "rel": "project-mappings",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/project-mappings"
+                    },
+                    {
+                        "rel": "project-journal",
+                        "href": "https://20.73.223.44/api/journal/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39"
+                    },
+                    {
+                        "rel": "custom-fields",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/custom-fields"
+                    },
+                    {
+                        "rel": "custom-fields",
+                        "href": "https://20.73.223.44/api/projects/bc8da805-63ad-43ab-b2c1-29a43e391e39/custom-fields"
+                    },
+                    {
+                        "rel": "notification-subscription",
+                        "href": "https://20.73.223.44/api/users/098fc4a9-7f60-44cf-b232-0accd071bfa1/notification-subscriptions/0f6a713f-4af7-45d6-94f8-ee07572965df"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "EXAMPLE-PROJECT-reverse-string",
+            "projectLevelAdjustments": true,
+            "cloneCategories": [
+                "VULN_DATA",
+                "COMPONENT_DATA"
+            ],
+            "customSignatureEnabled": false,
+            "customSignatureDepth": 5,
+            "deepLicenseDataEnabled": false,
+            "snippetAdjustmentApplied": false,
+            "createdAt": "2021-01-07T12:42:29.977Z",
+            "createdBy": "a242075",
+            "createdByUser": "https://20.73.223.44/api/users/8cdaf7ae-bbb1-4354-a48b-8dfd3d718433",
+            "updatedAt": "2021-01-07T12:42:30.087Z",
+            "updatedBy": "a242075",
+            "updatedByUser": "https://20.73.223.44/api/users/8cdaf7ae-bbb1-4354-a48b-8dfd3d718433",
+            "source": "CUSTOM",
+            "_meta": {
+                "allow": [
+                    "DELETE",
+                    "GET",
+                    "PUT"
+                ],
+                "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c",
+                "links": [
+                    {
+                        "rel": "versions",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/versions"
+                    },
+                    {
+                        "rel": "canonicalVersion",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/versions/7c25d1a7-8695-408e-b09b-dd3de8888935"
+                    },
+                    {
+                        "rel": "assignable-users",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/assignable-users"
+                    },
+                    {
+                        "rel": "assignable-usergroups",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/assignable-usergroups"
+                    },
+                    {
+                        "rel": "users",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/users"
+                    },
+                    {
+                        "rel": "usergroups",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/usergroups"
+                    },
+                    {
+                        "rel": "tags",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/tags"
+                    },
+                    {
+                        "rel": "project-mappings",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/project-mappings"
+                    },
+                    {
+                        "rel": "project-journal",
+                        "href": "https://20.73.223.44/api/journal/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c"
+                    },
+                    {
+                        "rel": "custom-fields",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/custom-fields"
+                    },
+                    {
+                        "rel": "custom-fields",
+                        "href": "https://20.73.223.44/api/projects/724889b4-1c60-4f56-b302-1e49f3a62c8c/custom-fields"
+                    },
+                    {
+                        "rel": "notification-subscription",
+                        "href": "https://20.73.223.44/api/users/098fc4a9-7f60-44cf-b232-0accd071bfa1/notification-subscriptions/739b25ee-73f0-41ae-baf5-2cdd495ac0f3"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "EXAMPLE-PROJECT-simple-gradle",
+            "projectLevelAdjustments": true,
+            "cloneCategories": [
+                "VULN_DATA",
+                "COMPONENT_DATA"
+            ],
+            "customSignatureEnabled": false,
+            "customSignatureDepth": 5,
+            "deepLicenseDataEnabled": false,
+            "snippetAdjustmentApplied": false,
+            "createdAt": "2020-12-08T11:53:32.117Z",
+            "createdBy": "a242075",
+            "createdByUser": "https://20.73.223.44/api/users/8cdaf7ae-bbb1-4354-a48b-8dfd3d718433",
+            "updatedAt": "2020-12-08T11:53:32.253Z",
+            "updatedBy": "a242075",
+            "updatedByUser": "https://20.73.223.44/api/users/8cdaf7ae-bbb1-4354-a48b-8dfd3d718433",
+            "source": "CUSTOM",
+            "_meta": {
+                "allow": [
+                    "DELETE",
+                    "GET",
+                    "PUT"
+                ],
+                "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6",
+                "links": [
+                    {
+                        "rel": "versions",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions"
+                    },
+                    {
+                        "rel": "canonicalVersion",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c"
+                    },
+                    {
+                        "rel": "assignable-users",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/assignable-users"
+                    },
+                    {
+                        "rel": "assignable-usergroups",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/assignable-usergroups"
+                    },
+                    {
+                        "rel": "users",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/users"
+                    },
+                    {
+                        "rel": "usergroups",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/usergroups"
+                    },
+                    {
+                        "rel": "tags",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/tags"
+                    },
+                    {
+                        "rel": "project-mappings",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/project-mappings"
+                    },
+                    {
+                        "rel": "project-journal",
+                        "href": "https://20.73.223.44/api/journal/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6"
+                    },
+                    {
+                        "rel": "custom-fields",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/custom-fields"
+                    },
+                    {
+                        "rel": "custom-fields",
+                        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/custom-fields"
+                    },
+                    {
+                        "rel": "notification-subscription",
+                        "href": "https://20.73.223.44/api/users/098fc4a9-7f60-44cf-b232-0accd071bfa1/notification-subscriptions/dad2fd90-8146-4424-b32a-128e4c197420"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "EXAMPLE-PROJECT-simple-gradle-2",
+            "projectLevelAdjustments": true,
+            "cloneCategories": [
+                "VULN_DATA",
+                "COMPONENT_DATA"
+            ],
+            "customSignatureEnabled": false,
+            "customSignatureDepth": 5,
+            "deepLicenseDataEnabled": false,
+            "snippetAdjustmentApplied": false,
+            "createdAt": "2021-01-07T10:06:35.970Z",
+            "createdBy": "a242075",
+            "createdByUser": "https://20.73.223.44/api/users/8cdaf7ae-bbb1-4354-a48b-8dfd3d718433",
+            "updatedAt": "2021-01-07T10:06:36.119Z",
+            "updatedBy": "a242075",
+            "updatedByUser": "https://20.73.223.44/api/users/8cdaf7ae-bbb1-4354-a48b-8dfd3d718433",
+            "source": "CUSTOM",
+            "_meta": {
+                "allow": [
+                    "DELETE",
+                    "GET",
+                    "PUT"
+                ],
+                "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3",
+                "links": [
+                    {
+                        "rel": "versions",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/versions"
+                    },
+                    {
+                        "rel": "canonicalVersion",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/versions/81fb9318-f8aa-4fb4-b95c-ad242d49e288"
+                    },
+                    {
+                        "rel": "assignable-users",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/assignable-users"
+                    },
+                    {
+                        "rel": "assignable-usergroups",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/assignable-usergroups"
+                    },
+                    {
+                        "rel": "users",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/users"
+                    },
+                    {
+                        "rel": "usergroups",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/usergroups"
+                    },
+                    {
+                        "rel": "tags",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/tags"
+                    },
+                    {
+                        "rel": "project-mappings",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/project-mappings"
+                    },
+                    {
+                        "rel": "project-journal",
+                        "href": "https://20.73.223.44/api/journal/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3"
+                    },
+                    {
+                        "rel": "custom-fields",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/custom-fields"
+                    },
+                    {
+                        "rel": "custom-fields",
+                        "href": "https://20.73.223.44/api/projects/c0321477-e351-4f08-90c3-ffc2a39e29f3/custom-fields"
+                    },
+                    {
+                        "rel": "notification-subscription",
+                        "href": "https://20.73.223.44/api/users/098fc4a9-7f60-44cf-b232-0accd071bfa1/notification-subscriptions/5cb1f36e-8e16-42f8-be6f-0b958b600b4e"
+                    }
+                ]
+            }
+        }
+    ],
+    "appliedFilters": [],
+    "_meta": {
+        "allow": [
+            "POST"
+        ],
+        "href": "https://20.73.223.44/api/projects",
+        "links": [
+            {
+                "rel": "static-filter",
+                "href": "https://20.73.223.44/api/projects-filters?filterKey=subscribed",
+                "name": "subscribed",
+                "label": "Subscribed"
+            }
+        ]
+    }
+}

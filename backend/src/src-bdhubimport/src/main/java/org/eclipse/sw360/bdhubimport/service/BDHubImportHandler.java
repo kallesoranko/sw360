@@ -8,16 +8,18 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.sw360.wsimport.service;
+package org.eclipse.sw360.bdhubimport.service;
 
 import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.sw360.bdhubimport.domain.BDHubComponent;
+import org.eclipse.sw360.bdhubimport.domain.BDHubProjectVersion;
+import org.eclipse.sw360.bdhubimport.rest.BDHubImportService;
+import org.eclipse.sw360.bdhubimport.utility.TranslationConstants;
 import org.eclipse.sw360.datahandler.thrift.projectimport.BDHubCredentials;
-import org.eclipse.sw360.wsimport.domain.WsProject;
-import org.eclipse.sw360.wsimport.rest.WsImportService;
-import org.eclipse.sw360.wsimport.thrift.ThriftUploader;
-import org.eclipse.sw360.wsimport.utility.TranslationConstants;
+import org.eclipse.sw360.bdhubimport.thrift.ThriftUploader;
+import org.eclipse.sw360.bdhubimport.utility.TranslationConstants;
 import org.apache.thrift.TException;
 import org.eclipse.sw360.datahandler.thrift.importstatus.ImportStatus;
 import org.eclipse.sw360.datahandler.thrift.projectimport.ProjectImportService;
@@ -32,24 +34,30 @@ import java.util.stream.Collectors;
 /**
  * @author ksoranko@verifa.io
  */
-public class WsImportHandler implements ProjectImportService.Iface {
+public class BDHubImportHandler implements ProjectImportService.Iface {
 
-    private static final Logger LOGGER = LogManager.getLogger(WsImportHandler.class);
+    private static final Logger LOGGER = LogManager.getLogger(BDHubImportHandler.class);
 
     @Override
-    public synchronized ImportStatus importData(List<String> projectTokens, User user, TokenCredentials tokenCredentials) throws TException, JsonSyntaxException {
-        List<WsProject> toImport = projectTokens
+    public synchronized ImportStatus importData(List<String> projectVersionHrefs, User user, BDHubCredentials credentials) throws TException, JsonSyntaxException {
+        List<BDHubProjectVersion> toImport = projectVersionHrefs
                 .stream()
-                .map(t -> new WsImportService().getWsProject(t, tokenCredentials))
+                .map(href -> new BDHubImportService().getBDHubProjectVersion(href, credentials))
                 .collect(Collectors.toList());
 
-        return new ThriftUploader().importWsProjects(toImport, user, tokenCredentials);
+        return new ThriftUploader().importBDHubProjectVersions(toImport, user, credentials);
     }
 
     @Override
     public String getIdName(){
-        return TranslationConstants.WS_ID;
+        return TranslationConstants.BDHUB_ID;
     }
+
+    @Override
+    public ImportStatus importBDHubData(List<String> projectHrefs, User user, BDHubCredentials credentials) throws TException {
+        return null;
+    }
+
     @Override
     public boolean validateCredentials(RemoteCredentials credentials) { return false; }
     @Override
@@ -58,6 +66,5 @@ public class WsImportHandler implements ProjectImportService.Iface {
     public List<Project> suggestImportables(RemoteCredentials reCred, String projectName) { return null; }
     @Override
     public ImportStatus importDatasources(List<String> projectIds, User user, RemoteCredentials reCred) { return null; }
-    @Override
-    public ImportStatus importBDHubData(List<String> projectHrefs, User user, BDHubCredentials credentials) { return null; }
+
 }

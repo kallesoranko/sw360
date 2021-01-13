@@ -39,6 +39,12 @@ struct TokenCredentials {
 3:  string userKey
 }
 
+struct BDHubCredentials {
+1:  string apiToken,
+2:  string serverUrl,
+3:  string bearerToken
+}
+
 service ProjectImportService {
    /**
     * check credentials with API
@@ -69,5 +75,11 @@ service ProjectImportService {
    *  user in SW360
    **/
    ImportStatus importData(1: list<string> projectIds, 2: User user, 3: TokenCredentials tokenCred);
+
+    /**
+    *  imports projects from external source specified by `projectHrefs` with credentials `credentials` and set user as creating
+    *  user in SW360
+    **/
+    ImportStatus importBDHubData(1: list<string> projectHrefs, 2: User user, 3: BDHubCredentials credentials);
 }
 

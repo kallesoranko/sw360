@@ -1,0 +1,1611 @@
+{
+  "totalCount": 6,
+  "items": [
+    {
+      "componentName": "Apache Commons Codec",
+      "componentVersionName": "1.3",
+      "component": "https://20.73.223.44/api/components/dc3dee66-4939-4dea-b22f-ead288b4f117",
+      "componentVersion": "https://20.73.223.44/api/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301",
+      "totalFileMatchCount": 1,
+      "licenses": [
+        {
+          "licenseDisplay": "Apache License 2.0",
+          "license": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/licenses/7cae335f-1193-421e-92f1-8802b4243e93",
+          "spdxId": "Apache-2.0",
+          "licenses": []
+        }
+      ],
+      "origins": [
+        {
+          "name": "1.3",
+          "origin": "https://20.73.223.44/api/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/origins/2899ce11-cb6d-4057-91e2-423eada58f5f",
+          "externalNamespace": "maven",
+          "externalId": "commons-codec:commons-codec:1.3",
+          "externalNamespaceDistribution": false,
+          "_meta": {
+            "allow": [],
+            "links": [
+              {
+                "rel": "origin",
+                "href": "https://20.73.223.44/api/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/origins/2899ce11-cb6d-4057-91e2-423eada58f5f"
+              },
+              {
+                "rel": "matched-files",
+                "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/origins/2899ce11-cb6d-4057-91e2-423eada58f5f/matched-files"
+              },
+              {
+                "rel": "upgrade-guidance",
+                "href": "https://20.73.223.44/api/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/origins/2899ce11-cb6d-4057-91e2-423eada58f5f/upgrade-guidance"
+              },
+              {
+                "rel": "component-origin-copyrights",
+                "href": "https://20.73.223.44/api/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/origins/2899ce11-cb6d-4057-91e2-423eada58f5f/copyrights"
+              }
+            ]
+          }
+        }
+      ],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "ignored": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_TRANSITIVE"
+      ],
+      "releasedOn": "2020-12-10T13:16:25.763Z",
+      "RiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "securityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "versionRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 1
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "operationalRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityData": {
+        "contributorCount12Month": 2,
+        "commitCount12Month": 154,
+        "lastCommitDate": "2004-07-10T04:00:00.000Z",
+        "trending": "INCREASING",
+        "newerReleases": 31
+      },
+      "reviewStatus": "NOT_REVIEWED",
+      "approvalStatus": "NOT_IN_VIOLATION",
+      "policyStatus": "NOT_IN_VIOLATION",
+      "manuallyAdjusted": false,
+      "componentModified": false,
+      "inAttributionReport": true,
+      "componentType": "KB_COMPONENT",
+      "_meta": {
+        "allow": [
+          "GET",
+          "PUT"
+        ],
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301",
+        "links": [
+          {
+            "rel": "comments",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/dc3dee66-4939-4dea-b22f-ead288b4f117/component-versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/comments"
+          },
+          {
+            "rel": "component-issues",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/dc3dee66-4939-4dea-b22f-ead288b4f117/component-versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/issues"
+          },
+          {
+            "rel": "policy-rules",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/policy-rules"
+          },
+          {
+            "rel": "vulnerabilities",
+            "href": "https://20.73.223.44/api/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/vulnerabilities"
+          },
+          {
+            "rel": "matched-files",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/origins/2899ce11-cb6d-4057-91e2-423eada58f5f/matched-files"
+          },
+          {
+            "rel": "origins",
+            "href": "https://20.73.223.44/api/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/origins"
+          },
+          {
+            "rel": "policy-status",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/policy-status"
+          },
+          {
+            "rel": "upgrade-guidance",
+            "href": "https://20.73.223.44/api/components/dc3dee66-4939-4dea-b22f-ead288b4f117/versions/3d941ac5-cd4d-44b8-92cb-bd383ee1c301/upgrade-guidance"
+          }
+        ]
+      }
+    },
+    {
+      "componentName": "Apache Commons Lang",
+      "componentVersionName": "2.4",
+      "component": "https://20.73.223.44/api/components/9c0920e4-104a-448e-8192-866544b75890",
+      "componentVersion": "https://20.73.223.44/api/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409",
+      "totalFileMatchCount": 1,
+      "licenses": [
+        {
+          "licenseDisplay": "Apache License 2.0",
+          "license": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/licenses/7cae335f-1193-421e-92f1-8802b4243e93",
+          "spdxId": "Apache-2.0",
+          "licenses": []
+        }
+      ],
+      "origins": [
+        {
+          "name": "2.4",
+          "origin": "https://20.73.223.44/api/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/origins/6e8797ee-53f1-46ed-9132-a195dce4c1a8",
+          "externalNamespace": "maven",
+          "externalId": "commons-lang:commons-lang:2.4",
+          "externalNamespaceDistribution": false,
+          "_meta": {
+            "allow": [],
+            "links": [
+              {
+                "rel": "origin",
+                "href": "https://20.73.223.44/api/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/origins/6e8797ee-53f1-46ed-9132-a195dce4c1a8"
+              },
+              {
+                "rel": "matched-files",
+                "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/origins/6e8797ee-53f1-46ed-9132-a195dce4c1a8/matched-files"
+              },
+              {
+                "rel": "upgrade-guidance",
+                "href": "https://20.73.223.44/api/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/origins/6e8797ee-53f1-46ed-9132-a195dce4c1a8/upgrade-guidance"
+              },
+              {
+                "rel": "component-origin-copyrights",
+                "href": "https://20.73.223.44/api/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/origins/6e8797ee-53f1-46ed-9132-a195dce4c1a8/copyrights"
+              }
+            ]
+          }
+        }
+      ],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "ignored": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_TRANSITIVE"
+      ],
+      "releasedOn": "2020-12-10T13:16:25.763Z",
+      "licenseRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "securityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "versionRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "operationalRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityData": {
+        "contributorCount12Month": 37,
+        "commitCount12Month": 538,
+        "lastCommitDate": "2008-03-19T05:42:28.000Z",
+        "trending": "INCREASING",
+        "newerReleases": 77
+      },
+      "reviewStatus": "NOT_REVIEWED",
+      "approvalStatus": "NOT_IN_VIOLATION",
+      "policyStatus": "NOT_IN_VIOLATION",
+      "manuallyAdjusted": false,
+      "componentModified": false,
+      "inAttributionReport": true,
+      "componentType": "KB_COMPONENT",
+      "_meta": {
+        "allow": [
+          "GET",
+          "PUT"
+        ],
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409",
+        "links": [
+          {
+            "rel": "comments",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/9c0920e4-104a-448e-8192-866544b75890/component-versions/ae8deda0-886f-4423-9c60-f07442016409/comments"
+          },
+          {
+            "rel": "component-issues",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/9c0920e4-104a-448e-8192-866544b75890/component-versions/ae8deda0-886f-4423-9c60-f07442016409/issues"
+          },
+          {
+            "rel": "policy-rules",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/policy-rules"
+          },
+          {
+            "rel": "vulnerabilities",
+            "href": "https://20.73.223.44/api/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/vulnerabilities"
+          },
+          {
+            "rel": "matched-files",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/origins/6e8797ee-53f1-46ed-9132-a195dce4c1a8/matched-files"
+          },
+          {
+            "rel": "origins",
+            "href": "https://20.73.223.44/api/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/origins"
+          },
+          {
+            "rel": "policy-status",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/policy-status"
+          },
+          {
+            "rel": "upgrade-guidance",
+            "href": "https://20.73.223.44/api/components/9c0920e4-104a-448e-8192-866544b75890/versions/ae8deda0-886f-4423-9c60-f07442016409/upgrade-guidance"
+          }
+        ]
+      }
+    },
+    {
+      "componentName": "Apache Commons Logging",
+      "componentVersionName": "1.1.1",
+      "component": "https://20.73.223.44/api/components/e2c69634-de94-4eb3-a2c8-67ab59272e53",
+      "componentVersion": "https://20.73.223.44/api/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2",
+      "totalFileMatchCount": 1,
+      "licenses": [
+        {
+          "licenseDisplay": "Apache License 2.0",
+          "license": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/licenses/7cae335f-1193-421e-92f1-8802b4243e93",
+          "spdxId": "Apache-2.0",
+          "licenses": []
+        }
+      ],
+      "origins": [
+        {
+          "name": "1.1.1",
+          "origin": "https://20.73.223.44/api/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/origins/77bed9c6-7377-4313-9656-f6b238cc096e",
+          "externalNamespace": "maven",
+          "externalId": "commons-logging:commons-logging:1.1.1",
+          "externalNamespaceDistribution": false,
+          "_meta": {
+            "allow": [],
+            "links": [
+              {
+                "rel": "origin",
+                "href": "https://20.73.223.44/api/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/origins/77bed9c6-7377-4313-9656-f6b238cc096e"
+              },
+              {
+                "rel": "matched-files",
+                "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/origins/77bed9c6-7377-4313-9656-f6b238cc096e/matched-files"
+              },
+              {
+                "rel": "upgrade-guidance",
+                "href": "https://20.73.223.44/api/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/origins/77bed9c6-7377-4313-9656-f6b238cc096e/upgrade-guidance"
+              },
+              {
+                "rel": "component-origin-copyrights",
+                "href": "https://20.73.223.44/api/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/origins/77bed9c6-7377-4313-9656-f6b238cc096e/copyrights"
+              }
+            ]
+          }
+        }
+      ],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "ignored": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_TRANSITIVE"
+      ],
+      "releasedOn": "2020-12-10T13:16:25.763Z",
+      "licenseRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "securityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "versionRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "operationalRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityData": {
+        "contributorCount12Month": 0,
+        "commitCount12Month": 0,
+        "lastCommitDate": "2007-11-26T20:24:10.000Z",
+        "trending": "STABLE",
+        "newerReleases": 7
+      },
+      "reviewStatus": "NOT_REVIEWED",
+      "approvalStatus": "NOT_IN_VIOLATION",
+      "policyStatus": "NOT_IN_VIOLATION",
+      "manuallyAdjusted": false,
+      "componentModified": false,
+      "inAttributionReport": true,
+      "componentType": "KB_COMPONENT",
+      "_meta": {
+        "allow": [
+          "GET",
+          "PUT"
+        ],
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2",
+        "links": [
+          {
+            "rel": "comments",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/component-versions/c0af303d-1556-4973-a2b2-399978be55e2/comments"
+          },
+          {
+            "rel": "component-issues",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/component-versions/c0af303d-1556-4973-a2b2-399978be55e2/issues"
+          },
+          {
+            "rel": "policy-rules",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/policy-rules"
+          },
+          {
+            "rel": "vulnerabilities",
+            "href": "https://20.73.223.44/api/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/vulnerabilities"
+          },
+          {
+            "rel": "matched-files",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/origins/77bed9c6-7377-4313-9656-f6b238cc096e/matched-files"
+          },
+          {
+            "rel": "origins",
+            "href": "https://20.73.223.44/api/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/origins"
+          },
+          {
+            "rel": "policy-status",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/policy-status"
+          },
+          {
+            "rel": "upgrade-guidance",
+            "href": "https://20.73.223.44/api/components/e2c69634-de94-4eb3-a2c8-67ab59272e53/versions/c0af303d-1556-4973-a2b2-399978be55e2/upgrade-guidance"
+          }
+        ]
+      }
+    },
+    {
+      "componentName": "Apache HttpClient",
+      "componentVersionName": "4.0",
+      "component": "https://20.73.223.44/api/components/f624d758-10d3-449d-96d2-d4fc12499fda",
+      "componentVersion": "https://20.73.223.44/api/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19",
+      "totalFileMatchCount": 1,
+      "licenses": [
+        {
+          "licenseDisplay": "Apache License 2.0",
+          "license": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/licenses/7cae335f-1193-421e-92f1-8802b4243e93",
+          "spdxId": "Apache-2.0",
+          "licenses": []
+        }
+      ],
+      "origins": [
+        {
+          "name": "4.0",
+          "origin": "https://20.73.223.44/api/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/origins/9f658eed-c5c7-434b-b02e-d073d0298e85",
+          "externalNamespace": "maven",
+          "externalId": "org.apache.httpcomponents:httpclient:4.0",
+          "externalNamespaceDistribution": false,
+          "_meta": {
+            "allow": [],
+            "links": [
+              {
+                "rel": "origin",
+                "href": "https://20.73.223.44/api/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/origins/9f658eed-c5c7-434b-b02e-d073d0298e85"
+              },
+              {
+                "rel": "matched-files",
+                "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/origins/9f658eed-c5c7-434b-b02e-d073d0298e85/matched-files"
+              },
+              {
+                "rel": "upgrade-guidance",
+                "href": "https://20.73.223.44/api/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/origins/9f658eed-c5c7-434b-b02e-d073d0298e85/upgrade-guidance"
+              },
+              {
+                "rel": "component-origin-copyrights",
+                "href": "https://20.73.223.44/api/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/origins/9f658eed-c5c7-434b-b02e-d073d0298e85/copyrights"
+              }
+            ]
+          }
+        }
+      ],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "ignored": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "releasedOn": "2020-12-10T13:16:25.763Z",
+      "licenseRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "securityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 6
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "versionRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "operationalRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityData": {
+        "contributorCount12Month": 0,
+        "commitCount12Month": 0,
+        "lastCommitDate": "2009-02-24T18:39:42.000Z",
+        "trending": "STABLE",
+        "newerReleases": 162
+      },
+      "reviewStatus": "NOT_REVIEWED",
+      "approvalStatus": "NOT_IN_VIOLATION",
+      "policyStatus": "NOT_IN_VIOLATION",
+      "manuallyAdjusted": false,
+      "componentModified": false,
+      "inAttributionReport": true,
+      "componentType": "KB_COMPONENT",
+      "_meta": {
+        "allow": [
+          "GET",
+          "PUT"
+        ],
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19",
+        "links": [
+          {
+            "rel": "comments",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/f624d758-10d3-449d-96d2-d4fc12499fda/component-versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/comments"
+          },
+          {
+            "rel": "component-issues",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/f624d758-10d3-449d-96d2-d4fc12499fda/component-versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/issues"
+          },
+          {
+            "rel": "policy-rules",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/policy-rules"
+          },
+          {
+            "rel": "vulnerabilities",
+            "href": "https://20.73.223.44/api/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/vulnerabilities"
+          },
+          {
+            "rel": "matched-files",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/origins/9f658eed-c5c7-434b-b02e-d073d0298e85/matched-files"
+          },
+          {
+            "rel": "origins",
+            "href": "https://20.73.223.44/api/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/origins"
+          },
+          {
+            "rel": "policy-status",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/policy-status"
+          },
+          {
+            "rel": "upgrade-guidance",
+            "href": "https://20.73.223.44/api/components/f624d758-10d3-449d-96d2-d4fc12499fda/versions/dd097d4b-0be1-4199-b0d5-6acc6684db19/upgrade-guidance"
+          }
+        ]
+      }
+    },
+    {
+      "componentName": "Apache HttpComponents Core",
+      "componentVersionName": "4.0.1",
+      "component": "https://20.73.223.44/api/components/ca433569-ea2e-4c78-b53d-106843ec1f58",
+      "componentVersion": "https://20.73.223.44/api/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c",
+      "totalFileMatchCount": 1,
+      "licenses": [
+        {
+          "licenseDisplay": "Apache License 2.0",
+          "license": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/licenses/7cae335f-1193-421e-92f1-8802b4243e93",
+          "spdxId": "Apache-2.0",
+          "licenses": []
+        }
+      ],
+      "origins": [
+        {
+          "name": "4.0.1",
+          "origin": "https://20.73.223.44/api/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/origins/5a51e402-3b85-4da7-93ec-6a47dd7be440",
+          "externalNamespace": "maven",
+          "externalId": "org.apache.httpcomponents:httpcore:4.0.1",
+          "externalNamespaceDistribution": false,
+          "_meta": {
+            "allow": [],
+            "links": [
+              {
+                "rel": "origin",
+                "href": "https://20.73.223.44/api/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/origins/5a51e402-3b85-4da7-93ec-6a47dd7be440"
+              },
+              {
+                "rel": "matched-files",
+                "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/origins/5a51e402-3b85-4da7-93ec-6a47dd7be440/matched-files"
+              },
+              {
+                "rel": "upgrade-guidance",
+                "href": "https://20.73.223.44/api/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/origins/5a51e402-3b85-4da7-93ec-6a47dd7be440/upgrade-guidance"
+              },
+              {
+                "rel": "component-origin-copyrights",
+                "href": "https://20.73.223.44/api/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/origins/5a51e402-3b85-4da7-93ec-6a47dd7be440/copyrights"
+              }
+            ]
+          }
+        }
+      ],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "ignored": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_TRANSITIVE"
+      ],
+      "releasedOn": "2020-12-10T13:16:25.763Z",
+      "licenseRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "securityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 3
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "versionRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "operationalRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityData": {
+        "contributorCount12Month": 0,
+        "commitCount12Month": 0,
+        "lastCommitDate": "2009-06-18T21:57:44.000Z",
+        "trending": "STABLE",
+        "newerReleases": 149
+      },
+      "reviewStatus": "NOT_REVIEWED",
+      "approvalStatus": "NOT_IN_VIOLATION",
+      "policyStatus": "NOT_IN_VIOLATION",
+      "manuallyAdjusted": false,
+      "componentModified": false,
+      "inAttributionReport": true,
+      "componentType": "KB_COMPONENT",
+      "_meta": {
+        "allow": [
+          "GET",
+          "PUT"
+        ],
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c",
+        "links": [
+          {
+            "rel": "comments",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/ca433569-ea2e-4c78-b53d-106843ec1f58/component-versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/comments"
+          },
+          {
+            "rel": "component-issues",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/ca433569-ea2e-4c78-b53d-106843ec1f58/component-versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/issues"
+          },
+          {
+            "rel": "policy-rules",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/policy-rules"
+          },
+          {
+            "rel": "vulnerabilities",
+            "href": "https://20.73.223.44/api/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/vulnerabilities"
+          },
+          {
+            "rel": "matched-files",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/origins/5a51e402-3b85-4da7-93ec-6a47dd7be440/matched-files"
+          },
+          {
+            "rel": "origins",
+            "href": "https://20.73.223.44/api/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/origins"
+          },
+          {
+            "rel": "policy-status",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/policy-status"
+          },
+          {
+            "rel": "upgrade-guidance",
+            "href": "https://20.73.223.44/api/components/ca433569-ea2e-4c78-b53d-106843ec1f58/versions/2d02d329-6847-492d-80b9-d1d6379e9a0c/upgrade-guidance"
+          }
+        ]
+      }
+    },
+    {
+      "componentName": "jsoup",
+      "componentVersionName": "1.2.1",
+      "component": "https://20.73.223.44/api/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05",
+      "componentVersion": "https://20.73.223.44/api/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211",
+      "totalFileMatchCount": 1,
+      "licenses": [
+        {
+          "licenseDisplay": "MIT License",
+          "license": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4",
+          "spdxId": "MIT",
+          "licenses": []
+        }
+      ],
+      "origins": [
+        {
+          "name": "1.2.1",
+          "origin": "https://20.73.223.44/api/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/origins/11ec77da-573a-49ec-99fa-5f8f8d56e400",
+          "externalNamespace": "maven",
+          "externalId": "org.jsoup:jsoup:1.2.1",
+          "externalNamespaceDistribution": false,
+          "_meta": {
+            "allow": [],
+            "links": [
+              {
+                "rel": "origin",
+                "href": "https://20.73.223.44/api/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/origins/11ec77da-573a-49ec-99fa-5f8f8d56e400"
+              },
+              {
+                "rel": "matched-files",
+                "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/origins/11ec77da-573a-49ec-99fa-5f8f8d56e400/matched-files"
+              },
+              {
+                "rel": "upgrade-guidance",
+                "href": "https://20.73.223.44/api/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/origins/11ec77da-573a-49ec-99fa-5f8f8d56e400/upgrade-guidance"
+              },
+              {
+                "rel": "component-origin-copyrights",
+                "href": "https://20.73.223.44/api/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/origins/11ec77da-573a-49ec-99fa-5f8f8d56e400/copyrights"
+              }
+            ]
+          }
+        }
+      ],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "ignored": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "releasedOn": "2020-12-10T13:16:25.763Z",
+      "licenseRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "securityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 1
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "versionRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 1
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 0
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "operationalRiskProfile": {
+        "counts": [
+          {
+            "countType": "UNKNOWN",
+            "count": 0
+          },
+          {
+            "countType": "OK",
+            "count": 0
+          },
+          {
+            "countType": "LOW",
+            "count": 0
+          },
+          {
+            "countType": "MEDIUM",
+            "count": 0
+          },
+          {
+            "countType": "HIGH",
+            "count": 1
+          },
+          {
+            "countType": "CRITICAL",
+            "count": 0
+          }
+        ]
+      },
+      "activityData": {
+        "contributorCount12Month": 12,
+        "commitCount12Month": 107,
+        "lastCommitDate": "2010-06-21T08:42:44.000Z",
+        "trending": "INCREASING",
+        "newerReleases": 32
+      },
+      "reviewStatus": "NOT_REVIEWED",
+      "approvalStatus": "NOT_IN_VIOLATION",
+      "policyStatus": "NOT_IN_VIOLATION",
+      "manuallyAdjusted": false,
+      "componentModified": false,
+      "inAttributionReport": true,
+      "componentType": "KB_COMPONENT",
+      "_meta": {
+        "allow": [
+          "GET",
+          "PUT"
+        ],
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211",
+        "links": [
+          {
+            "rel": "comments",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/component-versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/comments"
+          },
+          {
+            "rel": "component-issues",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/component-versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/issues"
+          },
+          {
+            "rel": "policy-rules",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/policy-rules"
+          },
+          {
+            "rel": "vulnerabilities",
+            "href": "https://20.73.223.44/api/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/vulnerabilities"
+          },
+          {
+            "rel": "matched-files",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/origins/11ec77da-573a-49ec-99fa-5f8f8d56e400/matched-files"
+          },
+          {
+            "rel": "origins",
+            "href": "https://20.73.223.44/api/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/origins"
+          },
+          {
+            "rel": "policy-status",
+            "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/policy-status"
+          },
+          {
+            "rel": "upgrade-guidance",
+            "href": "https://20.73.223.44/api/components/8dff5ca6-c887-4865-b1f0-8f0115ba8d05/versions/b93f9dee-5178-4e36-88ab-af4ab0d64211/upgrade-guidance"
+          }
+        ]
+      }
+    }
+  ],
+  "appliedFilters": [],
+  "_meta": {
+    "allow": [
+      "POST",
+      "GET"
+    ],
+    "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components",
+    "links": [
+      {
+        "rel": "quick-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=adjusted",
+        "name": "adjusted",
+        "label": "Adjusted"
+      },
+      {
+        "rel": "dynamic-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomComponents",
+        "name": "bomComponents",
+        "label": "Component"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomInclusion",
+        "name": "bomInclusion",
+        "label": "Ignore"
+      },
+      {
+        "rel": "dynamic-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomLicense",
+        "name": "bomLicense",
+        "label": "License"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=licenseRisk",
+        "name": "licenseRisk",
+        "label": "License Risk"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomMatchReviewStatus",
+        "name": "bomMatchReviewStatus",
+        "label": "Match Status"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomMatchType",
+        "name": "bomMatchType",
+        "label": "Match Type"
+      },
+      {
+        "rel": "quick-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=missingData",
+        "name": "missingData",
+        "label": "Missing Custom Field Data"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomAttribution",
+        "name": "bomAttribution",
+        "label": "Notices File Report"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=operationalRisk",
+        "name": "operationalRisk",
+        "label": "Operational Risk"
+      },
+      {
+        "rel": "dynamic-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=policyRuleViolation",
+        "name": "policyRuleViolation",
+        "label": "Policy Rule"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=policyCategory",
+        "name": "policyCategory",
+        "label": "Policy Rule Category"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=policyRuleSeverity",
+        "name": "policyRuleSeverity",
+        "label": "Policy Rule Severity"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomPolicy",
+        "name": "bomPolicy",
+        "label": "Policy Violations"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomReviewStatus",
+        "name": "bomReviewStatus",
+        "label": "Review Status"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=securityRisk",
+        "name": "securityRisk",
+        "label": "Security Risk"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomComponentSource",
+        "name": "bomComponentSource",
+        "label": "Source/Type"
+      },
+      {
+        "rel": "static-filter",
+        "href": "https://20.73.223.44/api/projects/a9ab6c4e-3f48-43c2-82fa-2e1470a8e5f6/versions/a51eb5c6-8b72-46f1-8c5b-97baa388186c/components-filters?filterKey=bomUsage",
+        "name": "bomUsage",
+        "label": "Usage"
+      }
+    ]
+  }
+}

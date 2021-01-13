@@ -80,6 +80,7 @@ public class ThriftClients {
     private static final String WSIMPORT_SERVICE_URL = "/wsimport/thrift";
     private static final String CHANGELOGS_SERVICE_URL = "/changelogs/thrift";
     private static final String HEALTH_SERVICE_URL = "/health/thrift";
+    private static final String BDHUBIMPORT_SERVICE_URL = "/bdhubimport/thrift";
 
     // A service which has to be scheduled by the scheduler should be registered here!
     // names of services that can be scheduled by the schedule service, i.e. that have an "update" method
@@ -196,5 +197,9 @@ public class ThriftClients {
 
     public HealthService.Iface makeHealthClient() {
         return new HealthService.Client(makeProtocol(BACKEND_URL, HEALTH_SERVICE_URL));
+    }
+
+    public ProjectImportService.Iface makeBDHubImportClient() {
+        return new ProjectImportService.Client(makeProtocol(BACKEND_URL, BDHUBIMPORT_SERVICE_URL));
     }
 }

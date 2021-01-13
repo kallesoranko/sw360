@@ -230,6 +230,7 @@ public class PortalConstants {
     public static final String PROJECT_PORTLET_NAME = PORTLET_NAME_PREFIX + PROJECTS;
     public static final String PROJECT_BDPIMPORT_PORTLET_NAME = PORTLET_NAME_PREFIX + "projectbdpimport";
     public static final String PROJECT_WSIMPORT_PORTLET_NAME = PORTLET_NAME_PREFIX + "projectwsimport";
+    public static final String PROJECT_BDHUBIMPORT_PORTLET_NAME = PORTLET_NAME_PREFIX + "projectbdhubimport";
     public static final String PROJECT_ID = "projectid";
     public static final String PROJECT_LINK_TO_PROJECT = "projectLinkToProject";
     public static final String LINKED_PROJECT_ID = "linkedProjectId";

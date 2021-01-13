@@ -9,21 +9,20 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.eclipse.sw360.wsimport.utility;
+package org.eclipse.sw360.bdhubimport.utility;
 
 /**
  * @author: birgit.heydenreich@tngtech.com
  * @author: ksoranko@verifa.io
  */
 public class TranslationConstants {
-    public static final String WS_ID = "wsId";
-
+    public static final String BDHUB_ID = "bdHubId";
     public static final String UNKNOWN = "UNKNOWN";
     public static final String FILENAME = "Filename";
     public static final String POM_FILE_URL = "POM File URL";
     public static final String SCM_URL = "SCM URL";
     public static final String SUSPECTED = "Suspected";
-    public static final String IMPORTED_FROM_WHITESOURCE = "Imported from Whitesource";
+    public static final String IMPORTED_FROM_BDHUB = "Imported from BlackDuck Hub";
     public static final String APPLICATION_JSON = "application/json";
     public static final String VERSION_SUFFIX_REGEX = "$*?-SNAPSHOT|$*?.RELEASE|$*?-RELEASE|$*?RELEASE|$*?.Final";
 
